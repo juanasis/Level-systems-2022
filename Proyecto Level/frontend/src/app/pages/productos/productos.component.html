@@ -1,0 +1,63 @@
+<br>
+    <FONT SIZE=8 COLOR="white"> Productos </FONT>
+    <br>
+<hr>
+
+<div class="container">
+  <div class="row g-2">
+    <div class="col-3">
+      <div (click)="listarBebidas()" class="p-3 border bg-light">Bebidas </div>
+    </div> 
+    <div class="col-3">
+      <div class="p-3 border bg-light">Cafeteria</div>
+    </div>
+    <div class="col-3">
+      <div class="p-3 border bg-light">Menu</div>
+    </div>
+    <div class="col-3">
+      <div class="p-3 border bg-light">Postres</div>
+    </div>
+  </div>
+</div>
+<p></p>
+ <!-- 
+<ul class="list-group">
+    <li 
+      *ngFor="let producto of productosArray"
+       class="list-group-item list-group-item-action"
+       (click)="openForEdit(producto)"
+       [class.active]="producto == selectedproducto"
+       >
+       <span class="font-italic">{{producto.nombre}} {{producto.descripcion}} </span> 
+        - $ 
+       <span class="font-italic">{{producto.precio}} </span>
+        
+    </li>
+  </ul> -->
+  <button type="button" class="btn btn-light" [routerLink]="['crear-producto']">Nuevo Producto</button>
+  <p></p>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Producto</th>
+        <th scope="col">Descripcion</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of productosArray" (click)="editarProducto(producto.id)">
+        <th scope="row">{{producto.id}} </th>
+        <td>{{producto.nombre}} </td>
+        <td>{{producto.descripcion}} </td>
+        <td>{{producto.categoria}} </td>
+        <td>$ {{producto.precio}} </td>
+        <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
+          <button type="button" class="btn btn-success">Activo</button>
+        </div></td>
+      </tr>
+       
+    </tbody>
+  </table>

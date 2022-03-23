@@ -1,0 +1,57 @@
+<div class="wrapper fadeInDown">
+  <div *ngIf="isLogged" class="text-white">
+    <h1>YA ESTÁS LOGEADO</h1>
+  </div>
+  <div id="formContent" *ngIf="!isLogged">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="../../../assets/logo.png" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+    <div *ngIf="!forgotPasswordActive">
+    <form #f="ngForm" (ngSubmit)="onLogin()" novalidate>
+      <div class="form-group">
+          <label for="nombreUsuario">Nombre de Usuario</label>
+          <input type="text" name="nombreUsuario" id="nombreUsuario" class="form-control"
+          [(ngModel)]="nombreUsuario" required>
+      </div>
+      <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" name="password" id="password" class="form-control"
+          [(ngModel)]="password" required>
+      </div>
+      <div class="form-group">
+          <button class="btn btn-outline-success btn-block" [disabled]="!f.valid">
+              <i class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
+      </div>
+  </form>
+</div>
+
+  <div *ngIf="forgotPasswordActive">
+    <form>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Ingrese su correo</label>
+        <input type="text" class="form-control" [(ngModel)]="emailDto.mailTo"  name="mailTo" required>
+        <small id="emailHelp" class="form-text text-muted">Es necesario ingresar el correo para restablecer la contraseña.</small>
+        <small id="emailHelp" class="form-text text-success" *ngIf="emailSentMessageSuccess != undefined">{{emailSentMessageSuccess}}</small>
+        <small id="emailHelp" class="form-text text-danger" *ngIf="emailSentMessageError != undefined">{{emailSentMessageError}}</small>
+      </div>
+  
+      <button type="submit" class="btn btn-outline-primary btn-block" (click)="sendEmail()">Enviar</button>
+      <button type="submit" class="btn btn-block mb-2" (click)="goToLogin()">Regresar</button>
+    </form>
+  </div>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" (click)="goToForgotPassword()">Forgot Password?</a>
+    </div>
+
+  </div>
+
+
+</div>
+

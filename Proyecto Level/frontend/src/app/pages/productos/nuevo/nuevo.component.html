@@ -1,0 +1,53 @@
+<div class="card mt-4">
+    <div class="card-body">
+      <div class="card-title">
+        Nuevo Producto
+
+      </div>
+      <div class="form-group mt-4">
+        <input type="text" [(ngModel)]="selectedProducto.nombre" placeholder="Inserta el nombre del Producto" class="form-control">
+      </div>
+      <div class="form-group mt-4">
+        <input type="text" [(ngModel)]="selectedProducto.descripcion" placeholder="Inserta descripcion del Producto" class="form-control">
+      </div>
+      <div class="form-group mt-4">
+        <input type="text" [(ngModel)]="selectedProducto.precio" placeholder="Inserta el precio" class="form-control">
+      </div>
+       <!-- <div class="form-group mt-4">
+        <input type="text" [(ngModel)]="selectedProducto.categoria" placeholder="Inserta categoria" class="form-control">
+      </div>  -->
+     <div class="form-group mt-4" >
+      Categoria
+      <p></p>
+      <select  type="text" [(ngModel)]="selectedProducto.categoria" class="form-control">
+        <option >Bebidas</option>
+        <option  >Menu</option>
+        <option  >cafeteria</option>
+        <option  >Postres</option>
+        <option  >Carnes</option>
+        <option  >Sanwiches</option>
+        <option  >Pastas</option>
+        <option  >Pescados</option>
+         
+      </select>
+      </div>
+  
+      <div class="form-group mt-4">
+        <p>Seleccione una imagen</p>
+      <!--  <label for="exampleFormControlFile1">Insertar imagen</label>-->
+       <!--  <input type="file" [(ngModel)]="selectedProducto.imgpath" placeholder="Seleccionar una imagen" class="form-control-file"  id="exampleFormControlFile1" >
+      -->  
+      <upload-files></upload-files>
+        
+               
+      
+      </div>
+      <button (click)="addOnEdit()" class="btn btn-primary mt-4">
+        Guardar
+      </button>
+      <button [routerLink]="['/administrador/productos']" class="btn btn-danger mt-4">
+        Salir
+      </button>
+    </div>
+  </div>
+ 

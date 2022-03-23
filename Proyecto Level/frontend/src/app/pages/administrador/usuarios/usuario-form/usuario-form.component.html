@@ -1,0 +1,37 @@
+<div class="card mt-4">
+    <div class="card-body">
+      <div class="card-title">
+        Nuevo Producto
+
+      </div>
+      <div class="form-group mt-4">
+        <input type="text" [(ngModel)]="nuevoUsuario.nombre" placeholder="Inserta el nombre" class="form-control">
+      </div>
+      <div class="form-group mt-4">
+        <input type="text" [(ngModel)]="nuevoUsuario.nombreUsuario" placeholder="Inserta el usuario" class="form-control">
+      </div>
+      <div class="form-group mt-4">
+        <input type="text" [(ngModel)]="nuevoUsuario.email" placeholder="Inserta el correo" class="form-control">
+      </div>
+      <div class="form-group mt-4">
+        <input type="password" [(ngModel)]="nuevoUsuario.password" placeholder="Inserta la contraseña" class="form-control">
+      </div>
+       <!-- <div class="form-group mt-4">
+        <input type="text" [(ngModel)]="selectedProducto.categoria" placeholder="Inserta categoria" class="form-control">
+      </div>  -->
+     <div class="form-group mt-4" >
+            <select [(ngModel)]="rolElegido" class="form-control" name="role">
+                <option [ngValue]="undefined">--- Seleccionar rol ---</option>
+                <option *ngFor="let rol of roles" [ngValue]="rol.rolNombre">{{rol.rolNombre}}</option>
+            </select>
+      </div>
+  
+      <button class="btn btn-primary mt-4" (click)="crearUsuario()">
+        Guardar
+      </button>
+      <button [routerLink]="['/administrador/usuarios']" class="btn btn-danger mt-4">
+        Salir
+      </button>
+    </div>
+  </div>
+ 

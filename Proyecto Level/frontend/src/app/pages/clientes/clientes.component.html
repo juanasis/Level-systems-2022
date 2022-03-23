@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="clientes.component.css">
+  
+</head>
+<!--<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Clientes</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Nuevo</li>
+  </ol>
+</nav>
+-->
+<br>
+    <FONT SIZE=8 COLOR="white"> Pedidos </FONT>
+<br>
+<div class="conteiner mt-3">
+     <h3>Nuevo Pedido</h3>
+     <hr>
+        <div class="grid">
+          <div class="listado">Tu Pedido
+            <hr>
+            <p>Cantidad|  Descripcion del producto|Precio</p>
+           <hr>
+           <ul>
+            <li *ngFor="let pedido of pedidovista.productos">
+              <div><button (click)="quitarProducto(pedido.producto)" id="btn1">-</button> {{pedido.producto.cantidad}} <button (click)="agregarProducto(pedido.producto)" id="btn2">+</button>
+              {{pedido.producto.nombre}} ${{pedido.producto.precio}} </div>
+            </li>
+          </ul>
+          <div>
+            Total a pagar: ${{total}}
+          </div>
+           <button (click)="guardarpedido()" class="btn btn-success btn-lg btn-block">Confirmar</button>
+          </div >
+         <ul   class="grid" >
+           <li *ngFor="let producto of productos">
+            <div>
+              {{producto.nombre}} - {{producto.descripcion}} 
+              <img src={{producto.imgpath}} style="width:200px;height: 200px;">
+              <p></p>
+              <div>
+                 $ {{producto.precio}}
+                <p></p>
+                <button (click)="agregarProducto(producto)" type="button" class="btn btn-primary" >Agregar</button>
+             
+              </div>
+             </div>
+           </li>
+         </ul>         
+         
+            
+        </div> 
+        
+       
+</div>

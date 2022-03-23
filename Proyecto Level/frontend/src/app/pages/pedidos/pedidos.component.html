@@ -1,0 +1,21 @@
+ 
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+         
+        <th scope="col">Mesa</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Fecha y Hora</th>
+        <th scope="col">Total a Pagar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pedido of pedidosDTO" (click)="editarPedido(pedido)">
+        <th scope="row">{{pedido.idMesa}} </th>
+        <th scope="row">{{pedido.estado}} </th>
+        <th scope="row">{{pedido.fecha}} </th>
+        <th scope="row">${{total(pedido)}}</th>
+      </tr>
+       
+    </tbody>
+  </table>
