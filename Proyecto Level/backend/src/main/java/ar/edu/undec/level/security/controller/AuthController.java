@@ -130,6 +130,13 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/buscar-por-usuario/{nombreUsuario}")
+    public ResponseEntity<Response> buscarPorUsuario(@PathVariable String nombreUsuario){
+        Response response = new Response();
+        response.setData(usuarioService.getByNombreUsuario(nombreUsuario).get());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping("/send-email")
     public ResponseEntity<?> sendEmail(@RequestBody EmailDto emailDto) {
 
@@ -141,7 +148,7 @@ public class AuthController {
 
         Usuario usuarioEncontrado = usuario.get();
 
-        emailDto.setMailFrom("juan.asis47@gmail.com");
+        emailDto.setMailFrom("anderson.bengolea@gmail.com");
         emailDto.setMailTo(usuarioEncontrado.getEmail());
         emailDto.setSubject("Restablecer contraseña");
         emailDto.setUsername(usuarioEncontrado.getNombreUsuario());

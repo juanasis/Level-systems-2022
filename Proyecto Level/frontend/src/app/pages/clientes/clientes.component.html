@@ -1,58 +1,99 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="clientes.component.css">
-  
-</head>
-<!--<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="#">Clientes</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Nuevo</li>
-  </ol>
-</nav>
--->
-<br>
-    <FONT SIZE=8 COLOR="white"> Pedidos </FONT>
-<br>
-<div class="conteiner mt-3">
-     <h3>Nuevo Pedido</h3>
-     <hr>
-        <div class="grid">
-          <div class="listado">Tu Pedido
-            <hr>
-            <p>Cantidad|  Descripcion del producto|Precio</p>
-           <hr>
-           <ul>
-            <li *ngFor="let pedido of pedidovista.productos">
-              <div><button (click)="quitarProducto(pedido.producto)" id="btn1">-</button> {{pedido.producto.cantidad}} <button (click)="agregarProducto(pedido.producto)" id="btn2">+</button>
-              {{pedido.producto.nombre}} ${{pedido.producto.precio}} </div>
-            </li>
-          </ul>
-          <div>
-            Total a pagar: ${{total}}
+  <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content" *ngIf="!medioDePago">
+          <div class="modal-header ">
+            <h2 class=" text-center w-100" id="exampleModalLabel">Productos seleccionados</h2>
           </div>
-           <button (click)="guardarpedido()" class="btn btn-success btn-lg btn-block">Confirmar</button>
-          </div >
-         <ul   class="grid" >
-           <li *ngFor="let producto of productos">
+          <div class="modal-body">
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between" *ngFor="let item of pedido.itemsList">
+                <div class="p-0">
+                  {{item.producto.nombre}} <strong >x{{item.cantidad}}</strong>
+                </div>
+                <div class="p-0">
+                  <button class="btn btn-success btn-sm" (click)="agregarProductoEnElCarrito(item.producto)">+</button>
+                  ${{item.precio * item.cantidad}}
+                  <button class="btn btn-danger btn-sm" (click)="quitarProducto(item.producto)">x</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer d-flex justify-content-between" >
             <div>
-              {{producto.nombre}} - {{producto.descripcion}} 
-              <img src={{producto.imgpath}} style="width:200px;height: 200px;">
-              <p></p>
-              <div>
-                 $ {{producto.precio}}
-                <p></p>
-                <button (click)="agregarProducto(producto)" type="button" class="btn btn-primary" >Agregar</button>
-             
-              </div>
-             </div>
-           </li>
-         </ul>         
-         
-            
-        </div> 
-        
-       
+                <h4 class="m-0 p-0">
+                  TOTAL: ${{total}}
+                </h4>
+            </div>
+            <div>
+              <button type="button" class="btn text-white" data-bs-dismiss="modal" style="background-color: rgb(67, 126, 243);">Agregar más productos</button>
+              <button type="button" class="btn text-white ms-4" *ngIf="pedido.itemsList.length > 0" style="background-color: rgb(67, 125, 243);" (click)="guardarpedido()">Realizar pedido</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<div class="conteiner mt-3">
+  <div class="d-flex justify-content-between py-0">
+    <div>
+      <img src="https://cdn-icons-png.flaticon.com/128/481/481486.png" style="width: 50px; height: 50px;" alt="">
+    </div>
+    <div>
+      <h3 class="text-center  py-0">¡MENÚ! <span class="badge bg-primary py-1">Mesa {{mesaId}}</span></h3>
+    </div>
+    <div class="d-flex align-items-center">
+      <h4 class="mb-0 me-3">Total: ${{total}}</h4>
+      <button class="btn bg-warning btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <img src="https://cdn-icons.flaticon.com/png/512/2832/premium/2832495.png?token=exp=1649973667~hmac=05114fd9d6c007ef109a2b65cd9431cf" style="width: 30px; height: 30px;" alt="">
+      </button>
+    </div>
+    </div>
+
+
+
+
+  <hr class="m-0">
+     <div class="d-flex " >
+       <div class="card hover p-0" *ngFor="let categoria of categorias" style="width: 10rem;" (click)="seleccionarCategoria(categoria.id)">
+        <div class="d-flex align-items-center p-2">
+          <div class="p-0" style="width: 20%;">
+            <img [src]="categoria.urlImagen"  style="height: 24px; width: 24px;">
+          </div>
+          
+          <div class="p-0 fw-bold" style="width: 80%; font-size: 12px;"> 
+            {{categoria.nombre}}
+          </div>
+          
+        </div>
+
+       </div>
+    </div>
+
+
+     <div class="row row-cols-1 row-cols-md-5 g-4">
+      <div class="col" *ngFor="let producto of productosPorCategoriaSeleccionado">
+        <div class="card p-0 m-1 " >  
+          <p class="text-center mb-0 py-2 fw-bold text-secondary" >{{producto.nombre}}</p>
+          <hr class="mt-0">
+          <img [src]="producto.imgpath" class="card-img-top p-2" style="height: 150px;" alt="...">
+          <p class="text-center m-0 fw-bold">${{producto.precio}}</p>
+          <div class=" d-flex justify-content-between" >
+            <button class="btn btn-secondary btn-sm">Ver más</button>
+            <button class="btn btn-success btn-sm" (click)="agregarProducto(producto)">Añadir</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
 </div>
+
+
+
+

@@ -33,6 +33,10 @@ export class AuthService {
     return this.httpClient.get<any>(this.authURL + 'usuarios');
   }
 
+  public buscarPorNonbreUsuario(nombreUsuario: string): Observable<any> {
+    return this.httpClient.get<any>(this.authURL + 'buscar-por-usuario/'+nombreUsuario);
+  }
+
   public sendEmail(emailDto: EmailDto): Observable<any> {
     return this.httpClient.post<any>(this.authURL + 'send-email', emailDto);
   }

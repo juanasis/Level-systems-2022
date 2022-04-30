@@ -67,7 +67,7 @@ public class ProductoRequest {
     public ProductoRequest getProductoDTO(Producto producto){
         ProductoRequest productoRequest = new ProductoRequest();
         productoRequest.setCantidad(producto.getCantidad());
-        productoRequest.setCategoria(producto.getCategoria());
+        productoRequest.setCategoria(producto.getCategoria().getNombre());
         productoRequest.setDescripcion(producto.getDescripcion());
         productoRequest.setImgpath(producto.getImgpath());
         productoRequest.setPrecio(producto.getPrecio());

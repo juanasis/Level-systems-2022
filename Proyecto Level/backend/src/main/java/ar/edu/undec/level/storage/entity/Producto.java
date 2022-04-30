@@ -13,25 +13,18 @@ public class Producto implements Serializable {
    private String nombre;
    private String descripcion;
    private Integer cantidad;
-   private  String categoria;
+
+
+   private  Categoria categoria;
    private  String imgpath;
    private Double precio;
    private EstadoProducto estado;
-   private Collection<ItemPedido> pedidosList;
 
-    @Override
-    public String toString() {
-        return "Producto{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", cantidad=" + cantidad +
-                ", categoria='" + categoria + '\'' +
-                ", imgpath='" + imgpath + '\'' +
-                ", precio=" + precio +
-                ", estado=" + estado +
-                '}';
-    }
+//    @OneToMany(mappedBy = "producto")
+//    @JsonIgnoreProperties({"producto","hibernateLazyInitializer", "handler"})
+//   private Collection<ItemPedido> pedidosList;
+
+
 
     @Id
     @Column(name = "id")
@@ -67,11 +60,13 @@ public class Producto implements Serializable {
         this.cantidad = cantidad;
     }
 
-    @Column(name = "categoria")
-    public String getCategoria() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id")
+    public Categoria getCategoria() {
         return categoria;
     }
-    public void setCategoria(String categoria) {
+
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 
@@ -99,11 +94,11 @@ public class Producto implements Serializable {
         this.estado = estado;
     }
 
-    @OneToMany(mappedBy = "producto")
-    public Collection<ItemPedido> getPedidosList() {
-        return pedidosList;
-    }
-    public void setPedidosList(Collection<ItemPedido> pedidosList) {
-        this.pedidosList = pedidosList;
-    }
+
+//    public Collection<ItemPedido> getPedidosList() {
+//        return pedidosList;
+//    }
+//    public void setPedidosList(Collection<ItemPedido> pedidosList) {
+//        this.pedidosList = pedidosList;
+//    }
 }

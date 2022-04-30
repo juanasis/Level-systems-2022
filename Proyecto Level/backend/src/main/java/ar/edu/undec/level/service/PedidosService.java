@@ -5,14 +5,20 @@ import ar.edu.undec.level.security.repository.UsuarioRepository;
 import ar.edu.undec.level.storage.entity.EstadoPedido;
 import ar.edu.undec.level.storage.entity.ItemPedido;
 import ar.edu.undec.level.storage.entity.Pedido;
+import ar.edu.undec.level.storage.entity.Producto;
 import ar.edu.undec.level.storage.repository.*;
+import org.jcp.xml.dsig.internal.dom.Utils;
 import org.slf4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PedidosService {
@@ -29,19 +35,28 @@ public class PedidosService {
     static final Logger LOGGER = LoggerFactory.getLogger(PedidosService.class);
 
 
-    public Response save(PedidoRequest request) {
+    public Response save(Pedido pedido) {
         Response response = new Response();
-        Pedido entity = new Pedido();
-        entity.setMozo(usuarioRepository.findById(request.getIdMozo()).get());
-        entity.setMesa(mesaRepository.findById(request.getIdMesa()).get());
-        entity.setEstado(EstadoPedido.ENCOLA);
-        entity.setFecha(nuevaFecha());
+//        Pedido entity = new Pedido();
+//        entity.setMozo(usuarioRepository.findByNombreUsuario(request.getNombreUsuarioMozo()).get());
+//        entity.setTipoPago(request.getTipoPago());
+//        entity.setMesa(mesaRepository.findById(request.getIdMesa()).get());
+        pedido.setEstado(EstadoPedido.ENCOLA);
 
 
         try {
-           entity = pedidosRepo.save(entity);
-           entity.setitemsList(getListaItems(request, entity));
-           response.setData(entity);
+            Pedido pedidoGuardado = pedidosRepo.save(pedido);
+
+//            pedido.getItemsList().forEach(item -> {
+//                item.setPedido(pedido);
+//                itemPedidoRepo.save(item);
+//            });
+
+
+
+           response.setData(pedidoGuardado);
+
+
 
        } catch (Exception e) {
            LOGGER.error(e.getMessage());
@@ -51,21 +66,28 @@ public class PedidosService {
         return response;
     }
 
-    private List<ItemPedido> getListaItems(PedidoRequest pedidoRequest, Pedido entity) {
-        List<ItemPedido> result = new ArrayList<>();
+//    private List<ItemPedido> getListaItems(Pedido pedido) {
+//        List<ItemPedido> result = new ArrayList<>();
+//
+//        pedido.getItemsList().forEach(item -> {
+//
+//            result.add(item);
+//            itemPedidoRepo.save(item);
+//        });
 
-        for (ItemPedidoDto itemPedidoDto: pedidoRequest.getItems()) {
-            ItemPedido item = new ItemPedido(itemPedidoDto);
-            item.setPedido(entity);
-            System.out.println(itemPedidoDto.getProducto_id());
-            item.setProducto(productosRepo.getOne(itemPedidoDto.getProducto_id()));
-            item.setCantidad(itemPedidoDto.getCantidad());
-            item.setPrecio(itemPedidoDto.getPrecio());
-            result.add(item);
-            itemPedidoRepo.save(item);
-        }
-        return result;
-    }
+//        for (ItemPedidoDto itemPedidoDto: pedidoRequest.getItems()) {
+//            ItemPedido item = new ItemPedido(itemPedidoDto);
+//            item.setPedido(entity);
+//            System.out.println(itemPedidoDto.getProducto_id());
+//            item.setProducto(productosRepo.getOne(itemPedidoDto.getProducto_id()));
+//            System.out.println(item.getProducto().getNombre());
+//            item.setCantidad(itemPedidoDto.getCantidad());
+//            item.setPrecio(itemPedidoDto.getPrecio());
+//            result.add(item);
+//            itemPedidoRepo.save(item);
+//        }
+//        return result;
+//    }
     public Response findAll() {
         Response  response = new Response();
         try {
@@ -106,11 +128,15 @@ public class PedidosService {
         System.out.println(new Date());
         return new Date();
     }
-    public Response update(Object input) {
+    public Response update(Pedido pedido) {
         Response response = new Response();
         try {
-
-            response.setData(input);
+            Pedido pedidoEncontrado = pedidosRepo.findById(pedido.getId()).get();
+            pedidoEncontrado.setTipoPago(pedido.getTipoPago());
+            pedidoEncontrado.setEstado(pedido.getEstado());
+//            BeanUtils.copyProperties(pedido, pedidoEncontrado);
+            pedidosRepo.save(pedidoEncontrado);
+            response.setData(pedidoEncontrado);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -196,5 +222,23 @@ public class PedidosService {
             itemProductoDtoList.add(itemDTO);
         }
         return itemProductoDtoList;
+    }
+
+    public List<Pedido> obtenerPedidosActivosDeMesa(Integer idMesa){
+        LocalDate fechaActual = LocalDate.now();
+        List<Pedido> pedidosEncontrados = pedidosRepo.findByFechaQueryAndMesa_Id(fechaActual, idMesa);
+        return pedidosEncontrados.stream()
+                .filter(p -> p.getEstado().equals(EstadoPedido.ENCOLA) || p.getEstado().equals(EstadoPedido.ENPREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
+                .collect(Collectors.toList());
+    }
+
+    public List<Pedido> obtenerPedidosPorMesaPorMozo(){
+        LocalDate fechaActual = LocalDate.now();
+        List<Pedido> pedidosEncontrados = pedidosRepo.findByFechaQueryAndMozo_Id(fechaActual, 1);
+
+
+        return pedidosEncontrados.stream()
+                .filter(p -> p.getEstado().equals(EstadoPedido.ENCOLA) || p.getEstado().equals(EstadoPedido.ENPREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
+                .collect(Collectors.toList());
     }
 }

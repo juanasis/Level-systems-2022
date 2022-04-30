@@ -3,18 +3,42 @@ package ar.edu.undec.level.storage.entity;
 import ar.edu.undec.level.controller.dto.ItemPedidoDto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "item_pedido", schema = "levelbd")
-public class ItemPedido {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class ItemPedido implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Basic
+    @Column(name = "precio")
     private BigDecimal precio;
+
+    @Basic
+    @Column(name = "cantidad")
     private Integer cantidad;
-    private Pedido pedido;
+
+
+//    @ManyToOne
+//    @JoinColumn(name = "pedido_id", referencedColumnName = "id")
+//    private Pedido pedido;
+
+
+    @ManyToOne
+    @JoinColumn(name = "producto_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Producto producto;
 
     public ItemPedido(ItemPedidoDto itemPedidoDto) {
@@ -26,19 +50,14 @@ public class ItemPedido {
 
     }
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
 
-
     public void setId(Integer id) {
         this.id = id;
     }
-    @Basic
-    @Column(name = "precio")
+
     public BigDecimal getPrecio() {
         return precio;
     }
@@ -46,30 +65,24 @@ public class ItemPedido {
     public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
-    @Basic
-    @Column(name = "cantidad")
+
     public Integer getCantidad() {
         return cantidad;
     }
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
+//
+//    public Pedido getPedido() {
+//        return pedido;
+//    }
+//    public void setPedido(Pedido pedido) {
+//        this.pedido = pedido;
+//    }
+//
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
-    @JoinColumn(name = "pedido_id", referencedColumnName = "id", nullable = false)
-    public Pedido getPedido() {
-        return pedido;
-    }
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
-    @JoinColumn(name = "producto_id", referencedColumnName = "id", nullable = false)
+
     public Producto getProducto() {
         return producto;
     }

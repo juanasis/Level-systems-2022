@@ -20,12 +20,12 @@ export class ProductosComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router) { }
 
   listarBebidas(){
-    this.productosArray.forEach(element => {
-      if (element.categoria = 'bebidas') {
-        this.bebidasArray.push(element)        
-      }
-      console.log("click");
-    });
+    // this.productosArray.forEach(element => {
+    //   if (element.categoria = 'bebidas') {
+    //     this.bebidasArray.push(element)        
+    //   }
+    //   console.log("click");
+    // });
     
   }
   ngOnInit(): void {

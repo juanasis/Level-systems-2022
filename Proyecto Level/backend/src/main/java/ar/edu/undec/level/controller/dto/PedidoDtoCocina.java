@@ -4,6 +4,7 @@ import ar.edu.undec.level.storage.entity.EstadoPedido;
 import ar.edu.undec.level.storage.entity.ItemPedido;
 import ar.edu.undec.level.storage.entity.Pedido;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.List;
 public class PedidoDtoCocina {
     private Integer id;
     private EstadoPedido estado;
-    private Date fecha;
+    private LocalDateTime fecha;
     private List<ItemProductoCocinaDto> itemProductoCocinaDto = new ArrayList<>();
     private Integer idMesa;
     private String nombreMozo;
@@ -26,7 +27,7 @@ public class PedidoDtoCocina {
             this.id = pedido.getId();
             this.estado = pedido.getEstado();
             this.fecha = pedido.getFecha();
-            this.idMesa = pedido.getNroMesa().getId();
+//            this.idMesa = pedido.getNroMesa().getId();
             this.itemProductoCocinaDto = getProdutos(pedido.getItemsList());
             this.nombreMozo = pedido.getMozo().getNombre();
         }else{
@@ -41,8 +42,8 @@ public class PedidoDtoCocina {
             ItemProductoCocinaDto itemDto = new ItemProductoCocinaDto();
             itemDto.setNombre(item.getProducto().getNombre());
             itemDto.setCantidad(item.getCantidad());
-            itemDto.setCategoria(item.getProducto().getCategoria());
-            if(item.getProducto().getCategoria().equalsIgnoreCase( "menu") || item.getProducto().getCategoria().equalsIgnoreCase( "sanwiches") ){
+            itemDto.setCategoria(item.getProducto().getCategoria().getNombre());
+            if(item.getProducto().getCategoria().getNombre().equalsIgnoreCase( "menu") || item.getProducto().getCategoria().getNombre().equalsIgnoreCase( "sanwiches") ){
                 result.add(itemDto);
 
             }
@@ -66,11 +67,11 @@ public class PedidoDtoCocina {
         this.estado = estado;
     }
 
-    public Date getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 

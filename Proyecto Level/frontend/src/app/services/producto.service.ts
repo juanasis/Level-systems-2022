@@ -16,6 +16,14 @@ export class ProductoService {
     return this.httpClient.get<Producto[]>(this.productoURL);
   }
 
+  public listaProductosPorCategoria(idCategoria: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.productoURL}/productos-por-categoria/${idCategoria}`);
+  }
+
+  public listarCategorias(): Observable<any> {
+    return this.httpClient.get<any>(`${this.productoURL}/listar-categorias`);
+  }
+
   public detail(id: number): Observable<Producto> {
     return this.httpClient.get<Producto>(this.productoURL + `/${id}`);
   }

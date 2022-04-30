@@ -3,11 +3,13 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { ProductoitemComponent } from './clientes/productoitem/productoitem.component';
 import { FormsModule } from "@angular/forms";
-
+import { PedidosMozoComponent } from './pedidos-mozo/pedidos-mozo.component';
 @NgModule({
     declarations: [
       
       ProductoitemComponent,
+      
+      PedidosMozoComponent,
       
       
       
@@ -17,7 +19,7 @@ import { FormsModule } from "@angular/forms";
     imports: [
       CommonModule,
       BrowserModule,
-      FormsModule
+      FormsModule,
     ],
     exports: [
            

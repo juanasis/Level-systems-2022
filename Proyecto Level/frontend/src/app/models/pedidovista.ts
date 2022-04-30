@@ -29,7 +29,7 @@ export class Pedidovista {
           }
         return this.total;
     }
-    quitar(producto: Producto):number {
+    quitar(producto: Producto):any {
       
         let indice = this.productos.findIndex( s => s.producto.nombre === producto.nombre );
               
@@ -40,6 +40,6 @@ export class Pedidovista {
             this.productos[indice].producto.cantidad = 1;
             this.productos.splice(indice,1);
          }
-        return this.total;
+        return [this.productos[indice],this.total];
     }
 }

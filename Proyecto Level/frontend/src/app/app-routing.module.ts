@@ -15,15 +15,21 @@ import { UsuarioFormComponent } from './pages/administrador/usuarios/usuario-for
 import { ProductosComponent } from './pages/productos/productos.component';
 import { UsuariosComponent } from './pages/administrador/usuarios/usuarios.component';
 import { RecuperarPasswordComponent } from './pages/recuperar-password/recuperar-password.component';
+import { PedidosMozoComponent } from './pages/pedidos-mozo/pedidos-mozo.component';
  
 const routes: Routes = [  {
   path: 'cajeros',
   component: CajerosComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedRol: ['CAJERO']}
 },
 {
   path: 'mozos',
   component: MozosComponent,
+  canActivate: [guard], data: {expectedRol: ['MOZO']}
+},
+{
+  path: 'pedidos-mozo',
+  component: PedidosMozoComponent,
   canActivate: [guard], data: {expectedRol: ['MOZO']}
 },
 {
@@ -35,7 +41,7 @@ const routes: Routes = [  {
   path: 'administrador', component: AdministradorComponent, canActivate: [guard], data: {expectedRol: ['ADMIN']}
 },
 {
-  path: 'clientes',
+  path: 'clientes/:mesaId',
   component: ClientesComponent,
   canActivate: [guard], data: {expectedRol: ['MOZO']}
 },

@@ -22,6 +22,20 @@ public class ProductoController {
     @Autowired
     private ProductosService productosService;
 
+    @GetMapping("/listar-categorias")
+    public ResponseEntity<Response> listarCategorias() {
+        Response response = new Response();
+        response.setData(productosService.listarCategorias());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/productos-por-categoria/{idCategoria}")
+    public ResponseEntity<Response> listarCategorias(@PathVariable Long idCategoria) {
+        Response response = new Response();
+        response.setData(productosService.listarProductosPorCategoria(idCategoria));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping()
     public ResponseEntity<Response> getProductos(){
         Response response;

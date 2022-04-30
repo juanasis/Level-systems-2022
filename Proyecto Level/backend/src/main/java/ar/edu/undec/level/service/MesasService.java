@@ -6,17 +6,21 @@ import ar.edu.undec.level.controller.dto.MesaRequest;
 import ar.edu.undec.level.controller.dto.PedidoDto;
 import ar.edu.undec.level.controller.dto.Response;
 import ar.edu.undec.level.storage.entity.EstadoMesa;
+import ar.edu.undec.level.storage.entity.EstadoPedido;
 import ar.edu.undec.level.storage.entity.Mesa;
 import ar.edu.undec.level.storage.entity.Pedido;
 import ar.edu.undec.level.storage.repository.MesaRepository;
 import org.aspectj.bridge.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 @Service
@@ -26,21 +30,45 @@ public class MesasService {
     @Autowired
     private MesaRepository mesaRepository;
 
-    public Response save(MesaRequest request) {
+    public Response save(Mesa mesa) {
         Response response = new Response();
-        Mesa entity = new Mesa();
-        entity.setEstado(EstadoMesa.LIBRE);
-        mesaRepository.save(entity);
-        response.setData(entity);
+        mesa.setEstado(EstadoMesa.LIBRE);
+        mesaRepository.save(mesa);
+        response.setData(mesa);
         return response;
     }
+
+    public Response actualizar(Mesa mesa) {
+        Response response = new Response();
+        Mesa mesaEncontrada = mesaRepository.findById(mesa.getId()).get();
+        BeanUtils.copyProperties(mesa, mesaEncontrada);
+        mesaRepository.save(mesaEncontrada);
+        response.setData(mesaEncontrada);
+        return response;
+    }
+
+    public Mesa buscarMesaPorId(Integer id) {
+        return mesaRepository.findById(id).orElse(null);
+    }
+
     public Response findAll() {
         Response  response = new Response();
         try {
             List<Mesa> mesaList = mesaRepository.findAll();
-            for (Mesa iterator:mesaList                 ) {
-                iterator.setPedidosList(null); ;
-            }
+            mesaList.forEach(m -> {
+
+                List<Pedido> pedidosActivos = m.getPedidos().stream()
+                        .filter(p -> p.getEstado().equals(EstadoPedido.ENPREPARACION) || p.getEstado().equals(EstadoPedido.ENCOLA )|| p.getEstado().equals(EstadoPedido.LISTO))
+                        .collect(Collectors.toList());
+
+
+                if(pedidosActivos.size() > 0) {
+                    m.setEstado(EstadoMesa.OCUPADA);
+                }else {
+                    m.setEstado(EstadoMesa.LIBRE);
+                }
+            });
+            mesaRepository.saveAll(mesaList);
             response.setData(mesaList);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

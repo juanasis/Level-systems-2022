@@ -22,6 +22,7 @@
           <label for="password">Contraseña</label>
           <input type="password" name="password" id="password" class="form-control"
           [(ngModel)]="password" required>
+          <small id="emailHelp" class="form-text text-danger" *ngIf="errMsj != undefined">{{errMsj}}</small>
       </div>
       <div class="form-group">
           <button class="btn btn-outline-success btn-block" [disabled]="!f.valid">

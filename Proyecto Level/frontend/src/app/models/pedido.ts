@@ -1,35 +1,44 @@
 import { ItemPedido } from "./itempedido";
+import { Mesa } from "./mesa";
 import { Producto } from "./producto";
+
+
+
  
 export class Pedido {
     id: number;
-    idmozo: number;
-    idmesa: number = 0;    
-    items: ItemPedido[];
-    estado: String;
+    mozo: any = {id: ''};
+    mesa: Mesa;    
+    itemsList: ItemPedido[] = [];
+    estado: string;
     fecha: Date;
+    tipoPago: string;
 
     constructor(){
-        this.items = [];
+        this.itemsList = [];
+        
     }
+
+
     agregar(producto : Producto){
       let item = new ItemPedido(producto.id, 1,producto.precio);
-      let indice = this.items.findIndex( s => s.producto_id === item.producto_id )
+      item.producto = producto;
+      let indice = this.itemsList.findIndex( s => s.producto.id === item.producto.id )
         if(indice === -1){
-            this.items.push(item);          
+            this.itemsList.push(item);          
         }else{
               
-            this.items[indice].cantidad += 1; 
+            this.itemsList[indice].cantidad += 1; 
         }
         
     }
     quitar(producto: Producto) {
-        let indice = this.items.findIndex( s => s.producto_id === producto.id );
-        this.items[indice].cantidad -= 1; 
+        let indice = this.itemsList.findIndex( s => s.producto.id === producto.id );
+        this.itemsList[indice].cantidad -= 1; 
         
-        if(this.items[indice].cantidad === 0){
-            this.items[indice].cantidad = 1;
-            this.items.splice(indice,1);
+        if(this.itemsList[indice].cantidad === 0){
+            this.itemsList[indice].cantidad = 1;
+            this.itemsList.splice(indice,1);
          }
       }
 }

@@ -10,16 +10,15 @@ import { TokenService } from 'src/app/pages/login/service/token.service';
 export class MenuComponent implements OnInit {
   activeRole: string = '';
 
+  opcionesActivas: boolean = false;
+
+  codigo: string = '';
+
   rutas = [
     {
       path: '/cajeros',
       name: 'Cajeros',
       permiso: 'ROLE_CAJERO'
-    },
-    {
-      path: '/clientes',
-      name: 'Clientes',
-      permiso: 'ROLE_CLIENTE'
     },
     {
       path: '/administrador', name: 'Administracion', permiso: 'ROLE_ADMIN'
@@ -33,6 +32,11 @@ export class MenuComponent implements OnInit {
       path: '/mozos',
       name: 'Mozos',
       permiso: 'ROLE_MOZO'
+    },
+    {
+      path: '/pedidos-mozo',
+      name: 'Pedidos del mozo',
+      permiso: 'ROLE_MOZO'
     }
   ];
   
@@ -44,6 +48,13 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['/']);
     
   }
+
+
+
+  redireccionar() {
+    if(this.codigo == '12345')this.opcionesActivas = true;
+  }
+
   ngOnInit(): void {
     this.activeRole = this.tokenService.getAuthorities()[0];
     

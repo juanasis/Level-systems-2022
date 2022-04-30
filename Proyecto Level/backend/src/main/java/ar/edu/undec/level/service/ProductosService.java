@@ -3,6 +3,7 @@ package ar.edu.undec.level.service;
 import ar.edu.undec.level.controller.dto.ProductoRequest;
 import ar.edu.undec.level.controller.dto.Response;
 
+import ar.edu.undec.level.storage.entity.Categoria;
 import ar.edu.undec.level.storage.entity.EstadoProducto;
 import ar.edu.undec.level.storage.entity.Producto;
 import ar.edu.undec.level.storage.repository.ProductosRepository;
@@ -21,6 +22,14 @@ public class ProductosService {
     @Autowired
     private ProductosRepository productosRepo;
     static final Logger LOGGER = LoggerFactory.getLogger(ProductosService.class);
+
+    public List<Categoria> listarCategorias(){
+        return productosRepo.getAllCategorias();
+    }
+
+    public List<Producto> listarProductosPorCategoria(Long id){
+        return productosRepo.findByCategoria_Id(id);
+    }
 
     public Response findAll() {
         Response  response = new Response();
@@ -58,7 +67,7 @@ public class ProductosService {
             entity.setNombre(productoRequest.getNombre());
             entity.setDescripcion(productoRequest.getDescripcion());
             entity.setCantidad(productoRequest.getCantidad());
-            entity.setCategoria(productoRequest.getCategoria());
+            entity.setCategoria(productosRepo.findByNombreCategoria(productoRequest.getCategoria()).get());
             entity.setPrecio(productoRequest.getPrecio());
             entity.setImgpath(productoRequest.getImgpath());
             entity.setEstado(EstadoProducto.DISPONIBLE);

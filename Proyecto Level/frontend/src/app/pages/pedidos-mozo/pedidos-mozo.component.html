@@ -1,0 +1,30 @@
+<div class="container bg-white rounded">
+    <div class="mt-5 rounded-3 " style="height: 70vh;">
+        <h4 class="py-2">Estado de tus pedidos</h4>
+        <div class="alert alert-primary" role="alert" *ngIf="pedidosMozo.length == 0">
+            No hay pedidos a mostrar.
+          </div>
+                <table class="table table-bordered" *ngIf="pedidosMozo.length > 0">
+                    <thead>
+                        <tr>
+                            <th class="text-center"># de Mesa</th>
+                            <th class="text-center">En cola</th>
+                            <th class="text-center">En preparación</th>
+                            <th class="text-center">Listo</th>
+                            <th class="text-center">Hora de pedido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pedido of pedidosMozo">
+                            <td class="text-center"><span class="badge bg-primary">Mesa {{pedido.mesa.id}}</span></td>
+                            <td class="text-center"><img *ngIf="pedido.estado == 'ENCOLA'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
+                            <td class="text-center"><img *ngIf="pedido.estado == 'ENPREPARACION'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
+                            <td class="text-center"><img *ngIf="pedido.estado == 'LISTO'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
+                            <td class="text-center">{{pedido.fecha}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+  
+    </div>
+  </div>
+  
