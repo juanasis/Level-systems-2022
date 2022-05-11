@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Role } from '../models/role';
 
 const TOKEN_KEY = 'AuthToken';
 const USERNAME_KEY = 'AuthUserName';
@@ -54,8 +55,9 @@ export class TokenService {
     window.sessionStorage.clear();
   }
 
-  sendLoginStatus( status: boolean, activeRole: string) {
-    let params= {status, activeRole}
+  sendLoginStatus( status: boolean, roles: string[]) {
+    let params= {status, roles}
+    console.log(params)
     this._sendLoginStatusSource.next(params);
   }
 

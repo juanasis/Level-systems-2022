@@ -3,6 +3,7 @@ package ar.edu.undec.level.security.entity;
 import ar.edu.undec.level.storage.entity.Pedido;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,6 +15,8 @@ public class Usuario {
     private Integer id;
     @NotNull
     private String nombre;
+    @NotBlank
+    private String apellido;
     @NotNull
     @Column(unique = true)
     private String nombreUsuario;
@@ -28,13 +31,14 @@ public class Usuario {
     @JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id"),
     inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private Set<Rol> roles= new HashSet<>();
-    @OneToMany(mappedBy = "mozo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mozo")
     private Collection<Pedido> pedidos;
     public Usuario( ) {
     }
 
-    public Usuario(@NotNull String nombre, @NotNull String nombreUsuario, @NotNull String email, @NotNull String password) {
+    public Usuario(@NotNull String nombre, @NotBlank String apellido, @NotNull String nombreUsuario, @NotNull String email, @NotNull String password) {
         this.nombre = nombre;
+        this.apellido = apellido;
         this.nombreUsuario = nombreUsuario;
         this.email = email;
         this.password = password;
@@ -102,5 +106,17 @@ public class Usuario {
 
     public void setPedidos(Collection<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 }

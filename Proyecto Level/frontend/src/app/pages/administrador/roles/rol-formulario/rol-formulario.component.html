@@ -1,0 +1,31 @@
+<div class="card mt-4" style="width: 40rem; margin: auto;">
+    <div class="card-body">
+      <div class="card-title">
+        Nuevo Rol
+
+      </div>
+      <form #rolForm="ngForm">
+
+
+      <div class="form-group form-floating mt-3">
+        <input type="text"  minlength="2" class="form-control" placeholder=" " name="usuario" required [(ngModel)]="rol.rolNombre">
+        <label for="floatingInput">Rol</label>
+      </div>
+
+
+  
+      <button class="btn btn-primary mt-4 me-3" [disabled]="!rolForm.form.valid" (click)="crearRol()" *ngIf="!idRol">
+        Guardar
+      </button>
+
+      <button class="btn btn-primary mt-4 me-3"  [disabled]="!rolForm.form.valid" (click)="actualizarRol()" *ngIf="idRol">
+        Actualizar
+      </button>
+
+      <button [routerLink]="['/administrador/roles']" class="btn btn-danger mt-4">
+        Salir
+      </button>
+    </form>
+    </div>
+  </div>
+ 

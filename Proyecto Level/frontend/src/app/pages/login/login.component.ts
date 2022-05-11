@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
         });
         
         this.router.navigate(['/']);
-        this.tokenService.sendLoginStatus(true, this.tokenService.getAuthorities()[0]);
+        this.tokenService.sendLoginStatus(true, this.tokenService.getAuthorities());
       },
       err => {
         this.isLogged = false;

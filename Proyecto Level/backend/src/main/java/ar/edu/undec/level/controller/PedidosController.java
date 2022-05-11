@@ -90,7 +90,7 @@ public class PedidosController {
     @GetMapping("/pedidos-mozo/{idMozo}")
     public ResponseEntity<Response> obtenerPedidosActivosMozo(@PathVariable Integer idMozo){
         Response response = new Response();
-        response.setData(pedidosService.obtenerPedidosPorMesaPorMozo());
+        response.setData(pedidosService.obtenerPedidosPorMesaPorMozo(idMozo));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

@@ -15,29 +15,13 @@ export class MenuGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const expectedRol = route.data.expectedRol;
     const roles = this.tokenService.getAuthorities();
-    this.realRol = 'ADMIN';
-
-    roles.forEach(rol => {
-      switch (rol) {
-        case 'ROLE_ADMIN':
-          this.realRol = 'ADMIN'
-          break;
-        case 'ROLE_CAJERO':
-          this.realRol = 'CAJERO'
-          break;
-        case 'ROLE_CLIENTE':
-          this.realRol = 'CLIENTE'
-          break;
-        case 'ROLE_COCINERO':
-          this.realRol = 'COCINERO'
-          break; 
-        default:
-          this.realRol = 'MOZO'
-          break;  
+    
+    for (let index = 0; index < roles.length; index++) {
+      if(expectedRol.indexOf(roles[index].replace('ROLE_','')) > -1) {
+        this.realRol = roles[index].replace('ROLE_','')
+        break;
       }
-    });
-
-
+    }
 
     if(!this.tokenService.getToken() || expectedRol.indexOf(this.realRol) === -1){
       this.router.navigate(['/']);
@@ -46,6 +30,13 @@ export class MenuGuard implements CanActivate {
 
     return true;
 
+  }
+
+  verificarRol(realRol: string, expectedRol: string): boolean {
+    if(realRol == expectedRol){
+      return true;
+    }
+    return false
   }
   
 }

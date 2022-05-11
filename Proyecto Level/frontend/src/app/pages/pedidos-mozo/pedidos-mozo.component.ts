@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Pedido } from 'src/app/models/pedido';
 import { PedidoService } from 'src/app/services/pedido.service';
+import { AuthService } from '../login/service/auth.service';
+import { TokenService } from '../login/service/token.service';
 
 @Component({
   selector: 'app-pedidos-mozo',
@@ -11,14 +13,21 @@ export class PedidosMozoComponent implements OnInit {
 
   pedidosMozo: Pedido[] = [];
 
-  constructor(private pedidoService: PedidoService) { }
+  constructor(private pedidoService: PedidoService, private tokenService: TokenService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.pedidoService.obtenerPedidosActivosMozo(1)
+
+    let nombreUsuario: string =this.tokenService.getUserName();
+    this.authService.buscarPorNonbreUsuario(nombreUsuario)
         .subscribe(response => {
-          this.pedidosMozo = response.data;
-          console.log(this.pedidosMozo)
-        });
+          this.pedidoService.obtenerPedidosActivosMozo(response.data.id)
+          .subscribe(response => {
+            this.pedidosMozo = response.data;
+            console.log(this.pedidosMozo)
+          });
+        })
+
+
   }
 
 }

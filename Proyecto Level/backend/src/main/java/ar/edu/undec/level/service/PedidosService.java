@@ -232,10 +232,10 @@ public class PedidosService {
                 .collect(Collectors.toList());
     }
 
-    public List<Pedido> obtenerPedidosPorMesaPorMozo(){
+    public List<Pedido> obtenerPedidosPorMesaPorMozo(Integer idMozo){
         LocalDate fechaActual = LocalDate.now();
-        List<Pedido> pedidosEncontrados = pedidosRepo.findByFechaQueryAndMozo_Id(fechaActual, 1);
-
+        List<Pedido> pedidosEncontrados = pedidosRepo.findByFechaQueryAndMozo_Id(fechaActual, idMozo);
+        System.out.println(pedidosEncontrados.size());
 
         return pedidosEncontrados.stream()
                 .filter(p -> p.getEstado().equals(EstadoPedido.ENCOLA) || p.getEstado().equals(EstadoPedido.ENPREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))

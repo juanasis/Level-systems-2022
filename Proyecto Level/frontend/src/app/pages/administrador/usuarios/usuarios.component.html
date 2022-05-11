@@ -11,15 +11,17 @@
         <th scope="col">Usuario</th>
         <th scope="col">Categoria</th>
         <th scope="col">Rol</th>
+        <th scope="col">Acción</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let usuario of usuarios" >
-        <th scope="row">{{usuario.id}} </th>
+        <th scope="row"><button class="btn btn-primary" [routerLink]="['editar-usuario',usuario.nombreUsuario]">{{usuario.id}}</button> </th>
         <td>{{usuario.nombre}} </td>
         <td>{{usuario.nombreUsuario}} </td>
         <td>{{usuario.email}} </td>
-        <td>{{usuario.roles[0].rolNombre}} </td>
+        <td><span class="badge badge-primary ms-1" *ngFor="let rol of usuario.roles">{{rol.rolNombre.toString().split('_')[1]}}</span></td>
+        <td><button class="btn btn-danger" (click)="eliminarUsuario(usuario.nombreUsuario)">Eliminar</button></td>
       </tr>
        
     </tbody>

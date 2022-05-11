@@ -21,7 +21,8 @@ import { UploadFilesComponent } from 'src/app/components/upload-files/upload-fil
 import { UsuariosComponent } from "./pages/administrador/usuarios/usuarios.component";
 import { UsuarioFormComponent } from "./pages/administrador/usuarios/usuario-form/usuario-form.component";
 import { RecuperarPasswordComponent } from "./pages/recuperar-password/recuperar-password.component";
-
+import { RolesComponent } from "./pages/administrador/roles/roles.component";
+import { RolFormularioComponent } from "./pages/administrador/roles/rol-formulario/rol-formulario.component";
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { RecuperarPasswordComponent } from "./pages/recuperar-password/recuperar
     routingComponents,
     AdministradorComponent,
     UploadFilesComponent,
-    RecuperarPasswordComponent
+    RecuperarPasswordComponent,
+    RolesComponent,
+    RolFormularioComponent
   ],
   imports: [
     BrowserModule,

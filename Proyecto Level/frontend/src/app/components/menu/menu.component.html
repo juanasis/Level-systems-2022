@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active" *ngFor="let ruta of rutas">
-          <a class="nav-link" *ngIf="activeRole == ruta.permiso && opcionesActivas" [routerLink]="[ruta.path]">{{ruta.name}}</a>
+          <a class="nav-link" *ngIf="ruta.activo  && opcionesActivas && isLogged" [routerLink]="[ruta.path]">{{ruta.name}}</a>
         </li>
         <li class="nav-item" *ngIf="!isLogged">
           <a class="nav-link"  routerLink="/login"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión 
@@ -20,7 +20,7 @@
 
         <li class="nav-item" *ngIf="!opcionesActivas && isLogged">
           <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Ingresar código" [(ngModel)]="codigo" name="codigo" aria-label="Search">
+            <input class="form-control mr-sm-2" type="password" placeholder="Ingresar código" [(ngModel)]="codigo" name="codigo" aria-label="Search">
             <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit" (click)="redireccionar()">Mostrar opciones</button>
           </form>
         </li>

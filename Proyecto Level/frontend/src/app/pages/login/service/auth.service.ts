@@ -44,4 +44,31 @@ export class AuthService {
   public changePassword(changePassword: ChangePassword): Observable<any> {
     return this.httpClient.post<any>(this.authURL + 'change-password', changePassword);
   }
+
+  public actualizarUsuario(usuarioActualizar: NuevoUsuario): Observable<any> {
+    return this.httpClient.put<any>(this.authURL + 'actualizar-usuario', usuarioActualizar);
+  }
+
+  public eliminarUsuario(nombreUsuario: string): Observable<any> {
+    return this.httpClient.delete<any>(this.authURL + 'eliminar-usuario/'+nombreUsuario);
+  }
+
+  public crearRol(rol: Role): Observable<any> {
+    return this.httpClient.post<any>(this.authURL + 'crear-rol', rol);
+  }
+  
+  public actualizarRol(rol: Role): Observable<any> {
+    return this.httpClient.put<any>(this.authURL + 'actualizar-rol', rol);
+  }
+
+  public obtenerRol(idRol: number): Observable<any> {
+    return this.httpClient.get<any>(this.authURL + 'obtener-rol/'+idRol);
+  }
+
+  public eliminarRol(idRol: number): Observable<any> {
+    return this.httpClient.delete<any>(this.authURL + 'eliminar-rol/'+idRol);
+  }
+
+
+
 }

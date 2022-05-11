@@ -38,7 +38,11 @@ public class UsuarioService {
         return usuarioRepository.existsByEmail(email);
     }
 
-    public void save(Usuario usuario){
+    public void eleminarUsuario(Integer idUsuario) {
+        usuarioRepository.deleteById(idUsuario);
+    }
+
+    public void save(Usuario usuario) {
         usuarioRepository.save(usuario);
     }
 }

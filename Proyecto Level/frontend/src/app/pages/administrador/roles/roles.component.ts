@@ -1,59 +1,57 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import { NuevoUsuario } from '../../login/models/nuevo-usuario';
+import { Role } from '../../login/models/role';
 import { AuthService } from '../../login/service/auth.service';
 
 @Component({
-  selector: 'app-usuarios',
-  templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.css']
+  selector: 'app-roles',
+  templateUrl: './roles.component.html',
+  styleUrls: ['./roles.component.css']
 })
-export class UsuariosComponent implements OnInit {
-  usuarios: NuevoUsuario[] = [];
+export class RolesComponent implements OnInit {
+
+  roles: Role[] = [];
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.authService.getUsuarios()
-        .subscribe(response => this.usuarios = response.data);
+    this.authService.getRoles()
+        .subscribe(response => this.roles = response.data)
   }
 
-  eliminarUsuario(nombreUsuario: string) {
+  eliminarRol(id: number) {
+    
     Swal.fire({
-      title: '¿Está seguro de realizar su pedido?',
-      text: "Confirme su orden",
+      title: '¿Está seguro de eliminar?',
+      text: "Confirme la acción",
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Confirmar'
     }).then((result) => {
-
       if (result.isConfirmed) {
-        this.authService.eliminarUsuario(nombreUsuario)
+        this.authService.eliminarRol(id)
         .subscribe(() => {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'Usuario eliminado',
-            showConfirmButton: false,
-            timer: 1000
+            title: 'Rol eliminado',
+            showConfirmButton: true
           })
-          this.usuarios = this.usuarios.filter(r => r.nombreUsuario != nombreUsuario);
+
+          this.roles = this.roles.filter(r => r.id != id);
         },err => {
           Swal.fire(
             'Upps',
             'Ocurrió algo inesperado, inténtelo nuevamente.',
             'error'
           )
-        })
+        }
+        )
+
       }
-
+    
     })
-
-
-
-
   }
-
 }

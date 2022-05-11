@@ -11,13 +11,21 @@ public class Rol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private RolNombre rolNombre;
+//    @Enumerated(EnumType.STRING)
+    private String rolNombre;
 
     public Rol() {
     }
 
-    public Rol(@NotNull RolNombre rolNombre) {
+    public void setRolNombre(String rolNombre) {
+        this.rolNombre = rolNombre;
+    }
+    public Rol(int id, String rolNombre) {
+        this.id = id;
+        this.rolNombre = rolNombre;
+    }
+
+    public Rol(@NotNull String rolNombre) {
         this.rolNombre = rolNombre;
     }
 
@@ -29,11 +37,7 @@ public class Rol {
         this.id = id;
     }
 
-    public RolNombre getRolNombre() {
+    public String getRolNombre() {
         return rolNombre;
-    }
-
-    public void setRolNombre(RolNombre rolNombre) {
-        this.rolNombre = rolNombre;
     }
 }

@@ -1,0 +1,22 @@
+
+<h2 class="text-white mt-5">Lista de roles</h2>
+
+<a class="btn bg-white mb-4" [routerLink]="['crear-rol']">Nuevo rol</a>
+
+<table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rol of roles" >
+        <th scope="row"><button class="btn btn-primary" [routerLink]="['editar-rol',rol.id]">{{rol.id}}</button> </th>
+        <td>{{rol.rolNombre}} </td>
+        <td><button class="btn btn-danger" (click)="eliminarRol(rol.id)">Eliminar</button></td>
+      </tr>
+       
+    </tbody>
+  </table>

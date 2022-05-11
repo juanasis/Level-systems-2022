@@ -21,7 +21,7 @@ public class Pedido implements Serializable {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne //muchos pedidos para un mozo
-    @JoinColumn(name = "idmozo", referencedColumnName = "id")
+    @JoinColumn(name = "idmozo", nullable = true)
     private Usuario mozo;
 
 //    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")

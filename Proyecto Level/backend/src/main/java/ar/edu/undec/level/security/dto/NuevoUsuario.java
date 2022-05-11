@@ -1,5 +1,7 @@
 package ar.edu.undec.level.security.dto;
 
+import ar.edu.undec.level.security.entity.Rol;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -11,12 +13,14 @@ public class NuevoUsuario {
     @NotBlank
     private String nombre;
     @NotBlank
+    private String apellido;
+    @NotBlank
     private String nombreUsuario;
     @Email
     private String email;
     @NotBlank
     private String password;
-    private List<String> roles = new ArrayList<>();
+    private List<Rol> roles = new ArrayList<>();
 
     public String getNombre() {
         return nombre;
@@ -50,11 +54,19 @@ public class NuevoUsuario {
         this.password = password;
     }
 
-    public List<String> getRoles() {
+    public List<Rol> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(List<Rol> roles) {
         this.roles = roles;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 }

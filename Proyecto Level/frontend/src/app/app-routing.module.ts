@@ -16,6 +16,8 @@ import { ProductosComponent } from './pages/productos/productos.component';
 import { UsuariosComponent } from './pages/administrador/usuarios/usuarios.component';
 import { RecuperarPasswordComponent } from './pages/recuperar-password/recuperar-password.component';
 import { PedidosMozoComponent } from './pages/pedidos-mozo/pedidos-mozo.component';
+import { RolFormularioComponent } from './pages/administrador/roles/rol-formulario/rol-formulario.component';
+import { RolesComponent } from './pages/administrador/roles/roles.component';
  
 const routes: Routes = [  {
   path: 'cajeros',
@@ -71,6 +73,11 @@ const routes: Routes = [  {
   canActivate: [guard], data: {expectedRol: ['ADMIN']}
 },
 {
+  path: 'administrador/usuarios/editar-usuario/:nombreUsuario',
+  component: UsuarioFormComponent,
+  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+},
+{
   path: 'administrador/productos',
   component: ProductosComponent,
   canActivate: [guard], data: {expectedRol: ['ADMIN']}
@@ -78,6 +85,21 @@ const routes: Routes = [  {
 {
   path: 'administrador/productos/crear-producto',
   component: NuevoComponent,
+  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+},
+{
+  path: 'administrador/roles',
+  component: RolesComponent,
+  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+},
+{
+  path: 'administrador/roles/crear-rol',
+  component: RolFormularioComponent,
+  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+},
+{
+  path: 'administrador/roles/editar-rol/:idRol',
+  component: RolFormularioComponent,
   canActivate: [guard], data: {expectedRol: ['ADMIN']}
 },
 {

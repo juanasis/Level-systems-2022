@@ -24,8 +24,8 @@ public class CreateRoles implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-     /*   Rol rolAdmin = new Rol(RolNombre.ROLE_ADMIN);
-        Rol rolUser = new Rol(RolNombre.ROLE_USER);
+        /*
+        Rol rolAdmin = new Rol(RolNombre.ROLE_ADMIN);
         Rol rolMozo = new Rol(RolNombre.ROLE_MOZO);
         Rol rolCajero = new Rol(RolNombre.ROLE_CAJERO);
         Rol rolCliente = new Rol(RolNombre.ROLE_CLIENTE);
@@ -36,8 +36,8 @@ public class CreateRoles implements CommandLineRunner {
         rolService.save(rolCajero);
         rolService.save(rolCliente);
         rolService.save(rolCocinero);
-*/
 
+*/
         System.out.println(passwordEncoder.encode("12345"));
     }
 }

@@ -24,6 +24,14 @@ public class RolService {
         rolRepository.save(rol);
     }
 
+    public Optional<Rol> buscarPorId(Integer idRol) {
+        return rolRepository.findById(idRol);
+    }
+
+    public void eliminarRolPorId(Integer idRol) {
+        rolRepository.deleteById(idRol);
+    }
+
     public List<Rol> getRoles() {
         return rolRepository.findAll();
     }

@@ -1,37 +1,82 @@
-<div class="card mt-4">
+<div class="card mt-4" style="width: 40rem; margin: auto;">
     <div class="card-body">
       <div class="card-title">
-        Nuevo Producto
+        Nuevo Usuario
 
       </div>
-      <div class="form-group mt-4">
-        <input type="text" [(ngModel)]="nuevoUsuario.nombre" placeholder="Inserta el nombre" class="form-control">
+      <form #usuarioForm="ngForm">
+      <div class="d-flex justify-content-between">
+        <div class="form-floating w-50">
+          <input type="text" [(ngModel)]="nuevoUsuario.nombre" minlength="2" class="form-control"  placeholder=" " name="nombre" required>
+        <label for="floatingInput">Nombre</label>
+        </div>
+        <div class="form-floating w-50 ms-2">
+          <input type="text" [(ngModel)]="nuevoUsuario.apellido" minlength="2" class="form-control" placeholder=" " name="apellido" required>
+        <label for="floatingInput">Apellido</label>
+        </div>
       </div>
-      <div class="form-group mt-4">
-        <input type="text" [(ngModel)]="nuevoUsuario.nombreUsuario" placeholder="Inserta el usuario" class="form-control">
+
+      <div class="form-group form-floating mt-3">
+        <input type="text" [(ngModel)]="nuevoUsuario.nombreUsuario" minlength="2" class="form-control" placeholder=" " name="usuario" required>
+        <label for="floatingInput">Usuario</label>
       </div>
-      <div class="form-group mt-4">
-        <input type="text" [(ngModel)]="nuevoUsuario.email" placeholder="Inserta el correo" class="form-control">
+      <div class="form-group form-floating mt-2">
+        <input type="text" [(ngModel)]="nuevoUsuario.email" minlength="6" class="form-control" placeholder=" " name="email" required>
+        <label for="floatingInput">Correo</label>
+        <span class="text-danger ms-2" *ngIf="mensajeError">{{mensajeError}}</span>
       </div>
-      <div class="form-group mt-4">
-        <input type="password" [(ngModel)]="nuevoUsuario.password" placeholder="Inserta la contraseña" class="form-control">
+
+
+      <div class="d-flex justify-content-between">
+        <div class="input-group mb-3 w-50">
+          <div class="form-floating">
+            <input type="password" [(ngModel)]="nuevoUsuario.password" minlength="6" class="form-control" name="password" placeholder=" " [type]="show ? 'text': 'password'" required>
+          <label for="floatingInput">Contraseña</label>
+          
+          </div>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="password()">{{show ? 'Ocultar' : 'Mostrar'}}</button>
+          </div>
+        </div>
+        <div class="input-group mb-3 w-50">
+          <div class="form-floating">
+            <input type="password" [(ngModel)]="confirmarPassword" minlength="6" class="form-control" name="cPassword"  placeholder=" " [type]="show ? 'text': 'password'" required>
+          <label for="floatingInput">Confirmar contraseña</label>
+          
+          </div>
+          <div class="input-group-append ">
+            <button class="btn btn-outline-secondary" (click)="password()">{{show ? 'Ocultar' : 'Mostrar'}}</button>
+          </div>
+        </div>
+        
+
       </div>
-       <!-- <div class="form-group mt-4">
-        <input type="text" [(ngModel)]="selectedProducto.categoria" placeholder="Inserta categoria" class="form-control">
-      </div>  -->
-     <div class="form-group mt-4" >
-            <select [(ngModel)]="rolElegido" class="form-control" name="role">
-                <option [ngValue]="undefined">--- Seleccionar rol ---</option>
-                <option *ngFor="let rol of roles" [ngValue]="rol.rolNombre">{{rol.rolNombre}}</option>
-            </select>
-      </div>
+      <span class="text-danger ms-2" *ngIf="mensajeErrorPassword">{{mensajeErrorPassword}}</span>
+      <div class="row col-12 mt-2">
+        <label for="rol" class="input-label mb-2">Roles</label>
+        <div class="col-sm-4 col-xxl-4 " *ngFor="let rol of roles">
+            <div class="form-check" >
+                <input class="form-check-input" type="checkbox" id="check{{rol.id}}" (click)="asignarRol(rol)" [checked]="rol.asignado">
+                <label class="form-check-label" for="check{{rol.id}}">
+                  {{rol.rolNombre.split('_')[1]}}
+                </label>
+            </div>
+        </div>
+        <span class="text-danger ms-2" *ngIf="mensajeErrorRoles">{{mensajeErrorRoles}}</span>  
+    </div>
   
-      <button class="btn btn-primary mt-4" (click)="crearUsuario()">
+      <button class="btn btn-primary mt-4 me-3" (click)="crearUsuario()" [disabled]="!usuarioForm.form.valid" *ngIf="!nombreUsuario">
         Guardar
       </button>
+
+      <button class="btn btn-primary mt-4 me-3" (click)="actualizarUsuario()" [disabled]="!usuarioForm.form.valid" *ngIf="nombreUsuario">
+        Actualizar
+      </button>
+
       <button [routerLink]="['/administrador/usuarios']" class="btn btn-danger mt-4">
         Salir
       </button>
+    </form>
     </div>
   </div>
  

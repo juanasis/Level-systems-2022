@@ -3,7 +3,6 @@ insert into usuario(email, nombre, nombre_usuario, password) values('pedro.bengo
 insert into usuario(email, nombre, nombre_usuario, password) values('jose.bengolea@gmail.com', 'Jose', 'MOZO1', '$2a$10$dVVPhvHQvc4T/iE7MW.QTebeTudxKoonuIFcAXJCsT05cUMDWbA3e');
 
 insert into rol(rol_nombre) values('ROLE_ADMIN');
-insert into rol(rol_nombre) values('ROLE_USER');
 insert into rol(rol_nombre) values('ROLE_MOZO');
 insert into rol(rol_nombre) values('ROLE_CAJERO');
 insert into rol(rol_nombre) values('ROLE_COCINERO');

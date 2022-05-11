@@ -1,9 +1,12 @@
+import { Role } from "./role";
+
 export class NuevoUsuario {
     nombre: string;
+    apellido: string;
     nombreUsuario: string;
     email: string;
     password: string;
-    roles: string[] = [];
+    roles: Role[] = [];
     // constructor(nombre: string, nombreUsuario: string, email: string, password: string, roles: any[]) {
     //     this.nombre = nombre;
     //     this.nombreUsuario = nombreUsuario;
