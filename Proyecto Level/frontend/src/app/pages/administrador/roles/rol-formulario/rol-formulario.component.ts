@@ -38,6 +38,16 @@ export class RolFormularioComponent implements OnInit {
           )
           this.router.navigate(['/administrador/roles']);
         }, err => {
+
+          if(err.error.mensaje){
+            Swal.fire(
+              'Upps',
+              err.error.mensaje,
+              'info'
+            )
+            return
+          }
+          
           Swal.fire(
             'Upps',
             'Ocurrió algo inesperado, inténtelo nuevamente.',
@@ -56,6 +66,17 @@ export class RolFormularioComponent implements OnInit {
           )
           this.router.navigate(['/administrador/roles']);
         }, err => {
+
+
+          if(err.error.mensaje){
+            Swal.fire(
+              'Upps',
+              err.error.mensaje,
+              'info'
+            )
+            return
+          }
+
           Swal.fire(
             'Upps',
             'Ocurrió algo inesperado, inténtelo nuevamente.',

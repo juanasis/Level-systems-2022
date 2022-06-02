@@ -18,34 +18,39 @@ import { RecuperarPasswordComponent } from './pages/recuperar-password/recuperar
 import { PedidosMozoComponent } from './pages/pedidos-mozo/pedidos-mozo.component';
 import { RolFormularioComponent } from './pages/administrador/roles/rol-formulario/rol-formulario.component';
 import { RolesComponent } from './pages/administrador/roles/roles.component';
+import { PermisosComponent } from './pages/administrador/permisos/permisos.component';
+import { ActualizarPermisoComponent } from './pages/administrador/permisos/actualizar-permiso/actualizar-permiso.component';
+import { HistorialUsuarioComponent } from './pages/administrador/usuarios/historial-usuario/historial-usuario.component';
  
 const routes: Routes = [  {
   path: 'cajeros',
   component: CajerosComponent,
-  canActivate: [guard], data: {expectedRol: ['CAJERO']}
+  canActivate: [guard], data: {expectedPermisos: ['CAJA']}
 },
 {
-  path: 'mozos',
+  path: 'mesas',
   component: MozosComponent,
-  canActivate: [guard], data: {expectedRol: ['MOZO']}
+  canActivate: [guard], data: {expectedPermisos: ['MESAS']}
 },
 {
   path: 'pedidos-mozo',
   component: PedidosMozoComponent,
-  canActivate: [guard], data: {expectedRol: ['MOZO']}
+  canActivate: [guard], data: {expectedPermisos: ['LISTAR_PEDIDOS_MOZO']}
 },
 {
   path: 'cocineros',
   component: CocinerosComponent,
-  canActivate: [guard], data: {expectedRol: ['COCINERO']}
+  canActivate: [guard], data: {expectedPermisos: ['COCINERO']}
 },
 {
-  path: 'administrador', component: AdministradorComponent, canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  path: 'administrador', 
+  component: AdministradorComponent, 
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'clientes/:mesaId',
   component: ClientesComponent,
-  canActivate: [guard], data: {expectedRol: ['MOZO']}
+  canActivate: [guard], data: {expectedPermisos: ['CREAR_PEDIDO', 'ACTUALIZAR_PEDIDO']}
 },
 {
   path: 'login',
@@ -55,52 +60,67 @@ const routes: Routes = [  {
 {
   path: 'editar/:id',
   component: EditarComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'editarpedido',
   component: EditarPedidoComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'administrador/usuarios',
   component: UsuariosComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
+  path: 'administrador/usuarios/:nombreUsuario/historial',
+  component: HistorialUsuarioComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'administrador/usuarios/crear-usuario',
   component: UsuarioFormComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'administrador/usuarios/editar-usuario/:nombreUsuario',
   component: UsuarioFormComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'administrador/productos',
   component: ProductosComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'administrador/productos/crear-producto',
   component: NuevoComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'administrador/roles',
   component: RolesComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'administrador/roles/crear-rol',
   component: RolFormularioComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'administrador/roles/editar-rol/:idRol',
   component: RolFormularioComponent,
-  canActivate: [guard], data: {expectedRol: ['ADMIN']}
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
+  path: 'administrador/permisos',
+  component: PermisosComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
+  path: 'administrador/permisos/actualizar-permiso/:id',
+  component: ActualizarPermisoComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
   path: 'recuperar-password/:token',

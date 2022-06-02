@@ -52,9 +52,24 @@ export class LoginComponent implements OnInit {
         this.toastr.success('Bienvenido ' + data.nombreUsuario, 'OK', {
           timeOut: 3000, positionClass: 'toast-top-center'
         });
+
+
         
         this.router.navigate(['/']);
         this.tokenService.sendLoginStatus(true, this.tokenService.getAuthorities());
+        
+        this.authService.buscarPorNonbreUsuario(data.nombreUsuario)
+        .subscribe(response => {
+          let permisos: string[] = [];
+          response.data.roles.forEach(rol => {
+            rol.permisos.forEach(permiso => {
+              if(permisos.includes(permiso.nombre)) return
+              permisos.push(permiso.nombre);
+            })
+          })
+          this.tokenService.setPermisos(permisos);
+          this.tokenService.sendLoginStatus(true, this.tokenService.getPermisos());
+        })
       },
       err => {
         this.isLogged = false;

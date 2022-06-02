@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { Role } from '../pages/login/models/role';
+import { AuthService } from '../pages/login/service/auth.service';
 import { TokenService } from '../pages/login/service/token.service';
 
 @Injectable({
@@ -9,34 +11,39 @@ import { TokenService } from '../pages/login/service/token.service';
 export class MenuGuard implements CanActivate {
 
   realRol: string;
+  roles: Role[] = [];
+  permisos: string[] = [];
+  
 
-  constructor(private tokenService: TokenService, private router: Router) { }
+  constructor(private tokenService: TokenService, private router: Router, private authService: AuthService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const expectedRol = route.data.expectedRol;
-    const roles = this.tokenService.getAuthorities();
-    
-    for (let index = 0; index < roles.length; index++) {
-      if(expectedRol.indexOf(roles[index].replace('ROLE_','')) > -1) {
-        this.realRol = roles[index].replace('ROLE_','')
-        break;
+    const expectedPermisos: string[] = route.data.expectedPermisos;
+    const roles: Role[] = [];
+    let permitido: boolean = false; 
+    this.permisos = this.tokenService.getPermisos();
+    // console.log(this.permisos)
+
+    expectedPermisos.forEach(p => {
+      if(this.permisos.includes(p)){
+        permitido = true;
       }
+    })
+    // console.log(permitido)
+
+    if(!permitido ) {
+      Swal.fire('Sin acceso','El rol actual no tiene acceso a este recurso.','info')
+      return false;
     }
 
-    if(!this.tokenService.getToken() || expectedRol.indexOf(this.realRol) === -1){
+    if(!permitido || !this.tokenService.getToken()) {
+      Swal.fire('Sin acceso','Sin accessos, regresando a página principal.','info')
       this.router.navigate(['/']);
       return false;
     }
 
-    return true;
+    return true
+}
 
-  }
 
-  verificarRol(realRol: string, expectedRol: string): boolean {
-    if(realRol == expectedRol){
-      return true;
-    }
-    return false
-  }
-  
 }

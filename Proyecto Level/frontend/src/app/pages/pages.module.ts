@@ -4,12 +4,21 @@ import { BrowserModule } from "@angular/platform-browser";
 import { ProductoitemComponent } from './clientes/productoitem/productoitem.component';
 import { FormsModule } from "@angular/forms";
 import { PedidosMozoComponent } from './pedidos-mozo/pedidos-mozo.component';
+import { PermisosComponent } from './administrador/permisos/permisos.component';
+import { ActualizarPermisoComponent } from './administrador/permisos/actualizar-permiso/actualizar-permiso.component';
+import { HistorialUsuarioComponent } from './administrador/usuarios/historial-usuario/historial-usuario.component';
 @NgModule({
     declarations: [
       
       ProductoitemComponent,
       
       PedidosMozoComponent,
+      
+      PermisosComponent,
+      
+      ActualizarPermisoComponent,
+      
+      HistorialUsuarioComponent,
 
       
       

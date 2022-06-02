@@ -1,6 +1,7 @@
 package ar.edu.undec.level.security.service;
+import ar.edu.undec.level.security.entity.Permiso;
 import ar.edu.undec.level.security.entity.Rol;
-import ar.edu.undec.level.security.enums.RolNombre;
+import ar.edu.undec.level.security.repository.PermisoRepository;
 import ar.edu.undec.level.security.repository.RolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,10 @@ public class RolService {
     @Autowired
     RolRepository rolRepository;
 
-    public Optional<Rol> getByRolNombre(RolNombre rolNombre){
+    @Autowired
+    private PermisoRepository permisoRepository;
+
+    public Optional<Rol> getByRolNombre(String rolNombre){
         return rolRepository.findByRolNombre(rolNombre);
     }
 
@@ -34,5 +38,19 @@ public class RolService {
 
     public List<Rol> getRoles() {
         return rolRepository.findAll();
+    }
+
+    public List<Permiso> listarTodosPermisos(){
+        return permisoRepository.findAll();
+    }
+
+    public Optional<Permiso> buscarPermisoPorId(Long id) {
+        return permisoRepository.findById(id);
+    }
+
+    public Permiso guardar(Permiso permiso) {
+        Permiso permisoEncontrado = permisoRepository.findById(permiso.getPermisoId()).get();
+        permisoEncontrado.setRoles(permiso.getRoles());
+        return permisoRepository.save(permisoEncontrado);
     }
 }

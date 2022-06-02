@@ -5,6 +5,7 @@ import { Role } from '../models/role';
 const TOKEN_KEY = 'AuthToken';
 const USERNAME_KEY = 'AuthUserName';
 const AUTHORITIES_KEY = 'AuthAuthorities';
+const PERMISOS_KEY = 'AuthPermisos';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,11 @@ export class TokenService {
     window.sessionStorage.setItem(AUTHORITIES_KEY, JSON.stringify(authorities));
   }
 
+  public setPermisos(permisos: string[]): void {
+    window.sessionStorage.removeItem(PERMISOS_KEY);
+    window.sessionStorage.setItem(PERMISOS_KEY, JSON.stringify(permisos));
+  }
+
   public getAuthorities(): string[] {
     this.roles = [];
     if (sessionStorage.getItem(AUTHORITIES_KEY)) {
@@ -50,6 +56,18 @@ export class TokenService {
     }
     return this.roles;
   }
+
+  
+  public getPermisos(): string[] {
+    let permisos: string[] = [];
+    if (sessionStorage.getItem(PERMISOS_KEY)) {
+      JSON.parse(sessionStorage.getItem(PERMISOS_KEY)).forEach(permiso => {
+        permisos.push(permiso);
+      });
+    }
+    return permisos;
+  }
+  
 
   public logOut(): void {
     window.sessionStorage.clear();

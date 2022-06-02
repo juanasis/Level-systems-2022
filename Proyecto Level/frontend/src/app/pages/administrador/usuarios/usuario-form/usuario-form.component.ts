@@ -29,17 +29,20 @@ export class UsuarioFormComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    
 
     this.activatedRoute.params
         .subscribe(params => {
           this.nombreUsuario = params['nombreUsuario'];
-
+          this.authService.obtenerHistorialUsuario(this.nombreUsuario)
+              .subscribe(response => console.log(response));
           if(this.nombreUsuario) {
             this.authService.buscarPorNonbreUsuario(this.nombreUsuario)
                 .subscribe(response => {
                   this.nuevoUsuario = response.data;
                   this.rolesAsignados = response.data.roles;
                   this.confirmarPassword = this.nuevoUsuario.password;
+                  
 
                   this.authService.getRoles().subscribe(
                     response => {
@@ -110,7 +113,8 @@ export class UsuarioFormComponent implements OnInit {
 
 
   actualizarUsuario() {
-
+    this.nuevoUsuario.roles.forEach(r=>r.permisos = [])
+    this.nuevoUsuario.roles.forEach(r=>r.usuarios = [])
     if(this.rolesAsignados.length == 0) {
       this.mensajeErrorRoles = 'Seleccione al menos 1 rol';
       return
@@ -125,7 +129,6 @@ export class UsuarioFormComponent implements OnInit {
           )
           this.router.navigate(['/administrador/usuarios']);
         }, err => {
-          console.log(err.error.mensaje)
           this.mensajeError = err.error.mensaje;
         });
         

@@ -4,6 +4,8 @@ package ar.edu.undec.level.security.controller;
 import ar.edu.undec.level.controller.dto.Mensaje;
 import ar.edu.undec.level.controller.dto.Response;
 import ar.edu.undec.level.security.dto.*;
+import ar.edu.undec.level.security.entity.HistoriaUsuario;
+import ar.edu.undec.level.security.entity.Permiso;
 import ar.edu.undec.level.security.entity.Rol;
 import ar.edu.undec.level.security.entity.Usuario;
 import ar.edu.undec.level.security.enums.RolNombre;
@@ -200,14 +202,16 @@ public class AuthController {
         }
 
         Usuario usuarioOk = usuarioEncontrado.get();
+
+        if(usuario.getRoles().size() != usuarioOk.getRoles().size()) {
+            List<String> rolesUsuarioFront = cambiarRolesToString(usuario.getRoles());
+            agregarHistorial(usuarioOk, rolesUsuarioFront);
+        }
+
         usuarioOk.setNombre(usuario.getNombre());
         usuarioOk.setApellido(usuario.getApellido());
 
-
-        Set<Rol> rolesTransformados = usuario.getRoles().stream()
-                .map(r -> new Rol(r.getId(), r.getRolNombre()))
-                .collect(Collectors.toSet());
-        usuarioOk.setRoles(rolesTransformados);
+        usuarioOk.setRoles(cambiarRolesListToSet(usuario.getRoles()));
         usuarioService.save(usuarioOk);
         return new ResponseEntity<>(new Mensaje("Usuario actualizado"), HttpStatus.CREATED);
     }
@@ -231,6 +235,10 @@ public class AuthController {
 
     @PostMapping("/crear-rol")
     public ResponseEntity<?> crearRol(@RequestBody Rol rol) {
+
+        Optional<Rol> rolEncontrado = rolService.getByRolNombre(rol.getRolNombre());
+        if(rolEncontrado.isPresent()) return new ResponseEntity<>(new Mensaje("El rol ya existe"), HttpStatus.BAD_REQUEST);
+
         rolService.save(rol);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -246,9 +254,14 @@ public class AuthController {
     @PutMapping("/actualizar-rol")
     public ResponseEntity<?> actualizarRol(@RequestBody Rol rol) {
         Optional<Rol> rolEncontrado = rolService.buscarPorId(rol.getId());
+        Optional<Rol> rolPorNombreEncontrado = rolService.getByRolNombre(rol.getRolNombre());
 
         if(!rolEncontrado.isPresent()) {
             return new ResponseEntity<>(new Mensaje("No se encontró rol"), HttpStatus.NOT_FOUND);
+        }
+
+        if(rolPorNombreEncontrado.isPresent() && rolEncontrado.get().getId() != rolPorNombreEncontrado.get().getId()) {
+            return new ResponseEntity<>(new Mensaje("El rol ya existe"), HttpStatus.BAD_REQUEST);
         }
 
         Rol rolEncontradoGet = rolEncontrado.get();
@@ -271,9 +284,71 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private Set<Rol> agregarRol(Set<Rol> roles, RolNombre rol) {
-        roles.add(rolService.getByRolNombre(rol).get());
-        return roles;
+    @GetMapping("/obtener-historial/{nombreUsuario}")
+    public ResponseEntity<?> obtenerHistorialUsuario(@PathVariable String nombreUsuario){
+        Response response = new Response();
+        response.setData(usuarioService.listarHistorialUsuario(nombreUsuario));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/permisos")
+    public ResponseEntity<?> listarTodosPermisos(){
+        return new ResponseEntity<>(rolService.listarTodosPermisos(), HttpStatus.OK);
+    }
+
+    @GetMapping("/permisos/{idPermiso}")
+    public ResponseEntity<?> obtenerPermiso(@PathVariable Long idPermiso){
+        return new ResponseEntity<>(rolService.buscarPermisoPorId(idPermiso).get(), HttpStatus.OK);
+    }
+
+    @PutMapping("/permisos")
+    public ResponseEntity<?> actualizarPermiso(@RequestBody Permiso permiso){
+
+        return new ResponseEntity<>(rolService.guardar(permiso), HttpStatus.CREATED);
+    }
+
+    private void agregarHistorial(Usuario usuarioActual, List<String> rolesFront) {
+        HistoriaUsuario historial = new HistoriaUsuario();
+        String detalle = "";
+        List<String> rolesUsuarioActual = cambiarRolesToString(cambiarSetToList(usuarioActual.getRoles()));
+
+        if(rolesUsuarioActual.size() > rolesFront.size()){
+            detalle += "Se quitó el siguiente rol ";
+            for (String rol: rolesUsuarioActual) {
+                if(!rolesFront.contains(rol)){
+                    detalle += rol + " ";
+                }
+            }
+        }
+
+        if(rolesFront.size() > rolesUsuarioActual.size()){
+            detalle += "Se agregó el siguiente rol ";
+            for (String rol: rolesFront) {
+                if(!rolesUsuarioActual.contains(rol)){
+                    detalle += rol + " ";
+                }
+            }
+        }
+
+        historial.setDetalle(detalle);
+        historial.setUsuario(usuarioActual);
+        usuarioService.crearHistoriaUsuario(historial);
+    }
+
+    private List<Rol> cambiarSetToList(Set<Rol> roles){
+        List<Rol> rolesCambiados = new ArrayList<>();
+        roles.stream().forEach(r -> rolesCambiados.add(r));
+        return rolesCambiados;
+    }
+
+    public List<String> cambiarRolesToString(List<Rol> roles){
+        return roles.stream().map(rol -> rol.getRolNombre()).collect(Collectors.toList());
+    }
+
+    public Set<Rol> cambiarRolesListToSet(List<Rol> roles) {
+        return roles.stream()
+                .map(r -> new Rol(r.getId(), r.getRolNombre()))
+                .collect(Collectors.toSet());
     }
 
 

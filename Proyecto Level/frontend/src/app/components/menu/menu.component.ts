@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RoutesRecognized } from '@angular/router';
 import { TokenService } from 'src/app/pages/login/service/token.service';
 
 @Component({
@@ -17,42 +17,57 @@ export class MenuComponent implements OnInit {
   opcionesActivas: boolean = false;
 
   codigo: string = '';
-
+  rutasActivas = [];
   rutas = [
     {
       path: '/cajeros',
       name: 'Cajeros',
-      permiso: 'ROLE_CAJERO',
+      permiso: 'CAJA',
       activo: false
     },
     {
-      path: '/administrador', name: 'Administracion', permiso: 'ROLE_ADMIN',
+      path: '/administrador', 
+      name: 'Administración', 
+      permiso: 'ADMINISTRACION',
       activo: false
     },
     {
       path: '/cocineros',
       name: 'Cocineros',
-      permiso: 'ROLE_COCINERO',
+      permiso: 'COCINA',
       activo: false
     },
     {
-      path: '/mozos',
-      name: 'Mozos',
-      permiso: 'ROLE_MOZO',
+      path: '/mesas',
+      name: 'Mesas',
+      permiso: 'MESAS',
       activo: false
     },
     {
       path: '/pedidos-mozo',
       name: 'Pedidos del mozo',
-      permiso: 'ROLE_MOZO',
+      permiso: 'LISTAR_PEDIDOS_MOZO',
       activo: false
     }
   ];
   
   isLogged = false;
-  constructor(private tokenService: TokenService, private router: Router) { }
+  constructor(private tokenService: TokenService, private router: Router) {
+    // this.router.events.subscribe((data) => {
+    //   if (data instanceof RoutesRecognized) {
+    //    console.log(data.state.root.firstChild.data.expectedPermisos)
+    //    let permisosEsperados = data.state.root.firstChild.data.expectedPermisos;
+    //    let ruta = data.state.root.firstChild.routeConfig.path;
+    //    console.log(data.state.root.firstChild.routeConfig.path)
+    //     this.rutasActivas.push({path: `/${ruta}`, permisosEsperados: permisosEsperados})
+    //   }
+    // });
+   }
   onLogOut(): void {
     this.tokenService.getAuthorities().forEach(rol => {
+      this.desactivarRoles(rol);
+    });
+    this.tokenService.getPermisos().forEach(rol => {
       this.desactivarRoles(rol);
     });
     this.tokenService.logOut();
@@ -70,9 +85,14 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tokenService.getAuthorities().forEach(rol => {
-      this.validarRoles(rol);
-    })
+    
+    this.tokenService.getPermisos()
+        .forEach(p => {
+          this.validarRoles(p)
+        })
+    // this.tokenService.getAuthorities().forEach(rol => {
+    //   this.validarRoles(rol);
+    // })
     
     this.tokenService.loginStatus$.subscribe(
       data => {
@@ -90,34 +110,38 @@ export class MenuComponent implements OnInit {
   }
 
   validarRoles(rol: string) {
-    if(rol == 'ROLE_CAJERO'){
+    if(rol == 'CAJA'){
       this.rutas[0].activo = true;
     }
-    if(rol == 'ROLE_ADMIN'){
+    if(rol == 'ADMINISTRACION'){
       this.rutas[1].activo = true;
     }
-    if(rol == 'ROLE_COCINERO'){
+    if(rol == 'COCINA'){
       this.rutas[2].activo = true;
     }
-    if(rol == 'ROLE_MOZO'){
+    if(rol == 'MESAS'){
       this.rutas[3].activo = true;
+    }
+    if(rol == 'LISTAR_PEDIDOS_MOZO'){
       this.rutas[4].activo = true;
     }
   }
 
   desactivarRoles(rol: string) {
-    if(rol == 'ROLE_CAJERO'){
+    if(rol == 'CAJA'){
       this.rutas[0].activo = false;
       console.log(this.rutas[0].activo)
     }
-    if(rol == 'ROLE_ADMIN'){
+    if(rol == 'ADMINISTRACION'){
       this.rutas[1].activo = false;
     }
-    if(rol == 'ROLE_COCINERO'){
+    if(rol == 'COCINA'){
       this.rutas[2].activo = false;
     }
-    if(rol == 'ROLE_MOZO'){
+    if(rol == 'MESAS'){
       this.rutas[3].activo = false;
+    }
+    if(rol == 'LISTAR_PEDIDOS_MOZO'){
       this.rutas[4].activo = false;
     }
   }

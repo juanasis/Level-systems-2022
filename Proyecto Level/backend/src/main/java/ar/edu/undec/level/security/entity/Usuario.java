@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 @Entity
 public class Usuario {
@@ -27,12 +28,14 @@ public class Usuario {
 
     private String tokenPassword;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id"),
     inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private Set<Rol> roles= new HashSet<>();
+
     @OneToMany(mappedBy = "mozo")
     private Collection<Pedido> pedidos;
+
     public Usuario( ) {
     }
 

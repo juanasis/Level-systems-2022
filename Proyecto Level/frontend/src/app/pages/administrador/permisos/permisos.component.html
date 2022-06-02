@@ -1,0 +1,25 @@
+<div class="container bg-white mt-5">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Permisos</th>
+            <th scope="col" *ngFor="let rol of roles">{{rol.rolNombre}}</th>
+            <th scope="col" >Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let permiso of permisos">
+            <th>{{permiso.nombre}}</th>
+            <th *ngFor="let rol of permiso.roles; index as i">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="{{permiso.nombre}}_{{i}}" name="{{permiso.nombre}}_{{i}}" [checked]="rol.asignado" disabled>
+              </div>
+            </th>
+            <th>
+              <button class="btn btn-info" (click)="goToActualizar(permiso.permisoId)" >Actualizar</button>
+            </th>
+          </tr>
+
+        </tbody>
+      </table>
+</div>

@@ -1,5 +1,7 @@
 package ar.edu.undec.level.security.service;
+import ar.edu.undec.level.security.entity.HistoriaUsuario;
 import ar.edu.undec.level.security.entity.Usuario;
+import ar.edu.undec.level.security.repository.HistoriaUsuarioRepository;
 import ar.edu.undec.level.security.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,10 @@ public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private HistoriaUsuarioRepository historiaUsuarioRepository;
+
     // devolver usuario por nombre de usuario
     public Optional<Usuario> getByNombreUsuario(String nombreUsuario){
         return usuarioRepository.findByNombreUsuario(nombreUsuario);
@@ -44,5 +50,13 @@ public class UsuarioService {
 
     public void save(Usuario usuario) {
         usuarioRepository.save(usuario);
+    }
+
+    public void crearHistoriaUsuario(HistoriaUsuario historiaUsuario){
+        historiaUsuarioRepository.save(historiaUsuario);
+    }
+
+    public List<HistoriaUsuario> listarHistorialUsuario(String nombreUsuario) {
+        return historiaUsuarioRepository.findByUsuario_NombreUsuario(nombreUsuario);
     }
 }

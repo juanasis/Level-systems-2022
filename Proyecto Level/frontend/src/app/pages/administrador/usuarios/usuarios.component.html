@@ -11,7 +11,7 @@
         <th scope="col">Usuario</th>
         <th scope="col">Categoria</th>
         <th scope="col">Rol</th>
-        <th scope="col">Acción</th>
+        <th scope="col">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -21,7 +21,10 @@
         <td>{{usuario.nombreUsuario}} </td>
         <td>{{usuario.email}} </td>
         <td><span class="badge badge-primary ms-1" *ngFor="let rol of usuario.roles">{{rol.rolNombre.toString().split('_')[1]}}</span></td>
-        <td><button class="btn btn-danger" (click)="eliminarUsuario(usuario.nombreUsuario)">Eliminar</button></td>
+        <td>
+          <button class="btn btn-info mr-2" [routerLink]="[usuario.nombreUsuario,'historial']">Historial</button>
+          <button class="btn btn-danger" (click)="eliminarUsuario(usuario.nombreUsuario)">Eliminar</button>
+        </td>
       </tr>
        
     </tbody>

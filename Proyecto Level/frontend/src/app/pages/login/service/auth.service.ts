@@ -7,6 +7,7 @@ import { JwtDTO } from '../models/jwt-dto';
 import { Role } from '../models/role';
 import { EmailDto } from '../models/email-dto';
 import { ChangePassword } from '../models/change-password';
+import { Permiso } from 'src/app/models/permiso';
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +70,20 @@ export class AuthService {
     return this.httpClient.delete<any>(this.authURL + 'eliminar-rol/'+idRol);
   }
 
+  public obtenerHistorialUsuario(nombreUsuario: string): Observable<any> {
+    return this.httpClient.get<any>(this.authURL + 'obtener-historial/' + nombreUsuario);
+  }
 
+  public listarPermisos(): Observable<Permiso[]> {
+    return this.httpClient.get<Permiso[]>(this.authURL + 'permisos');
+  }
+
+  public obtenerPermiso(id: number): Observable<any> {
+    return this.httpClient.get<any>(this.authURL + 'permisos/'+id);
+  }
+
+  public actualizarPermiso(permiso: Permiso): Observable<any> {
+    return this.httpClient.put<any>(this.authURL+'permisos', permiso);
+  }
 
 }

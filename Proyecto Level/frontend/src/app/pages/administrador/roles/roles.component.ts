@@ -19,7 +19,7 @@ export class RolesComponent implements OnInit {
         .subscribe(response => this.roles = response.data)
   }
 
-  eliminarRol(id: number) {
+  eliminarRol(rol: Role) {
     
     Swal.fire({
       title: '¿Está seguro de eliminar?',
@@ -31,7 +31,17 @@ export class RolesComponent implements OnInit {
       confirmButtonText: 'Confirmar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.authService.eliminarRol(id)
+
+        if(rol.usuarios.length > 0) {
+          Swal.fire(
+            'Error',
+            'No se puede eliminar un rol asignado a usuarios',
+            'error'
+          )
+          return
+        }
+
+        this.authService.eliminarRol(rol.id)
         .subscribe(() => {
           Swal.fire({
             position: 'center',
@@ -40,7 +50,7 @@ export class RolesComponent implements OnInit {
             showConfirmButton: true
           })
 
-          this.roles = this.roles.filter(r => r.id != id);
+          this.roles = this.roles.filter(r => r.id != rol.id);
         },err => {
           Swal.fire(
             'Upps',
