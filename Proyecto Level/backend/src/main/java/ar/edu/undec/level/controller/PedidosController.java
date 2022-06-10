@@ -54,8 +54,7 @@ public class PedidosController {
     @GetMapping("/cocina")
     public ResponseEntity<Response> getPedidosCocina(){
         Response response;
-        response = pedidosService.findAllPedidosCocina();
-
+        response = pedidosService.findAll();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/{id}")

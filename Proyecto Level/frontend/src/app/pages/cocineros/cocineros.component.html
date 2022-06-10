@@ -11,7 +11,7 @@
             <th scope="row">Mesa Nro {{pedido.idMesa}} </th>
             <div class="card-body">            
            
-            <tr *ngFor="let item of pedido.itemProductoCocinaDto" >
+            <tr *ngFor="let item of pedido.itemProductoDtoList" >
               <th  scope="row">*  {{item.cantidad}} - {{item.nombre}}   </th>
 
             </tr>

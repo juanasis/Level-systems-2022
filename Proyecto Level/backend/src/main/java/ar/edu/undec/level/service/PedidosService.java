@@ -171,7 +171,7 @@ public class PedidosService {
         Response response = new Response();
         try {
             List<Pedido> pedidosList = pedidosRepo.findAll();
-            List<PedidoDtoCocina> pedidosCocina = new ArrayList<>();
+        /*  List<PedidoDtoCocina> pedidosCocina = new ArrayList<>();
             for (Pedido pedidoEntity: pedidosList                ) {
                 PedidoDtoCocina pedidoDtoCocina  = new PedidoDtoCocina(pedidoEntity);
                 if(pedidoDtoCocina.getId() != null){
@@ -181,8 +181,8 @@ public class PedidosService {
 
 
             }
-
-            response.setData(pedidosCocina);
+        */
+            response.setData(pedidosList);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
