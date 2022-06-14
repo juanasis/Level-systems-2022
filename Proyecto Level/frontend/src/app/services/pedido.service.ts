@@ -17,7 +17,9 @@ export class PedidoService {
   public lista(): Observable<Pedido[]> {
     return this.httpClient.get<Pedido[]>(this.pedidoURL);
   }
-
+  public listaCocina(): Observable<Pedido[]> {
+    return this.httpClient.get<Pedido[]>(this.pedidoURL+"/cocina");
+  }
 
   public setPedido(pedido:PedidoDTO){
     this.pedidoSelected = pedido;

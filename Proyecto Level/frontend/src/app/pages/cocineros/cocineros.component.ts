@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { PedidoDTO } from 'src/app/models/pedidoDTO';
+
 import { Pedido } from 'src/app/models/pedido';
 import { PedidoService } from 'src/app/services/pedido.service';
 @Component({
@@ -16,7 +15,7 @@ export class CocinerosComponent implements OnInit {
     ngOnInit(): void {
       
        
-        this.pedidosService.lista().subscribe(
+        this.pedidosService.listaCocina().subscribe(
           (resp:any) =>{
             this.pedidos = resp.data;
          

@@ -167,22 +167,16 @@ public class PedidosService {
     }
 
     public Response findAllPedidosCocina() {//estado, mozo, mesa, hora, producto(cantidad, nombre, categoria)
-
         Response response = new Response();
         try {
             List<Pedido> pedidosList = pedidosRepo.findAll();
-        /*  List<PedidoDtoCocina> pedidosCocina = new ArrayList<>();
-            for (Pedido pedidoEntity: pedidosList                ) {
-                PedidoDtoCocina pedidoDtoCocina  = new PedidoDtoCocina(pedidoEntity);
-                if(pedidoDtoCocina.getId() != null){
-                    pedidosCocina.add(pedidoDtoCocina);
+            List<Pedido> pedidosCocina = new ArrayList<>();
+          for (Pedido pedidoEntity: pedidosList) {
+                if(pedidoEntity.getEstado() != EstadoPedido.CANCELADO && pedidoEntity.getEstado() != EstadoPedido.PAGADO  ){
+                    pedidosCocina.add(pedidoEntity);
                 }
-
-
-
             }
-        */
-            response.setData(pedidosList);
+            response.setData(pedidosCocina);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();

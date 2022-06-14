@@ -44,6 +44,10 @@ public class Pedido implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaQuery;
 
+    @Column(name = "hora_query")
+    @JsonFormat(pattern = "hh:mm:ss")
+    private LocalDateTime horaQuery;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"pedido","hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "pedido_id")
@@ -56,7 +60,9 @@ public class Pedido implements Serializable {
     public void prePersist(){
         this.fecha = LocalDateTime.now();
         this.fechaQuery = LocalDate.now();
+        this.horaQuery = LocalDateTime.now();
     }
+
 
     public Integer getId() {
         return id;
@@ -120,5 +126,13 @@ public class Pedido implements Serializable {
 
     public void setItemsList(Collection<ItemPedido> itemsList) {
         this.itemsList = itemsList;
+    }
+
+    public LocalDateTime getHoraQuery() {
+        return horaQuery;
+    }
+
+    public void setHoraQuery(LocalDateTime horaQuery) {
+        this.horaQuery = horaQuery;
     }
 }
