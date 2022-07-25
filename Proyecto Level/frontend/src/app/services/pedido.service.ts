@@ -17,9 +17,7 @@ export class PedidoService {
   public lista(): Observable<Pedido[]> {
     return this.httpClient.get<Pedido[]>(this.pedidoURL);
   }
-  public listaCocina(): Observable<Pedido[]> {
-    return this.httpClient.get<Pedido[]>(this.pedidoURL+"/cocina");
-  }
+
 
   public setPedido(pedido:PedidoDTO){
     this.pedidoSelected = pedido;
@@ -54,6 +52,10 @@ export class PedidoService {
 
   public obtenerPedidosActivosMozo(idMozo: number): Observable<any> {
     return this.httpClient.get<any>(`${this.pedidoURL}/pedidos-mozo/${idMozo}`);
+  }
+
+  public obtenerPedidosActivosCocina(): Observable<any> {
+    return this.httpClient.get<any>(`${this.pedidoURL}/pedidos-cocina`);
   }
 
 

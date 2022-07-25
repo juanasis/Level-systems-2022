@@ -10,4 +10,5 @@ import java.util.List;
 public interface PedidosRepository extends JpaRepository<Pedido, Integer> {
         List<Pedido> findByFechaQueryAndMesa_Id(LocalDate fechaHoy, Integer idMesa);
         List<Pedido> findByFechaQueryAndMozo_Id(LocalDate fechaHoy, Integer idMozo);
+        List<Pedido> findByFechaQuery(LocalDate fechaHoy);
 }

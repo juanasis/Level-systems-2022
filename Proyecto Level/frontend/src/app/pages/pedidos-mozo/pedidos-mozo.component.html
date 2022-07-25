@@ -17,8 +17,8 @@
                     <tbody>
                         <tr *ngFor="let pedido of pedidosMozo">
                             <td class="text-center"><span class="badge bg-primary">Mesa {{pedido.mesa.id}}</span></td>
-                            <td class="text-center"><img *ngIf="pedido.estado == 'ENCOLA'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
-                            <td class="text-center"><img *ngIf="pedido.estado == 'ENPREPARACION'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
+                            <td class="text-center"><img *ngIf="pedido.estado == 'EN_COLA'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
+                            <td class="text-center"><img *ngIf="pedido.estado == 'EN_PREPARACION'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
                             <td class="text-center"><img *ngIf="pedido.estado == 'LISTO'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
                             <td class="text-center">{{pedido.fecha}}</td>
                         </tr>

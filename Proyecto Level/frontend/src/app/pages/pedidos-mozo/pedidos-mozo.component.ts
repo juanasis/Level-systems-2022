@@ -23,7 +23,6 @@ export class PedidosMozoComponent implements OnInit {
           this.pedidoService.obtenerPedidosActivosMozo(response.data.id)
           .subscribe(response => {
             this.pedidosMozo = response.data;
-            console.log(this.pedidosMozo)
           });
         })
 

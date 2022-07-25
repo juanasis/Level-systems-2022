@@ -23,6 +23,7 @@ export class RolFormularioComponent implements OnInit {
             this.authService.obtenerRol(this.idRol)
                 .subscribe(response => {
                   this.rol = response.data;
+                  console.log(this.rol)
                 })
           }
         })
@@ -57,6 +58,7 @@ export class RolFormularioComponent implements OnInit {
   }
 
   actualizarRol() {
+    this.rol.permisos = [];
     this.authService.actualizarRol(this.rol)
         .subscribe(() => {
           Swal.fire(
@@ -67,7 +69,7 @@ export class RolFormularioComponent implements OnInit {
           this.router.navigate(['/administrador/roles']);
         }, err => {
 
-
+          console.log(err)
           if(err.error.mensaje){
             Swal.fire(
               'Upps',

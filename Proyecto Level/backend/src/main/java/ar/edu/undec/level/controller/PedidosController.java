@@ -55,6 +55,7 @@ public class PedidosController {
     public ResponseEntity<Response> getPedidosCocina(){
         Response response;
         response = pedidosService.findAllPedidosCocina();
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/{id}")
@@ -93,7 +94,12 @@ public class PedidosController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
+    @GetMapping("/pedidos-cocina")
+    public ResponseEntity<Response> obtenerPedidosActivosCocina(){
+        Response response = new Response();
+        response.setData(pedidosService.obtenerPedidosCocina());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 
 

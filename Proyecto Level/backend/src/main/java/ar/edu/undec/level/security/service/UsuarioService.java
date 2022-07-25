@@ -1,5 +1,7 @@
 package ar.edu.undec.level.security.service;
 import ar.edu.undec.level.security.entity.HistoriaUsuario;
+import ar.edu.undec.level.security.entity.Permiso;
+import ar.edu.undec.level.security.entity.Rol;
 import ar.edu.undec.level.security.entity.Usuario;
 import ar.edu.undec.level.security.repository.HistoriaUsuarioRepository;
 import ar.edu.undec.level.security.repository.UsuarioRepository;
@@ -7,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
+
 public class UsuarioService {
 
     @Autowired
@@ -49,7 +54,12 @@ public class UsuarioService {
     }
 
     public void save(Usuario usuario) {
+
         usuarioRepository.save(usuario);
+    }
+
+    public Optional<Usuario> buscarUsuarioPorId(Integer idUsuario) {
+        return usuarioRepository.findById(idUsuario);
     }
 
     public void crearHistoriaUsuario(HistoriaUsuario historiaUsuario){

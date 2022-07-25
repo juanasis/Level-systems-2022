@@ -42,7 +42,7 @@ public class PedidoDtoCocina {
             ItemProductoCocinaDto itemDto = new ItemProductoCocinaDto();
             itemDto.setNombre(item.getProducto().getNombre());
             itemDto.setCantidad(item.getCantidad());
-            itemDto.setCategoria(item.getProducto().getCategoria());
+            itemDto.setCategoria(item.getProducto().getCategoria().getNombre());
             if(item.getProducto().getCategoria().getNombre().equalsIgnoreCase( "menu") || item.getProducto().getCategoria().getNombre().equalsIgnoreCase( "sanwiches") ){
                 result.add(itemDto);
 

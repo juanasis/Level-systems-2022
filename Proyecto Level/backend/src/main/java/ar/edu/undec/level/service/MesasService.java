@@ -2,15 +2,12 @@ package ar.edu.undec.level.service;
 
 
 import ar.edu.undec.level.controller.MesaController;
-import ar.edu.undec.level.controller.dto.MesaRequest;
-import ar.edu.undec.level.controller.dto.PedidoDto;
 import ar.edu.undec.level.controller.dto.Response;
 import ar.edu.undec.level.storage.entity.EstadoMesa;
 import ar.edu.undec.level.storage.entity.EstadoPedido;
 import ar.edu.undec.level.storage.entity.Mesa;
 import ar.edu.undec.level.storage.entity.Pedido;
 import ar.edu.undec.level.storage.repository.MesaRepository;
-import org.aspectj.bridge.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -19,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
@@ -56,11 +52,12 @@ public class MesasService {
         try {
             List<Mesa> mesaList = mesaRepository.findAll();
             mesaList.forEach(m -> {
-
                 List<Pedido> pedidosActivos = m.getPedidos().stream()
-                        .filter(p -> p.getEstado().equals(EstadoPedido.ENPREPARACION) || p.getEstado().equals(EstadoPedido.ENCOLA )|| p.getEstado().equals(EstadoPedido.LISTO))
+                        .filter(p ->
+                                p.getEstado().equals(EstadoPedido.EN_PREPARACION) ||
+                                p.getEstado().equals(EstadoPedido.EN_COLA )||
+                                p.getEstado().equals(EstadoPedido.LISTO))
                         .collect(Collectors.toList());
-
 
                 if(pedidosActivos.size() > 0) {
                     m.setEstado(EstadoMesa.OCUPADA);
@@ -68,8 +65,8 @@ public class MesasService {
                     m.setEstado(EstadoMesa.LIBRE);
                 }
             });
-            mesaRepository.saveAll(mesaList);
-            response.setData(mesaList);
+            List<Mesa> mesas = mesaRepository.saveAll(mesaList);
+            response.setData(mesas);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();

@@ -1,16 +1,14 @@
 package ar.edu.undec.level.controller.dto;
 
-import ar.edu.undec.level.storage.entity.Categoria;
-
 import java.math.BigDecimal;
 
 public class ItemProductoCocinaDto {
     private String nombre;
     private Integer cantidad;
-    private Categoria categoria;
+    private String categoria;
 
     public ItemProductoCocinaDto(){}
-    public ItemProductoCocinaDto(String nombre,  Integer cantidad,Categoria categoria) {
+    public ItemProductoCocinaDto(String nombre,  Integer cantidad,String categoria) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.categoria = categoria;
@@ -34,11 +32,11 @@ public class ItemProductoCocinaDto {
         this.cantidad = cantidad;
     }
 
-    public Categoria getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Categoria categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 }

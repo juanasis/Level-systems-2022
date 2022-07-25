@@ -16,7 +16,10 @@ export class RolesComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getRoles()
-        .subscribe(response => this.roles = response.data)
+        .subscribe(response => {
+          console.log(response)
+          this.roles = response.data
+        })
   }
 
   eliminarRol(rol: Role) {
@@ -32,11 +35,11 @@ export class RolesComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        if(rol.usuarios.length > 0) {
+        if( rol.permisos.length > 0 || rol.usuarios.length > 0) {
           Swal.fire(
             'Error',
-            'No se puede eliminar un rol asignado a usuarios',
-            'error'
+            'No se puede eliminar un rol asignado a usuarios o con permisos',
+            'info'
           )
           return
         }

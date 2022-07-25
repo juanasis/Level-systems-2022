@@ -100,6 +100,12 @@ export class ClientesComponent implements OnInit {
                 setInterval(() => {
                   window.location.reload()
                 }, 1300)
+            }, err => {
+              Swal.fire(
+                'Abrir caja',
+                err.error.message,
+                'info'
+              )
             })
         
           

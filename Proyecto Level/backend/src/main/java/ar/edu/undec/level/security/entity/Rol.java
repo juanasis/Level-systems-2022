@@ -1,13 +1,10 @@
 package ar.edu.undec.level.security.entity;
 
-import ar.edu.undec.level.security.enums.RolNombre;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,9 +17,9 @@ public class Rol {
     private String rolNombre;
 
 //    @JsonIgnore
-//    @JsonIgnoreProperties({"roles","hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
-    private List<Permiso> permisos;
+    private Set<Permiso> permisos;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
     @JsonIgnoreProperties({"roles","hibernateLazyInitializer", "handler"})
@@ -55,11 +52,11 @@ public class Rol {
         return rolNombre;
     }
 
-    public List<Permiso> getPermisos() {
+    public Set<Permiso> getPermisos() {
         return permisos;
     }
 
-    public void setPermisos(List<Permiso> permisos) {
+    public void setPermisos(Set<Permiso> permisos) {
         this.permisos = permisos;
     }
 

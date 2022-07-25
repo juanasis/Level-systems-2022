@@ -93,6 +93,7 @@ export class MozosComponent implements OnInit {
     pedidoActualizar.tipoPago = pedido.tipoPago;
     pedidoActualizar.estado = 'PAGADO';
     pedidoActualizar.id = pedido.id;
+    console.log(pedidoActualizar)
     this.pedidoService.update(pedidoActualizar)
         .subscribe(response => {
 

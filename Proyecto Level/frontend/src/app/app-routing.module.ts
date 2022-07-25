@@ -21,10 +21,17 @@ import { RolesComponent } from './pages/administrador/roles/roles.component';
 import { PermisosComponent } from './pages/administrador/permisos/permisos.component';
 import { ActualizarPermisoComponent } from './pages/administrador/permisos/actualizar-permiso/actualizar-permiso.component';
 import { HistorialUsuarioComponent } from './pages/administrador/usuarios/historial-usuario/historial-usuario.component';
+import { CajaActivaComponent } from './pages/cajeros/caja-activa/caja-activa.component';
  
-const routes: Routes = [  {
+const routes: Routes = [  
+{
   path: 'cajeros',
   component: CajerosComponent,
+  canActivate: [guard], data: {expectedPermisos: ['CAJA']}
+},
+{
+  path: 'cajeros/caja-activa',
+  component: CajaActivaComponent,
   canActivate: [guard], data: {expectedPermisos: ['CAJA']}
 },
 {
@@ -40,7 +47,7 @@ const routes: Routes = [  {
 {
   path: 'cocineros',
   component: CocinerosComponent,
-  canActivate: [guard], data: {expectedPermisos: ['COCINERO']}
+  canActivate: [guard], data: {expectedPermisos: ['COCINA']}
 },
 {
   path: 'administrador', 

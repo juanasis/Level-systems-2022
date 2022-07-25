@@ -1,19 +1,14 @@
 package ar.edu.undec.level.service;
 
 import ar.edu.undec.level.controller.dto.*;
+import ar.edu.undec.level.security.dto.EmailDto;
 import ar.edu.undec.level.security.repository.UsuarioRepository;
-import ar.edu.undec.level.storage.entity.EstadoPedido;
-import ar.edu.undec.level.storage.entity.ItemPedido;
-import ar.edu.undec.level.storage.entity.Pedido;
-import ar.edu.undec.level.storage.entity.Producto;
+import ar.edu.undec.level.storage.entity.*;
 import ar.edu.undec.level.storage.repository.*;
-//import org.jcp.xml.dsig.internal.dom.Utils;
 import org.slf4j.Logger;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -32,32 +27,29 @@ public class PedidosService {
     private MesaRepository mesaRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private CajaRepository cajaRepository;
+
     static final Logger LOGGER = LoggerFactory.getLogger(PedidosService.class);
 
 
     public Response save(Pedido pedido) {
         Response response = new Response();
-//        Pedido entity = new Pedido();
-//        entity.setMozo(usuarioRepository.findByNombreUsuario(request.getNombreUsuarioMozo()).get());
-//        entity.setTipoPago(request.getTipoPago());
-//        entity.setMesa(mesaRepository.findById(request.getIdMesa()).get());
-        pedido.setEstado(EstadoPedido.ENCOLA);
-
+        pedido.setEstado(EstadoPedido.EN_COLA);
 
         try {
+            Optional<Caja> cajaAbierta = cajaRepository.buscarCajaActiva(EstadoCaja.ABIERTO);
+            if(!cajaAbierta.isPresent()) {
+                throw new RuntimeException("No hay una caja activa, por favor aperture una caja para poder realizar un pedido");
+            }
+            Caja cajaEncontrada = new Caja();
+            cajaEncontrada.setIdCaja(cajaAbierta.get().getIdCaja());
+            pedido.setCaja(cajaEncontrada);
             Pedido pedidoGuardado = pedidosRepo.save(pedido);
-
-//            pedido.getItemsList().forEach(item -> {
-//                item.setPedido(pedido);
-//                itemPedidoRepo.save(item);
-//            });
-
-
-
            response.setData(pedidoGuardado);
-
-
-
        } catch (Exception e) {
            LOGGER.error(e.getMessage());
            e.printStackTrace();
@@ -66,28 +58,6 @@ public class PedidosService {
         return response;
     }
 
-//    private List<ItemPedido> getListaItems(Pedido pedido) {
-//        List<ItemPedido> result = new ArrayList<>();
-//
-//        pedido.getItemsList().forEach(item -> {
-//
-//            result.add(item);
-//            itemPedidoRepo.save(item);
-//        });
-
-//        for (ItemPedidoDto itemPedidoDto: pedidoRequest.getItems()) {
-//            ItemPedido item = new ItemPedido(itemPedidoDto);
-//            item.setPedido(entity);
-//            System.out.println(itemPedidoDto.getProducto_id());
-//            item.setProducto(productosRepo.getOne(itemPedidoDto.getProducto_id()));
-//            System.out.println(item.getProducto().getNombre());
-//            item.setCantidad(itemPedidoDto.getCantidad());
-//            item.setPrecio(itemPedidoDto.getPrecio());
-//            result.add(item);
-//            itemPedidoRepo.save(item);
-//        }
-//        return result;
-//    }
     public Response findAll() {
         Response  response = new Response();
         try {
@@ -132,10 +102,31 @@ public class PedidosService {
         Response response = new Response();
         try {
             Pedido pedidoEncontrado = pedidosRepo.findById(pedido.getId()).get();
+            Optional<Caja> cajaAbierta = cajaRepository.buscarCajaActiva(EstadoCaja.ABIERTO);
+            if(!cajaAbierta.isPresent()) {
+                throw new RuntimeException("No hay una caja activa, por favor aperture una caja.");
+            }
+
+            if(!cajaAbierta.get().getIdCaja().equals(pedidoEncontrado.getCaja().getIdCaja())) {
+                throw new RuntimeException("No se puede puede actualizar pedidos de una caja cerrada.");
+            }
+
+            Caja cajaEncontrada = new Caja();
+            cajaEncontrada.setIdCaja(cajaAbierta.get().getIdCaja());
+            pedido.setCaja(cajaEncontrada);
+
+
             pedidoEncontrado.setTipoPago(pedido.getTipoPago());
             pedidoEncontrado.setEstado(pedido.getEstado());
-//            BeanUtils.copyProperties(pedido, pedidoEncontrado);
+            pedidoEncontrado.setItemsList(pedido.getItemsList());
+
+            if(pedido.getEmailUsuario() != null) {
+                emailService.enviarComprobante(pedido.getEmailUsuario(), pedidoEncontrado);
+                pedidoEncontrado.setEmailUsuario(pedido.getEmailUsuario());
+            }
             pedidosRepo.save(pedidoEncontrado);
+
+
             response.setData(pedidoEncontrado);
 
         } catch (Exception e) {
@@ -167,15 +158,21 @@ public class PedidosService {
     }
 
     public Response findAllPedidosCocina() {//estado, mozo, mesa, hora, producto(cantidad, nombre, categoria)
+
         Response response = new Response();
         try {
             List<Pedido> pedidosList = pedidosRepo.findAll();
-            List<Pedido> pedidosCocina = new ArrayList<>();
-          for (Pedido pedidoEntity: pedidosList) {
-                if(pedidoEntity.getEstado() != EstadoPedido.CANCELADO && pedidoEntity.getEstado() != EstadoPedido.PAGADO  ){
-                    pedidosCocina.add(pedidoEntity);
+            List<PedidoDtoCocina> pedidosCocina = new ArrayList<>();
+            for (Pedido pedidoEntity: pedidosList                ) {
+                PedidoDtoCocina pedidoDtoCocina  = new PedidoDtoCocina(pedidoEntity);
+                if(pedidoDtoCocina.getId() != null){
+                    pedidosCocina.add(pedidoDtoCocina);
                 }
+
+
+
             }
+
             response.setData(pedidosCocina);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -222,7 +219,11 @@ public class PedidosService {
         LocalDate fechaActual = LocalDate.now();
         List<Pedido> pedidosEncontrados = pedidosRepo.findByFechaQueryAndMesa_Id(fechaActual, idMesa);
         return pedidosEncontrados.stream()
-                .filter(p -> p.getEstado().equals(EstadoPedido.ENCOLA) || p.getEstado().equals(EstadoPedido.ENPREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
+                .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
+                .map(p -> {
+                    p.setCaja(null);
+                    return p;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -232,7 +233,24 @@ public class PedidosService {
         System.out.println(pedidosEncontrados.size());
 
         return pedidosEncontrados.stream()
-                .filter(p -> p.getEstado().equals(EstadoPedido.ENCOLA) || p.getEstado().equals(EstadoPedido.ENPREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
+                .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
+                .map(p -> {
+                    p.setCaja(null);
+                    return p;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<Pedido> obtenerPedidosCocina(){
+        LocalDate fechaActual = LocalDate.now();
+        List<Pedido> pedidosEncontrados = pedidosRepo.findByFechaQuery(fechaActual);
+
+        return pedidosEncontrados.stream()
+                .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
+                .map(p -> {
+                    p.setCaja(null);
+                    return p;
+                })
                 .collect(Collectors.toList());
     }
 }

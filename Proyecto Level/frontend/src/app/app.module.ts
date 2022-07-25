@@ -23,6 +23,7 @@ import { UsuarioFormComponent } from "./pages/administrador/usuarios/usuario-for
 import { RecuperarPasswordComponent } from "./pages/recuperar-password/recuperar-password.component";
 import { RolesComponent } from "./pages/administrador/roles/roles.component";
 import { RolFormularioComponent } from "./pages/administrador/roles/rol-formulario/rol-formulario.component";
+import { CajaActivaComponent } from "./pages/cajeros/caja-activa/caja-activa.component";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { RolFormularioComponent } from "./pages/administrador/roles/rol-formular
     UploadFilesComponent,
     RecuperarPasswordComponent,
     RolesComponent,
-    RolFormularioComponent
+    RolFormularioComponent,
+    CajaActivaComponent
   ],
   imports: [
     BrowserModule,

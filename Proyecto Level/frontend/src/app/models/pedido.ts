@@ -13,6 +13,7 @@ export class Pedido {
     estado: string;
     fecha: Date;
     tipoPago: string;
+    emailUsuario: string;
 
     constructor(){
         this.itemsList = [];

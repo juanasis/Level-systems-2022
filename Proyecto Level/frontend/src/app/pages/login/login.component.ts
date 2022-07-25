@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
       data => {
         this.isLogged = true;
         console.log("adentro login");
-
+        console.log(data)
         this.tokenService.setToken(data.token);
         this.tokenService.setUserName(data.nombreUsuario);
         this.tokenService.setAuthorities(data.authorities);
@@ -62,6 +62,7 @@ export class LoginComponent implements OnInit {
         .subscribe(response => {
           let permisos: string[] = [];
           response.data.roles.forEach(rol => {
+            console.log(rol)
             rol.permisos.forEach(permiso => {
               if(permisos.includes(permiso.nombre)) return
               permisos.push(permiso.nombre);

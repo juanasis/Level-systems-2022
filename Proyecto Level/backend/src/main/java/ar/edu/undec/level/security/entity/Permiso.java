@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Permiso {
@@ -20,7 +21,7 @@ public class Permiso {
             name = "permisos_roles",
             joinColumns = @JoinColumn(name = "permisoId"),
             inverseJoinColumns = @JoinColumn(name = "id"))
-    private List<Rol> roles;
+    private Set<Rol> roles;
 
     public Long getPermisoId() {
         return permisoId;
@@ -38,11 +39,11 @@ public class Permiso {
         this.nombre = nombre;
     }
 
-    public List<Rol> getRoles() {
+    public Set<Rol> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Rol> roles) {
+    public void setRoles(Set<Rol> roles) {
         this.roles = roles;
     }
 }

@@ -18,6 +18,7 @@ public class Pedido implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne //muchos pedidos para un mozo
@@ -36,6 +37,8 @@ public class Pedido implements Serializable {
 
     private TipoPago tipoPago;
 
+    private String emailUsuario;
+
     @Column(name = "fecha")
     @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime fecha;
@@ -44,14 +47,16 @@ public class Pedido implements Serializable {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaQuery;
 
-    @Column(name = "hora_query")
-    @JsonFormat(pattern = "hh:mm:ss")
-    private LocalDateTime horaQuery;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"pedido","hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "pedido_id")
     private Collection<ItemPedido> itemsList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_caja")
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
+    private Caja caja;
 
 
     private static final long serialVersionUID = 1L;
@@ -60,9 +65,7 @@ public class Pedido implements Serializable {
     public void prePersist(){
         this.fecha = LocalDateTime.now();
         this.fechaQuery = LocalDate.now();
-        this.horaQuery = LocalDateTime.now();
     }
-
 
     public Integer getId() {
         return id;
@@ -128,11 +131,19 @@ public class Pedido implements Serializable {
         this.itemsList = itemsList;
     }
 
-    public LocalDateTime getHoraQuery() {
-        return horaQuery;
+    public Caja getCaja() {
+        return caja;
     }
 
-    public void setHoraQuery(LocalDateTime horaQuery) {
-        this.horaQuery = horaQuery;
+    public void setCaja(Caja caja) {
+        this.caja = caja;
+    }
+
+    public String getEmailUsuario() {
+        return emailUsuario;
+    }
+
+    public void setEmailUsuario(String emailUsuario) {
+        this.emailUsuario = emailUsuario;
     }
 }

@@ -34,8 +34,6 @@ export class UsuarioFormComponent implements OnInit {
     this.activatedRoute.params
         .subscribe(params => {
           this.nombreUsuario = params['nombreUsuario'];
-          this.authService.obtenerHistorialUsuario(this.nombreUsuario)
-              .subscribe(response => console.log(response));
           if(this.nombreUsuario) {
             this.authService.buscarPorNonbreUsuario(this.nombreUsuario)
                 .subscribe(response => {
@@ -46,6 +44,7 @@ export class UsuarioFormComponent implements OnInit {
 
                   this.authService.getRoles().subscribe(
                     response => {
+                      console.log(response)
                       this.roles = response.data;
                       this.rolesAsignados.forEach(rol => {
                         rol.asignado = true;
@@ -96,6 +95,8 @@ export class UsuarioFormComponent implements OnInit {
     }
 
     this.nuevoUsuario.roles = this.rolesAsignados;
+    this.nuevoUsuario.roles.forEach(r=>r.permisos = [])
+    this.nuevoUsuario.roles.forEach(r=>r.usuarios = [])
     console.log(this.nuevoUsuario)
     this.authService.nuevo(this.nuevoUsuario)
         .subscribe(response => {
@@ -113,13 +114,15 @@ export class UsuarioFormComponent implements OnInit {
 
 
   actualizarUsuario() {
-    this.nuevoUsuario.roles.forEach(r=>r.permisos = [])
-    this.nuevoUsuario.roles.forEach(r=>r.usuarios = [])
+    
     if(this.rolesAsignados.length == 0) {
       this.mensajeErrorRoles = 'Seleccione al menos 1 rol';
       return
     }
     this.nuevoUsuario.roles = this.rolesAsignados;
+    this.nuevoUsuario.roles.forEach(r=>r.permisos = [])
+    this.nuevoUsuario.roles.forEach(r=>r.usuarios = [])
+    console.log(this.nuevoUsuario)
     this.authService.actualizarUsuario(this.nuevoUsuario)
         .subscribe(() => {
           Swal.fire(

@@ -65,7 +65,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleException(Exception ex) {
         Response response = new Response();
         response.setStatus(999);
-        response.setMessage(ex.getStackTrace()[0].getClassName() + " - " + ex.getStackTrace()[0].getMethodName() + " - " + ex.getClass() + " - " + ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        response.setMessage(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 }

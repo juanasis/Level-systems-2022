@@ -18,12 +18,7 @@ import { HistorialUsuarioComponent } from './administrador/usuarios/historial-us
       
       ActualizarPermisoComponent,
       
-      HistorialUsuarioComponent,
-
-      
-      
-      
-       
+      HistorialUsuarioComponent
       
          ],
     imports: [

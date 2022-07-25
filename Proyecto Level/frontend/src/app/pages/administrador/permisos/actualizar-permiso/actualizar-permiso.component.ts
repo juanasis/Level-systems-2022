@@ -30,9 +30,12 @@ export class ActualizarPermisoComponent implements OnInit {
                     this.roles = response.data;
                     this.permiso.roles.forEach(rol => {
                       rol.asignado = true;
+                      rol.usuarios = []
                       this.roles.forEach(r => {
+                        
                         if(rol.id === r.id) {
                           r.asignado = true;
+                          
                         }
                       })
                     })
@@ -45,7 +48,7 @@ export class ActualizarPermisoComponent implements OnInit {
   }
 
   asignarRol(rol: Role): void {
-
+    let rolNuevo: Role = new Role();
     if(this.permiso.roles.length > 0){
       let encontrado = false;
       this.permiso.roles.forEach(r => {
@@ -56,10 +59,14 @@ export class ActualizarPermisoComponent implements OnInit {
         }
       })
       if(!encontrado){
-        this.permiso.roles.push(rol);
+        rolNuevo.id = rol.id;
+        rolNuevo.rolNombre = rol.rolNombre
+        this.permiso.roles.push(rolNuevo);
       }
     }else{
-      this.permiso.roles.push(rol);
+      rolNuevo.id = rol.id;
+      rolNuevo.rolNombre = rol.rolNombre
+      this.permiso.roles.push(rolNuevo);
     }
     console.log(this.permiso.roles)
   }

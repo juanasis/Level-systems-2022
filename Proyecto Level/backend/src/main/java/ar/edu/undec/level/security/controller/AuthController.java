@@ -70,33 +70,6 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("ese email ya existe"), HttpStatus.BAD_REQUEST);
         }
 
-
-//        Set<Rol> roles = new HashSet<>();
-
-//        if(nuevoUsuario.getRoles().get(0) != null){
-//            String rol = nuevoUsuario.getRoles().get(0);
-//            switch (rol){
-//                case "ROLE_ADMIN":
-//                    agregarRol(roles, RolNombre.ROLE_ADMIN);
-//                    break;
-//                case "ROLE_CAJERO":
-//                    agregarRol(roles, RolNombre.ROLE_CAJERO);
-//                    break;
-//                case "ROLE_CLIENTE":
-//                    agregarRol(roles, RolNombre.ROLE_CLIENTE);
-//                    break;
-//                case "ROLE_MOZO":
-//                    agregarRol(roles, RolNombre.ROLE_MOZO);
-//                    break;
-//                case "ROLE_COCINERO":
-//                    agregarRol(roles, RolNombre.ROLE_COCINERO);
-//                    break;
-//                default:
-//                    agregarRol(roles, RolNombre.ROLE_CLIENTE);
-//            }
-//        }
-
-
         Usuario usuario =
                 new Usuario(nuevoUsuario.getNombre(), nuevoUsuario.getApellido(), nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(),
                         passwordEncoder.encode(nuevoUsuario.getPassword()));
@@ -214,6 +187,26 @@ public class AuthController {
         usuarioOk.setRoles(cambiarRolesListToSet(usuario.getRoles()));
         usuarioService.save(usuarioOk);
         return new ResponseEntity<>(new Mensaje("Usuario actualizado"), HttpStatus.CREATED);
+    }
+
+    private List<Rol> cambiarSetToList(Set<Rol> roles){
+        List<Rol> rolesCambiados = new ArrayList<>();
+        roles.stream().forEach(r -> rolesCambiados.add(r));
+        return rolesCambiados;
+    }
+
+    public List<String> cambiarRolesToString(List<Rol> roles){
+        return roles.stream().map(Rol::getRolNombre).collect(Collectors.toList());
+    }
+
+    public Set<Rol> cambiarRolesListToSet(List<Rol> roles) {
+        return roles.stream()
+                .map(r -> {
+                    Rol rolNuevo = new Rol(r.getId(), r.getRolNombre());
+                    rolNuevo.setPermisos(r.getPermisos());
+                    return rolNuevo;
+                })
+                .collect(Collectors.toSet());
     }
 
     @DeleteMapping("/eliminar-usuario/{nombreUsuario}")
@@ -335,21 +328,7 @@ public class AuthController {
         usuarioService.crearHistoriaUsuario(historial);
     }
 
-    private List<Rol> cambiarSetToList(Set<Rol> roles){
-        List<Rol> rolesCambiados = new ArrayList<>();
-        roles.stream().forEach(r -> rolesCambiados.add(r));
-        return rolesCambiados;
-    }
 
-    public List<String> cambiarRolesToString(List<Rol> roles){
-        return roles.stream().map(rol -> rol.getRolNombre()).collect(Collectors.toList());
-    }
-
-    public Set<Rol> cambiarRolesListToSet(List<Rol> roles) {
-        return roles.stream()
-                .map(r -> new Rol(r.getId(), r.getRolNombre()))
-                .collect(Collectors.toSet());
-    }
 
 
 }
