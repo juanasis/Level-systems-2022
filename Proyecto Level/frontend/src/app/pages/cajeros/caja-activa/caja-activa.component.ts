@@ -20,10 +20,11 @@ export class CajaActivaComponent implements OnInit {
   pedidoSeleccionado: Pedido;
   pedidoSeleccionadoAux: Pedido;
 
-  estados = ['PAGADO', 'CANCELADO'];
+  estados = ['PAGADO', 'CANCELADO','EN_PREPARACION', 'EN_COLA', 'LISTO'];
   tiposPagos = ['EFECTIVO', 'TARJETA'];
   estadoSeleccionado: string;
   tipoPagoSeleccionado: string;
+  botonActivado: boolean = false;
 
   sendEmalActivo: boolean = false;
 
@@ -68,12 +69,22 @@ mostrarDetallePedido(pedido: Pedido){
 actualizarPedido() {
   let pedidoActualizar : Pedido = new Pedido();
 
-  pedidoActualizar.tipoPago = this.tipoPagoSeleccionado;
-  pedidoActualizar.estado = this.estadoSeleccionado;
+  if(!this.pedidoSeleccionado.estado.includes('CANCELADO') && !this.pedidoSeleccionado.estado.includes('PAGADO')) {
+    Swal.fire('Alerta', 'Seleccione CANCELADO O PAGADO','info')
+    return
+  }
+
+  if(!this.pedidoSeleccionado.tipoPago) {
+    Swal.fire('Alerta', 'Seleccione un tipo de pago','info')
+    return
+  }
+
+  pedidoActualizar.tipoPago = this.pedidoSeleccionado.tipoPago;
+  pedidoActualizar.estado = this.pedidoSeleccionado.estado;
   pedidoActualizar.id = this.pedidoSeleccionado.id;
   pedidoActualizar.itemsList = this.pedidoSeleccionado.itemsList;
   pedidoActualizar.emailUsuario = this.pedidoSeleccionado.emailUsuario;
-  console.log(pedidoActualizar)
+
   this.pedidoService.update(pedidoActualizar)
       .subscribe(response => {
         if(pedidoActualizar.estado == 'CANCELADO'){

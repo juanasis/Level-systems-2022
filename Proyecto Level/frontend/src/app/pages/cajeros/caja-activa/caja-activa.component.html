@@ -1,147 +1,147 @@
 <div class="container bg-white rounded">
 
 
-    <div class="mt-5 rounded-3 pb-5" style="width: 80%; margin: auto; min-height: 500px;">
-        <div class="d-flex">
-            <h3 class="mt-1">CAJA</h3>
-            <div class="d-flex align-items-center">
-                <a class="badge badge-danger  ms-1" (click)="cerrarCaja()" style="text-decoration: none; cursor: pointer;">Cerrar caja</a>
-            </div>
-            
-        </div>
-        
-        <div class="d-flex">
-            <div  class="shadow p-3 bg-white rounded">
-                Inicio $: <span class="badge badge-secondary  ms-1">{{cajaDtoOut.monto_inicial | currency:'$'}}</span>
-            </div>
-            <div  class="shadow p-3 bg-white rounded ms-1">
-                Final $: 
-                <span class="badge badge-secondary  ms-1" *ngIf="cajaDtoOut.monto_final">{{cajaDtoOut.monto_final | currency:'$'}}</span>
-                <!-- <span class="badge badge-secondary  ms-2" *ngIf="!cajaDtoOut.monto_final">{{cajaDtoOut.monto_final | currency:'$'}}</span> -->
-            </div>
-            <div  class="shadow p-3 bg-white rounded ms-1">
-                Apertura: <span class="badge badge-secondary  ms-1">{{cajaDtoOut.fecha_apertura}}</span>
-            </div>
-            <div  class="shadow p-3  bg-white rounded ms-1">
-                Cierre: 
-                <span class="badge badge-secondary  ms-1" *ngIf="cajaDtoOut.fecha_cierre">{{cajaDtoOut.fecha_cierre}}</span>
-                <span class="badge badge-secondary  ms-1" *ngIf="!cajaDtoOut.fecha_cierre">Abierto</span>
-            </div>
-            <div  class="shadow p-3 bg-white rounded ms-1">
-                Cajero: <span class="badge badge-secondary  ms-1">{{cajaDtoOut.cajero?.nombre}}</span>
-            </div>
-        </div>
-        
-
-
-  <div class="container mt-4" *ngIf="cajaDtoOut.pedidos.length == 0">
-    <div class="alert alert-info" role="alert">
-      No hay pedidos en esta sección.
-    </div>
-  </div>
-
-  <div class="row my-4" *ngIf="cajaDtoOut.pedidos.length > 0">
-
-
-          <table class="table table-hover table-bordered" >
-            <thead class="text-center">
-                <th scope="col">Id</th>
-                <th scope="col">Mesa</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Tipo de pago</th>
-                <th scope="col">Total</th>
-                <th scope="col">Detalle</th>
-            </thead>
-            <tbody class="text-center">
-              <tr *ngFor="let pedido of cajaDtoOut.pedidos">
-                <td><button class="btn btn-primary btn-sm"> {{pedido.id}}</button></td>
-                <td><span class="badge badge-light text-dark"> MESA: {{pedido.mesa.id}}</span></td>
-                <td>{{ pedido.fecha}}</td>
-                <td>
-                    <div class="btn btn-danger btn-sm btn-block font-weight-bold" *ngIf="pedido.estado == 'CANCELADO'">CANCELADO</div>  
-                    <div class="btn btn-success btn-sm btn-block font-weight-bold" *ngIf="pedido.estado == 'PAGADO'">PAGADO</div>
-                    <div class="btn btn-warning btn-sm btn-block text-white font-weight-bold" *ngIf="pedido.estado != 'PAGADO' && pedido.estado != 'CANCELADO'">FALTA</div>
-                </td>
-                <td>
-                    <span *ngIf="pedido.tipoPago"><span class="badge badge-light text-dark">{{pedido.tipoPago}}</span></span>
-                    <span *ngIf="!pedido.tipoPago"><span class="badge badge-warning">FALTA</span></span>
-                </td>
-                <td>{{pedido.total | currency:'$'}}</td>
-                <td><button type="button" class="btn btn-outline-primary btn-block btn-sm" (click)="mostrarDetallePedido(pedido)"  data-toggle="modal" data-target="#staticBackdrop">Ver Detalle</button></td>
-              </tr>
-
-            </tbody>
-          </table>
+  <div class="mt-5 rounded-3 pb-5" style="width: 80%; margin: auto; min-height: 500px;">
+      <div class="d-flex">
+          <h3 class="mt-1">CAJA</h3>
+          <div class="d-flex align-items-center">
+              <a class="badge badge-danger  ms-1" (click)="cerrarCaja()" style="text-decoration: none; cursor: pointer;">Cerrar caja</a>
+          </div>
           
-  </div>
+      </div>
+      
+      <div class="d-flex">
+          <div  class="shadow p-3 bg-white rounded">
+              Inicio $: <span class="badge badge-secondary  ms-1">{{cajaDtoOut.monto_inicial | currency:'$'}}</span>
+          </div>
+          <div  class="shadow p-3 bg-white rounded ms-1">
+              Final $: 
+              <span class="badge badge-secondary  ms-1" *ngIf="cajaDtoOut.monto_final">{{cajaDtoOut.monto_final | currency:'$'}}</span>
+              <!-- <span class="badge badge-secondary  ms-2" *ngIf="!cajaDtoOut.monto_final">{{cajaDtoOut.monto_final | currency:'$'}}</span> -->
+          </div>
+          <div  class="shadow p-3 bg-white rounded ms-1">
+              Apertura: <span class="badge badge-secondary  ms-1">{{cajaDtoOut.fecha_apertura}}</span>
+          </div>
+          <div  class="shadow p-3  bg-white rounded ms-1">
+              Cierre: 
+              <span class="badge badge-secondary  ms-1" *ngIf="cajaDtoOut.fecha_cierre">{{cajaDtoOut.fecha_cierre}}</span>
+              <span class="badge badge-secondary  ms-1" *ngIf="!cajaDtoOut.fecha_cierre">Abierto</span>
+          </div>
+          <div  class="shadow p-3 bg-white rounded ms-1">
+              Cajero: <span class="badge badge-secondary  ms-1">{{cajaDtoOut.cajero?.nombre}}</span>
+          </div>
+      </div>
+      
 
-    </div>
+
+<div class="container mt-4" *ngIf="cajaDtoOut.pedidos.length == 0">
+  <div class="alert alert-info" role="alert">
+    No hay pedidos en esta sección.
+  </div>
+</div>
+
+<div class="row my-4" *ngIf="cajaDtoOut.pedidos.length > 0">
+
+
+        <table class="table table-hover table-bordered" >
+          <thead class="text-center">
+              <th scope="col">Id</th>
+              <th scope="col">Mesa</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Tipo de pago</th>
+              <th scope="col">Total</th>
+              <th scope="col">Detalle</th>
+          </thead>
+          <tbody class="text-center">
+            <tr *ngFor="let pedido of cajaDtoOut.pedidos">
+              <td><button class="btn btn-primary btn-sm"> {{pedido.id}}</button></td>
+              <td><span class="badge badge-light text-dark"> MESA: {{pedido.mesa.id}}</span></td>
+              <td>{{ pedido.fecha}}</td>
+              <td>
+                  <div class="btn btn-danger btn-sm btn-block font-weight-bold" *ngIf="pedido.estado == 'CANCELADO'">CANCELADO</div>  
+                  <div class="btn btn-success btn-sm btn-block font-weight-bold" *ngIf="pedido.estado == 'PAGADO'">PAGADO</div>
+                  <div class="btn btn-warning btn-sm btn-block text-white font-weight-bold" *ngIf="pedido.estado != 'PAGADO' && pedido.estado != 'CANCELADO'">FALTA</div>
+              </td>
+              <td>
+                  <span *ngIf="pedido.tipoPago"><span class="badge badge-light text-dark">{{pedido.tipoPago}}</span></span>
+                  <span *ngIf="!pedido.tipoPago"><span class="badge badge-warning">FALTA</span></span>
+              </td>
+              <td>{{pedido.total | currency:'$'}}</td>
+              <td><button type="button" class="btn btn-outline-primary btn-block btn-sm" (click)="mostrarDetallePedido(pedido)"  data-toggle="modal" data-target="#staticBackdrop">Ver Detalle</button></td>
+            </tr>
+
+          </tbody>
+        </table>
+        
+</div>
+
+  </div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" *ngIf="pedidoSeleccionado">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Pedido</h5>
-          
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form>
-        <div class="modal-body">
-          
-          <table class="table table-bordered">
-            <thead >
-              <tr>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Producto</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Eliminar</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of pedidoSeleccionado.itemsList">
-                <td>x{{item.cantidad}}</td>
-                <td>{{item.producto.nombre}}</td>
-                <td>{{item.producto.precio * item.cantidad | currency:'$'}}</td>
-                <td class="text-center"><button class="btn btn-sm btn-danger font-weight-bold px-2" (click)="quitarItemPedido(item)">X</button></td>
-              </tr>
-  
-            </tbody>
-          </table>
-          
-          <div class="w-50">
-            <button class="btn btn-info btn-sm text-white mb-2 ms-2" *ngIf="!sendEmalActivo" (click)="sendEmalActivo = true">Enviar comprobante al correo</button>
-            <input *ngIf="sendEmalActivo" type="text" [(ngModel)]="pedidoSeleccionado.emailUsuario" name="correo" class="form-control mb-2 ms-2" id="exampleFormControlInput1" placeholder="Ingrese el correo">
-          </div>
-          <div class="form-group row">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pedido</h5>
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form>
+      <div class="modal-body">
+        <form #formPedido="ngForm">
+        <table class="table table-bordered">
+          <thead >
+            <tr>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of pedidoSeleccionado.itemsList">
+              <td>x{{item.cantidad}}</td>
+              <td>{{item.producto.nombre}}</td>
+              <td>{{item.producto.precio * item.cantidad | currency:'$'}}</td>
+              <td class="text-center"><button class="btn btn-sm btn-danger font-weight-bold px-2" (click)="quitarItemPedido(item)">X</button></td>
+            </tr>
 
-            
-            <div class="col-sm-12 d-flex">
-                <label for="estado" class="col-form-label col-sm-1 mr-3">Estado</label>
-            <select class="custom-select col-sm-4" [(ngModel)]="estadoSeleccionado" name="estado">
-                <option [ngValue]="undefined">--Seleccione estado--</option>
-              <option *ngFor="let estado of estados" [ngValue]="estado">{{estado}}</option>
-            </select>
-            <label for="tipoPago" class="col-form-label col-sm-2">Tipo de pago</label>
-            <select class="custom-select col-sm-4" [(ngModel)]="tipoPagoSeleccionado" name="tipoPago">
-                <option [ngValue]="undefined">--Seleccione un medio de pago--</option>
-              <option *ngFor="let pago of tiposPagos" [ngValue]="pago">{{pago}}</option>
-            </select>
-            
-          </div>
-
+          </tbody>
+        </table>
+        
+        <div class="w-50">
+          <button class="btn btn-info btn-sm text-white mb-2 ms-2" *ngIf="!sendEmalActivo" (click)="sendEmalActivo = true">Enviar comprobante al correo</button>
+          <input *ngIf="sendEmalActivo" type="text" [(ngModel)]="pedidoSeleccionado.emailUsuario" name="correo" class="form-control mb-2 ms-2" id="exampleFormControlInput1" placeholder="Ingrese el correo">
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
-            <button type="button" class="btn btn-primary" (click)="actualizarPedido()" data-dismiss="modal">Guardar</button>
-          </div>
+        <div class="form-group row">
+
+          
+          <div class="col-sm-12 d-flex">
+              <label for="estado" class="col-form-label col-sm-1 mr-3">Estado</label>
+          <select class="custom-select col-sm-4" [(ngModel)]="pedidoSeleccionado.estado" name="estado" >
+              <option [ngValue]="undefined">--Seleccione estado--</option>
+            <option *ngFor="let estado of estados" [ngValue]="estado">{{estado}}</option>
+          </select>
+          <label for="tipoPago" class="col-form-label col-sm-2">Tipo de pago</label>
+          <select class="custom-select col-sm-4" [(ngModel)]="pedidoSeleccionado.tipoPago" name="tipoPago" >
+            <option *ngFor="let pago of tiposPagos" [ngValue]="pago">{{pago}}</option>
+          </select>
+          
         </div>
 
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+          <button type="submit" class="btn btn-primary" (click)="actualizarPedido()">Guardar</button>
+        </div>
       </form>
       </div>
+
+    </form>
     </div>
   </div>
+</div>
