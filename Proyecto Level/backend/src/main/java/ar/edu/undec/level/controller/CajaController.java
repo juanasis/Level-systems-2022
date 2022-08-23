@@ -24,9 +24,16 @@ public class CajaController {
     }
 
     @GetMapping("/buscar-caja-activa/cajero/{idCajero}")
-    public ResponseEntity<?> obtenerCajaPorId(@PathVariable Integer idCajero) {
+    public ResponseEntity<?> obtenerCajaActiva(@PathVariable Integer idCajero) {
         Response response = new Response();
         response.setData(cajaService.obtenerCajaActiva(idCajero));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/buscar-caja/{idCaja}")
+    public ResponseEntity<?> obtenerCajaPorId(@PathVariable Long idCaja) {
+        Response response = new Response();
+        response.setData(cajaService.obtenerCajaPorId(idCaja));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

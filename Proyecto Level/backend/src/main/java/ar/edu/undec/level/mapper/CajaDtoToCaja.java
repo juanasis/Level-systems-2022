@@ -17,9 +17,6 @@ public class CajaDtoToCaja implements IMapper{
     @Autowired
     private CajaRepository cajaRepository;
 
-    @Autowired
-    private UsuarioService usuarioService;
-
     @Override
     public Caja mapIn(CajaDtoIn cajaDtoIn) {
         Caja caja = new Caja();

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public class NuevoUsuario {
+    private Integer id;
     @NotBlank
     private String nombre;
     @NotBlank
@@ -20,6 +21,8 @@ public class NuevoUsuario {
     private String email;
     @NotBlank
     private String password;
+    private Boolean activo;
+
     private List<Rol> roles = new ArrayList<>();
 
     public String getNombre() {
@@ -68,5 +71,21 @@ public class NuevoUsuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

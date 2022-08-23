@@ -246,11 +246,28 @@ public class PedidosService {
         List<Pedido> pedidosEncontrados = pedidosRepo.findByFechaQuery(fechaActual);
 
         return pedidosEncontrados.stream()
+                .filter(this::isPedidoCategoriaBebidaAndCategoriaDiferenteToBebida)
                 .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
                 .map(p -> {
                     p.setCaja(null);
                     return p;
                 })
                 .collect(Collectors.toList());
+    }
+
+    private boolean isPedidoCategoriaBebidaAndCategoriaDiferenteToBebida(Pedido pedido) {
+
+        boolean categoriaBebidas = false;
+        boolean categoriaDiferenteToBebidas = false;
+
+        for (ItemPedido item : pedido.getItemsList()) {
+            if(item.getProducto().getCategoria().getNombre().contains("BEBIDAS")){
+                categoriaBebidas = true;
+            } else {
+                categoriaDiferenteToBebidas = true;
+            }
+        }
+
+        return !(categoriaBebidas && !categoriaDiferenteToBebidas);
     }
 }

@@ -26,6 +26,8 @@ public class Usuario {
     @NotNull
     private String password;
 
+    private Boolean activo;
+
     private String tokenPassword;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -121,5 +123,13 @@ public class Usuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 }

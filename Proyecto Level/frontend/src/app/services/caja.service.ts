@@ -16,6 +16,10 @@ export class CajaService {
     return this.http.get<any>(`${this.urlBackend}/buscar-caja-activa/cajero/${idCajero}`);
   }
 
+  public obtenerCajaPorId(idCaja: number): Observable<any> {
+    return this.http.get<any>(`${this.urlBackend}/buscar-caja/${idCaja}`);
+  }
+
   public cerrarCaja(idCaja: number): Observable<any> {
     return this.http.put<any>(`${this.urlBackend}/cerrar-caja/${idCaja}`,null);
   }

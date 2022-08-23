@@ -32,3 +32,33 @@ img {
 body {
     background: hsl(0, 0, 94%);
 }
+
+.disabled{
+    opacity: 0.5;
+    pointer-events: none;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .agotado{
+    position: absolute;
+    z-index: 4;
+    color: red;
+    background-color: transparent;
+    top: 43px;
+  }
+
+  .agotado h2 {
+    font-weight: bolder;
+  }
+
+  .agotado-h2{
+    display: none;
+  }
+
+ .conteiner {
+    background-image: url("https://wallpapercave.com/wp/wp1874155.jpg");
+    height: 100%;
+  }

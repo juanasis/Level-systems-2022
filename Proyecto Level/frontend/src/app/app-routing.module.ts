@@ -35,6 +35,11 @@ const routes: Routes = [
   canActivate: [guard], data: {expectedPermisos: ['CAJA']}
 },
 {
+  path: 'cajeros/caja-activa/:idCaja',
+  component: CajaActivaComponent,
+  canActivate: [guard], data: {expectedPermisos: ['CAJA']}
+},
+{
   path: 'mesas',
   component: MozosComponent,
   canActivate: [guard], data: {expectedPermisos: ['MESAS']}
@@ -95,7 +100,7 @@ const routes: Routes = [
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
-  path: 'administrador/productos',
+  path: 'administrador/productos/page/:page',
   component: ProductosComponent,
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },

@@ -19,6 +19,9 @@ export class MozosComponent implements OnInit {
   tipoPago: string = '';
 
   idMozo: number;
+
+  rolesDelUsuario: string[] = [];
+  rolCajeroOk: boolean = false;
   
   pedidosActivosMesa: Pedido[] = [];
 
@@ -30,8 +33,20 @@ export class MozosComponent implements OnInit {
   ngOnInit(): void {
 
     let nombreUsuario: string = this.tokenService.getUserName();
+    
+    this.rolesDelUsuario = this.tokenService.getAuthorities();
+
+    this.rolesDelUsuario.forEach(rol => {
+      if(rol.includes('ROLE_CAJERO')){
+        this.rolCajeroOk = true;
+      }
+    })
+
+
     this.authService.buscarPorNonbreUsuario(nombreUsuario)
-        .subscribe(response => this.idMozo = response.data.id)
+        .subscribe(response => {
+          this.idMozo = response.data.id
+        })
 
 
     this.http.get("http://localhost:8080/mesas").subscribe(
@@ -93,7 +108,6 @@ export class MozosComponent implements OnInit {
     pedidoActualizar.tipoPago = pedido.tipoPago;
     pedidoActualizar.estado = 'PAGADO';
     pedidoActualizar.id = pedido.id;
-    console.log(pedidoActualizar)
     this.pedidoService.update(pedidoActualizar)
         .subscribe(response => {
 
@@ -121,6 +135,8 @@ export class MozosComponent implements OnInit {
       pedidoActualizar.tipoPago = this.tipoPago;
       pedidoActualizar.estado = 'PAGADO';
       pedidoActualizar.id = p.id;
+      pedidoActualizar.itemsList = p.itemsList;
+      pedidoActualizar.mozo = null;
       this.pedidoService.update(pedidoActualizar)
           .subscribe(response => {
             if(this.pedidosActivosMesa.length -1 == index){

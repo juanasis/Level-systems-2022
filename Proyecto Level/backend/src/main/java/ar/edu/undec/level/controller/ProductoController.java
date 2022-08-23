@@ -1,11 +1,13 @@
 package ar.edu.undec.level.controller;
 
-import ar.edu.undec.level.controller.dto.ProductoRequest;
 import ar.edu.undec.level.controller.dto.Response;
 import ar.edu.undec.level.service.ProductosService;
+import ar.edu.undec.level.storage.entity.Producto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +23,25 @@ public class ProductoController {
 
     @Autowired
     private ProductosService productosService;
+
+    @GetMapping("/page/{page}")
+    public ResponseEntity<Response> listarProductosPageable(@PathVariable Integer page) {
+
+        Pageable pageable = PageRequest.of(page, 5);
+        Response response = new Response();
+        response.setData(productosService.listarProductosPageable(pageable));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/filtrar/{filtroNombre}")
+    public ResponseEntity<Response> filtrarProductosPorNombre(@PathVariable String filtroNombre) {
+
+        Response response = new Response();
+        response.setData(productosService.buscarProductosPorNombre(filtroNombre));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @GetMapping("/listar-categorias")
     public ResponseEntity<Response> listarCategorias() {
@@ -43,21 +64,21 @@ public class ProductoController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Response> get(@PathVariable String id) {
+    public ResponseEntity<Response> get(@PathVariable Integer id) {
         Response response = productosService.findOneById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody ProductoRequest request){
-        Response response = productosService.save(id,request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> update(@PathVariable("id") Integer id, @RequestBody Producto producto){
+        Response response = productosService.editarProducto(id,producto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/agregar")
-    public ResponseEntity<Response> save(@Valid @RequestBody ProductoRequest request  ){
-        Response response = productosService.save(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("/agregar")
+//    public ResponseEntity<Response> save(@Valid @RequestBody ProductoRequest request  ){
+//        Response response = productosService.save(request);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Response> delete(@PathVariable(value = "id") Integer productoId) {

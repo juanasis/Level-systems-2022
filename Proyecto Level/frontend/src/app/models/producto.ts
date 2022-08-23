@@ -8,5 +8,6 @@ export class Producto {
     categoria: Categoria;
     precio: number;
     imgpath: String;
+    estado: string;
      
 }

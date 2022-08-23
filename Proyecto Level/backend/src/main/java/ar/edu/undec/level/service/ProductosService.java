@@ -10,12 +10,12 @@ import ar.edu.undec.level.storage.repository.ProductosRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductosService {
@@ -31,6 +31,10 @@ public class ProductosService {
         return productosRepo.findByCategoria_Id(id);
     }
 
+    public List<Producto> buscarProductosPorNombre(String filtroNombre){
+        return productosRepo.findAllByNombreContaining(filtroNombre);
+    }
+
     public Response findAll() {
         Response  response = new Response();
         List<Producto> productoList = productosRepo.findAll();
@@ -40,11 +44,16 @@ public class ProductosService {
             response.setData(productoList);
         return response;
     }
-    public Response findOneById(String id) {
+
+    public Page<Producto> listarProductosPageable(Pageable pageable) {
+        return productosRepo.findAll(pageable);
+    }
+
+    public Response findOneById(Integer id) {
         Response response = new Response();
         try {
-            ProductoRequest productoDTO = new ProductoRequest().getProductoDTO(productosRepo.findById(Integer.parseInt(id)).get());
-            response.setData(productoDTO);
+
+            response.setData(productosRepo.findById(id).get());
 
         } catch (NoSuchElementException e) {
             LOGGER.error("No existe.");
@@ -55,26 +64,25 @@ public class ProductosService {
         }
         return response;
     }
-    public Response save(int id, ProductoRequest productoRequest) {
-        Response response = new Response();
-        Producto entity = new Producto();
-        if(id >= 0){
-            entity = productosRepo.getOne(id);
-            entity.setNombre(productoRequest.getNombre());
-            entity.setPrecio(productoRequest.getPrecio());
-            entity.setEstado(productoRequest.getEstado());
-        }else{
-            entity.setNombre(productoRequest.getNombre());
-            entity.setDescripcion(productoRequest.getDescripcion());
-            entity.setCantidad(productoRequest.getCantidad());
-            entity.setCategoria(productosRepo.findByNombreCategoria(productoRequest.getCategoria()).get());
-            entity.setPrecio(productoRequest.getPrecio());
-            entity.setImgpath(productoRequest.getImgpath());
-            entity.setEstado(EstadoProducto.DISPONIBLE);
+    public Response editarProducto(Integer id, Producto producto) {
+
+        Optional<Producto> productoEncontrado = productosRepo.findById(id);
+
+        if(!productoEncontrado.isPresent()) {
+            throw new RuntimeException("No existe producto con el ID: " + id);
         }
 
-        productosRepo.save(entity);
-        response.setData("guardado");
+        Response response = new Response();
+        Producto productoGet = productoEncontrado.get();
+
+        productoGet.setNombre(producto.getNombre());
+        productoGet.setPrecio(producto.getPrecio());
+        productoGet.setCategoria(producto.getCategoria());
+        productoGet.setDescripcion(producto.getDescripcion());
+        productoGet.setEstado(producto.getEstado());
+
+        productosRepo.save(productoGet);
+        response.setData("Produto Actualizado");
         return response;
     }
     public Response cambiarEstado(int id, EstadoProducto nuevoEstado) {
@@ -90,9 +98,9 @@ public class ProductosService {
         return response;
     }
 
-    public Response save(ProductoRequest productos) {
-        return save(-1,productos);
-    }
+//    public Response save(ProductoRequest productos) {
+//        return save(-1,productos);
+//    }
     private Date nuevaFecha(){
         System.out.println(new Date());
         return new Date();

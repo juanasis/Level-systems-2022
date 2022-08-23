@@ -19,7 +19,7 @@ export class NuevoComponent implements OnInit {
     this.http.post("http://localhost:8080/productos/agregar", this.selectedProducto).subscribe(
       data  => {
       console.log("POST Request is successful ", data);
-      this.router.navigate(['/administrador/productos'])
+      this.router.navigate(['/administrador/productos/page/0'])
       },
       error  => {
     console.log("Error", error);

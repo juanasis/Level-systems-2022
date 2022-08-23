@@ -37,111 +37,105 @@
 
 
 
-
-<div class="container bg-white">
-  <div *ngIf="pedidosActivosMesa.length > 0" class="container mt-5 p-3 ">
-      <h2 class="text-center">Lista de pedidos de la mesa {{pedidosActivosMesa[0].mesa.id}}</h2>
-      <div class="d-flex justify-content-center my-3">
-        <button class="btn btn-outline-primary btn-sm" [routerLink]="['/clientes',pedidosActivosMesa[0].mesa.id]">Agregar otro pedido</button>
-        <button class="mx-3 btn btn-outline-secondary btn-sm" (click)="regresarAMesas()">Regresar a las mesas</button>
-        <button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"  >Pagar todo los pedidos</button>
-      </div>
-      
-        <table class="table table-bordered p-5" >
-          <thead>
-            <tr>
-                <th class=""># de pedido</th>
-                <th class="">Producto</th>
-                <th class="">Precio</th>
-                <th style="width: 140px;">Acción</th>
-            </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let pedido of pedidosActivosMesa">
-              <td class="d-flex justify-content-center align-items-center"><span class="badge bg-primary">Pedido #{{pedido.id}}</span></td>
-              <td class=""  >
-                <p class="flex-column mb-0" *ngFor="let item of pedido.itemsList">*{{item.producto.nombre}}</p>
-                <p class="mb-0"><strong>Total a pagar</strong> </p>
-              </td>
-              <td class="" >
-                <p class=" flex-column mb-0 text-end" *ngFor="let item of pedido.itemsList; let i = index" >${{item.precio * item.cantidad}}</p>
-                <hr class="my-0">
-                <p class="mb-0 float-end" > <strong>${{pedido.total}}</strong></p>
-              </td>
-              <td class="d-flex justify-content-center align-items-center" >
-
-                <button type="button" class="btn btn-outline-success btn-sm "  data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                  Realizar pago
-                </button>
-              </td>
-
-
-
-
-              
-              
-              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="staticBackdropLabel">¿Cómo desea pagar?</h5>
-                    </div>
-                    <div class="modal-body">
-                      <div class="d-flex  justify-content-around">
-                        <div >
-                          <img src="https://cdn-icons-png.flaticon.com/512/631/631200.png" style="width: 200px; height: 200px;" alt="">
-                          <div class="form-check ms-5">
-                            <input class="form-check-input" [(ngModel)]="pedido.tipoPago" value="EFECTIVO" type="radio" name="flexRadioDefault{{i}}" id="flexRadioDefault1{{i}}">
-                            <label class="form-check-label" for="flexRadioDefault1{{i}}">
-                              Efectivo
-                            </label>
+<div class="imagen pt-5" >
+  <div class="container bg-white"  >
+    <div *ngIf="pedidosActivosMesa.length > 0" class="container mt-5 p-3 ">
+        <h2 class="text-center">Lista de pedidos de la mesa {{pedidosActivosMesa[0].mesa.id}}</h2>
+        <div class="d-flex justify-content-center my-3">
+          <button class="btn btn-outline-primary btn-sm" [routerLink]="['/clientes',pedidosActivosMesa[0].mesa.id]">Agregar otro pedido</button>
+          <button class="mx-3 btn btn-outline-secondary btn-sm" (click)="regresarAMesas()">Regresar a las mesas</button>
+          <button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"  *ngIf="rolCajeroOk">Pagar todo los pedidos</button>
+        </div>
+        
+          <table class="table table-bordered p-5" >
+            <thead>
+              <tr>
+                  <th class=""># de pedido</th>
+                  <th class="">Producto</th>
+                  <th class="">Precio</th>
+                  <!-- <th style="width: 140px;">Acción</th> -->
+              </tr>
+          </thead>
+  
+          <tbody>
+            <tr *ngFor="let pedido of pedidosActivosMesa">
+                <td class="d-flex justify-content-center align-items-center"><span class="badge bg-primary">Pedido #{{pedido.id}}</span></td>
+                <td class=""  >
+                  <p class="flex-column mb-0" *ngFor="let item of pedido.itemsList">*{{item.producto.nombre}}</p>
+                  <p class="mb-0"><strong>Total a pagar</strong> </p>
+                </td>
+                <td class="" >
+                  <p class=" flex-column mb-0 text-end" *ngFor="let item of pedido.itemsList; let i = index" >${{item.precio * item.cantidad}}</p>
+                  <hr class="my-0">
+                  <p class="mb-0 float-end" > <strong>${{pedido.total}}</strong></p>
+                </td>
+                <!-- <td class="d-flex justify-content-center align-items-center" >
+  
+                  <button type="button" class="btn btn-outline-success btn-sm "  data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    Realizar pago
+                  </button>
+                </td> -->
+  
+  
+  
+  
+                
+                
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">¿Cómo desea pagar?</h5>
+                      </div>
+                      <div class="modal-body">
+                        <div class="d-flex  justify-content-around">
+                          <div >
+                            <img src="https://cdn-icons-png.flaticon.com/512/631/631200.png" style="width: 200px; height: 200px;" alt="">
+                            <div class="form-check ms-5">
+                              <input class="form-check-input" [(ngModel)]="pedido.tipoPago" value="EFECTIVO" type="radio" name="flexRadioDefault{{i}}" id="flexRadioDefault1{{i}}">
+                              <label class="form-check-label" for="flexRadioDefault1{{i}}">
+                                Efectivo
+                              </label>
+                            </div>
                           </div>
-                        </div>
-                        <div>
-                          <img src="https://cdn-icons-png.flaticon.com/512/3344/3344835.png" style="width: 200px; height: 200px;" alt="">
-                          <div class="form-check ms-5">
-                            <input class="form-check-input" [(ngModel)]="pedido.tipoPago" value="TARJETA" type="radio" name="flexRadioDefault{{i}}" id="flexRadioDefault1{{i}}">
-                            <label class="form-check-label" for="flexRadioDefault1{{i}}">
-                              Tarjeta
-                            </label>
+                          <div>
+                            <img src="https://cdn-icons-png.flaticon.com/512/3344/3344835.png" style="width: 200px; height: 200px;" alt="">
+                            <div class="form-check ms-5">
+                              <input class="form-check-input" [(ngModel)]="pedido.tipoPago" value="TARJETA" type="radio" name="flexRadioDefault{{i}}" id="flexRadioDefault1{{i}}">
+                              <label class="form-check-label" for="flexRadioDefault1{{i}}">
+                                Tarjeta
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="pedido.tipoPago = undefined">Cerrar</button>
-                      <button type="button" class="btn btn-primary" *ngIf="pedido.tipoPago" data-bs-dismiss="modal" (click)="actualizarPedido(pedido)">Pagar</button>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="pedido.tipoPago = undefined">Cerrar</button>
+                        <button type="button" class="btn btn-primary" *ngIf="pedido.tipoPago" data-bs-dismiss="modal" (click)="actualizarPedido(pedido)">Pagar</button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-
-
-
-
-
-
-
-          </tr>
-      </tbody>
-        </table>
-        
-
-  </div>
-  <div class="row row-cols-1 row-cols-md-6 g-4 mt-5 rounded-3" *ngIf="pedidosActivosMesa.length == 0">
-    <div class="col  d-flex justify-content-center align-items-center mt-0"  *ngFor="let mesa of mesas; let i = index">
-      <div class="card m-2" style="height: 130px; width: 130px;" (click)="obtenerPedidosPorMesa(mesa)">
-        <div class="card-body rounded-3 d-flex justify-content-center align-items-center flex-column"
-         [ngClass]="{ 'bg-success': mesa.estado == 'LIBRE',
-          'bg-danger': mesa.estado == 'OCUPADA',
-            'bg-warning': mesa.estado == 'RESERVADO'}">
-         <h5 class="text-white">{{i+1}}</h5>
+            </tr>
+        </tbody>
+          </table>
+  
+    </div>
+    <div class="row row-cols-1 row-cols-md-6 g-4  rounded-3" *ngIf="pedidosActivosMesa.length == 0">
+      <div class="col  d-flex justify-content-center align-items-center mt-0"  *ngFor="let mesa of mesas; let i = index">
+        <div class="card m-2" style="height: 130px; width: 130px;" (click)="obtenerPedidosPorMesa(mesa)">
+          <div class="card-body rounded-3 d-flex justify-content-center align-items-center flex-column"
+           [ngClass]="{ 'bg-success': mesa.estado == 'LIBRE',
+            'bg-danger': mesa.estado == 'OCUPADA',
+              'bg-warning': mesa.estado == 'RESERVADO'}">
+           <h5 class="text-white">{{i+1}}</h5>
+          </div>
         </div>
       </div>
+  
     </div>
-
   </div>
+  
+  
+  
 </div>
-
-

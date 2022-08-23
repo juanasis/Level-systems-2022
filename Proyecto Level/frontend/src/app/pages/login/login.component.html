@@ -47,8 +47,8 @@
   </div>
 
     <!-- Remind Passowrd -->
-    <div id="formFooter">
-      <a class="underlineHover" (click)="goToForgotPassword()">Forgot Password?</a>
+    <div id="formFooter" *ngIf="!forgotPasswordActive">
+      <a class="underlineHover" (click)="goToForgotPassword()">¿Olvidó su contraseña?</a>
     </div>
 
   </div>

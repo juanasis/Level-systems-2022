@@ -20,13 +20,14 @@ export class UsuariosComponent implements OnInit {
 
   eliminarUsuario(nombreUsuario: string) {
     Swal.fire({
-      title: '¿Está seguro de realizar su pedido?',
-      text: "Confirme su orden",
+      title: '¿Está seguro de eliminar al usuario?',
+      text: "Confirme la acción",
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar'
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
     }).then((result) => {
 
       if (result.isConfirmed) {
@@ -43,17 +44,33 @@ export class UsuariosComponent implements OnInit {
         },err => {
           Swal.fire(
             'Upps',
-            'Ocurrió algo inesperado, inténtelo nuevamente.',
+            'No se puede eliminar un usuario relacionado con pedidos.',
             'error'
           )
         })
       }
-
     })
+  }
 
-
-
-
+  habilitarOrDeshabilitarUsuario(usuario: NuevoUsuario, estado: boolean) {
+    let usuarioActualizar = new NuevoUsuario();
+    usuarioActualizar.activo = estado;
+    usuarioActualizar.id = usuario.id;
+    this.authService.actualizarUsuario(usuarioActualizar)
+        .subscribe(response => {
+          Swal.fire({
+            title: 'Usuario actualizado',
+            text: "Se actualizó al usuario",
+            icon: 'success'
+          })
+          usuario.activo = estado;
+        }, err => {
+          Swal.fire({
+            title: 'Upss',
+            text: "Ocurrió algo inesperado. Inténtelo nuevamente",
+            icon: 'error'
+          })
+        })
   }
 
 }

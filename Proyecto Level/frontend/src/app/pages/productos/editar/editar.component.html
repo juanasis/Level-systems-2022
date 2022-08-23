@@ -1,32 +1,77 @@
-<div class="conteiner">
+<div class="container">
+    <div class="container mt-4">
     
-    <p>contenido</p>
-
-    <div class="container" *ngIf="producto">
-      <div class="row mt-5">
-          <div class="col-md-4 mx-auto">
-              <form (ngSubmit)="onUpdate()" novalidate #f="ngForm">
-                  <div class="form-group">
-                      <label for="nombre">Nombre</label>
-                      <input type="text" class="form-control" id="nombre" name="nombre"
-                      [(ngModel)]="producto.nombre" required>
-                  </div>
-                  <div class="form-group">
-                      <label for="precio">Precio</label>
-                      <input type="number" class="form-control" id="precio" name="precio"
-                      [(ngModel)]="producto.precio" required>
-                  </div>
-                  <button class="btn btn-outline-success btn-block" [disabled]="!f.valid">
-                      <i class="fas fa-pencil-alt"></i> Actualizar</button>
-                  <button class="btn btn-outline-primary btn-block" routerLink="/administrador">
-                      <i class="fas fa-arrow-alt-circle-left"></i> Volver</button>
-              </form>
-          </div>
-      </div>
-  </div>
-
-
-<button [routerLink]="['/administrador/productos']" class="btn btn-danger">
-  Salir
-</button>
+        <div class="card " style="background-color: #f8f9fa;" *ngIf="producto">
+            <div class="card-header">Actualizar producto</div>
+            <div class="card-body">
+        
+                <form #productoForm="ngForm">
+                    <div class="form-group row">
+                        <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" [(ngModel)]="producto.nombre" name="nombre" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="precio" class="col-form-label col-sm-2">Precio</label>
+                        <div class="col-sm-8">
+                            <input type="number" min="0" class="form-control" [(ngModel)]="producto.precio" name="precio" required>
+                            <div class="text-danger" *ngIf="producto.precio < 0">
+                                El monto no puede ser menor que 0.
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- <div class="form-group row">
+                        <label for="stock" min="0" class="col-form-label col-sm-2">Stock</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" [(ngModel)]="producto.stock" name="stock">
+                            <div class="text-danger" *ngIf="producto.stock < 0">
+                                El stock no puede ser menor que 0.
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="form-group row">
+                        <label for="estado" class="col-form-label col-sm-2">Estado</label>
+                        <div class="col-sm-8 row">
+                            <div class="form-check ml-3">
+                                <input type="radio" class="form-check-input"  name="estado1" checked [checked]="producto.estado == 'DISPONIBLE'" id="estado1" (click)="prdocutoEstado('DISPONIBLE')" required>
+                                <label for="estado1" class="form-check-label">Disponible</label>
+                            </div>
+                            <div class="form-check ml-3">
+                                <input type="radio" class="form-check-input"  name="estado2" [checked]="producto.estado == 'AGOTADO'" id="estado2" (click)="prdocutoEstado('AGOTADO')" required>
+                                <label for="estado2" class="form-check-label">Agotado</label>    
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="form-group row">
+                        <label for="descripcion" class="col-form-label col-sm-2">Descripción</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" [(ngModel)]="producto.descripcion" name="descripcion" required>
+                        </div>
+                    </div>
+        
+                    <div class="form-group row">
+                        <label for="categoria" class="col-form-label col-sm-2">Categoría</label>
+                        <div class="col-sm-8">
+                            <select [compareWith]="compararCategoria" [(ngModel)]="producto.categoria" class="form-select" name="categoria" required>
+                                <option [ngValue]="undefined">--- Seleccionar una categoria ---</option>
+                                <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{ categoria.nombre }}</option>
+                            </select>
+                        </div>
+                    </div>
+        
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            <button *ngIf="!producto.id" class="btn btn-info" (click)="crear()">Crear</button>
+                            <button *ngIf="producto.id" class="btn btn-info" (click)="onUpdate()" [disabled]="!productoForm.valid">Actualizar</button>
+                        </div>
+                    </div>
+                </form>
+        
+            </div>
+        </div>
+       
+        </div>
 </div>
+

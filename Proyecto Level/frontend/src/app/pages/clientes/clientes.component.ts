@@ -154,6 +154,29 @@ export class ClientesComponent implements OnInit {
         .subscribe(response=> this.productosPorCategoriaSeleccionado = response.data)
   }
 
+  verDetalleProducto(producto: Producto) {
+    console.log(producto)
+    Swal.fire({
+      title: producto.nombre,
+      text: `${producto.descripcion}`,
+      imageUrl: `${producto.imgpath}`,
+      imageWidth: 250,
+      imageHeight: 250,
+      width: '400px',
+      heightAuto: true,
+      confirmButtonText: 'Añadir',
+      confirmButtonColor: '#198754',
+      cancelButtonColor: '#d33',
+      showCancelButton: true,
+      cancelButtonText: 'Salir'
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.agregarProducto(producto)
+      } 
+    })
+  }
+
 
 
 }

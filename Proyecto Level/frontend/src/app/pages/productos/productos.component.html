@@ -1,42 +1,33 @@
+<div class="container">
+
 <br>
-    <FONT SIZE=8 COLOR="white"> Productos </FONT>
+    <FONT SIZE=8 > Productos </FONT>
+    <button type="button" class="btn btn-light" [routerLink]="['/administrador/productos/crear-producto']">Nuevo Producto</button>
     <br>
 <hr>
 
-<div class="container">
-  <div class="row g-2">
-    <div class="col-3">
-      <div (click)="listarBebidas()" class="p-3 border bg-light">Bebidas </div>
-    </div> 
-    <div class="col-3">
-      <div class="p-3 border bg-light">Cafeteria</div>
-    </div>
-    <div class="col-3">
-      <div class="p-3 border bg-light">Menu</div>
-    </div>
-    <div class="col-3">
-      <div class="p-3 border bg-light">Postres</div>
-    </div>
-  </div>
+<div class="d-flex justify-content-between">
+   <span class="badge badge-light text-dark" style="cursor: pointer" (click)="mostrarTodosLosProductos()">TODOS</span>
+   <span class="badge badge-light text-dark" style="cursor: pointer" *ngFor="let categoria of categorias" (click)="seleccionarCategoria(categoria.id)"> <i [class]="categoria.urlImagen" class="mr-2" aria-hidden="true"></i> {{categoria.nombre}}</span>
+   
+  <!-- </div> -->
 </div>
-<p></p>
- <!-- 
-<ul class="list-group">
-    <li 
-      *ngFor="let producto of productosArray"
-       class="list-group-item list-group-item-action"
-       (click)="openForEdit(producto)"
-       [class.active]="producto == selectedproducto"
-       >
-       <span class="font-italic">{{producto.nombre}} {{producto.descripcion}} </span> 
-        - $ 
-       <span class="font-italic">{{producto.precio}} </span>
-        
-    </li>
-  </ul> -->
-  <button type="button" class="btn btn-light" [routerLink]="['crear-producto']">Nuevo Producto</button>
-  <p></p>
-  <table class="table table-dark table-striped">
+  
+  <div class="d-flex my-3">
+    <label for="nombre" class="col-form-label col-sm-2  font-weight-bold">Buscar productos</label>
+    <div class="col-sm-2">
+        <input type="text" class="form-control" name="nombre" placeholder="nombre" #nombre>
+    </div>
+    <button class="btn btn-outline-success" (click)="filtrarProductosPorNombre(nombre.value)" >
+      <i class="fas fa-search" ></i>
+    </button>
+
+      
+    
+    
+  </div>
+
+  <table class="table table-striped" >
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -47,17 +38,37 @@
         <th scope="col">Estado</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="!filtroActivado">
       <tr *ngFor="let producto of productosArray" (click)="editarProducto(producto.id)">
         <th scope="row">{{producto.id}} </th>
         <td>{{producto.nombre}} </td>
         <td>{{producto.descripcion}} </td>
         <td>{{producto.categoria.nombre}} </td>
         <td>$ {{producto.precio}} </td>
-        <td><div class="btn-group" role="group" aria-label="Basic mixed styles example">
-          <button type="button" class="btn btn-success">Activo</button>
-        </div></td>
+        <td>
+          <button type="button" class="btn btn-success btn-block" *ngIf="producto.estado == 'DISPONIBLE'">DISPONIBLE</button>
+          <button type="button" class="btn btn-danger btn-block" *ngIf="producto.estado == 'AGOTADO'">AGOTADO</button>
+        </td>
       </tr>
-       
     </tbody>
+    <tbody *ngIf="filtroActivado">
+      <tr *ngFor="let producto of productosPorCategoriaSeleccionado" (click)="editarProducto(producto.id)">
+        <th scope="row">{{producto.id}} </th>
+        <td>{{producto.nombre}} </td>
+        <td>{{producto.descripcion}} </td>
+        <td>{{producto.categoria.nombre}} </td>
+        <td>$ {{producto.precio}} </td>
+        <td>
+          <button type="button" class="btn btn-success btn-block" *ngIf="producto.estado == 'DISPONIBLE'">DISPONIBLE</button>
+          <button type="button" class="btn btn-danger btn-block" *ngIf="producto.estado == 'AGOTADO'">AGOTADO</button>
+        </td>
+      </tr>
+    </tbody>
+
   </table>
+  <div class="alert alert-info" role="alert" *ngIf="filtroActivado && productosPorCategoriaSeleccionado.length == 0">
+    No hay productos a mostrar en esta categoría. 
+  </div>
+  <app-paginator [paginador]="paginador" *ngIf="paginador && !filtroActivado"></app-paginator>
+
+</div>

@@ -49,3 +49,8 @@ body{
 img{
   width: 10px;
 }
+
+.imagen {
+  height: 100vh;
+  background-image: url("https://wallpapercave.com/wp/wp1874155.jpg");
+}

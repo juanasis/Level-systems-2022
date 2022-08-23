@@ -8,7 +8,6 @@ import ar.edu.undec.level.security.entity.HistoriaUsuario;
 import ar.edu.undec.level.security.entity.Permiso;
 import ar.edu.undec.level.security.entity.Rol;
 import ar.edu.undec.level.security.entity.Usuario;
-import ar.edu.undec.level.security.enums.RolNombre;
 import ar.edu.undec.level.security.jwt.JwtProvider;
 import ar.edu.undec.level.security.service.RolService;
 import ar.edu.undec.level.security.service.UsuarioService;
@@ -131,7 +130,7 @@ public class AuthController {
 
         Usuario usuarioEncontrado = usuario.get();
 
-        emailDto.setMailFrom("anderson.bengolea@gmail.com");
+        emailDto.setMailFrom("levelsystems23gmail.com");
         emailDto.setMailTo(usuarioEncontrado.getEmail());
         emailDto.setSubject("Restablecer contraseña");
         emailDto.setUsername(usuarioEncontrado.getNombreUsuario());
@@ -167,24 +166,39 @@ public class AuthController {
     }
 
     @PutMapping("/actualizar-usuario")
-    public ResponseEntity<?> actualizarUsuario(@RequestBody NuevoUsuario usuario){
-        Optional<Usuario> usuarioEncontrado = usuarioService.getByNombreUsuario(usuario.getNombreUsuario());
+    public ResponseEntity<?> actualizarUsuario(@RequestBody NuevoUsuario usuarioFront){
+//        Optional<Usuario> usuarioEncontrado = usuarioService.getByNombreUsuario(usuarioFront.getNombreUsuario());
+        Optional<Usuario> usuarioEncontrado = usuarioService.buscarUsuarioPorId(usuarioFront.getId());
+
+
 
         if(!usuarioEncontrado.isPresent()){
-            return new ResponseEntity<>(new Mensaje("No existe usuario"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Mensaje("No existe usuario con ese ID"), HttpStatus.NOT_FOUND);
         }
 
         Usuario usuarioOk = usuarioEncontrado.get();
 
-        if(usuario.getRoles().size() != usuarioOk.getRoles().size()) {
-            List<String> rolesUsuarioFront = cambiarRolesToString(usuario.getRoles());
-            agregarHistorial(usuarioOk, rolesUsuarioFront);
+        if(!usuarioOk.getActivo().equals(usuarioFront.getActivo())) {
+            String detalle = "Se cambió el estado de "+estadoToString(usuarioOk.getActivo())+" a " + estadoToString(usuarioFront.getActivo())+ "." ;
+            nuevoHistorialUsuario(detalle, usuarioOk);
+            usuarioOk.setActivo(usuarioFront.getActivo());
+            usuarioService.save(usuarioOk);
+            return new ResponseEntity<>(new Mensaje("Usuario actualizado"), HttpStatus.CREATED);
         }
 
-        usuarioOk.setNombre(usuario.getNombre());
-        usuarioOk.setApellido(usuario.getApellido());
+        if(usuarioFront.getRoles().size() != usuarioOk.getRoles().size()) {
+            List<String> rolesUsuarioFront = cambiarRolesToString(usuarioFront.getRoles());
+            agregarHistorialRolesUsuario(usuarioOk, rolesUsuarioFront);
+        }
 
-        usuarioOk.setRoles(cambiarRolesListToSet(usuario.getRoles()));
+        agregarHistorialAtributos(usuarioEncontrado.get(), usuarioFront);
+
+        usuarioOk.setNombre(usuarioFront.getNombre());
+        usuarioOk.setApellido(usuarioFront.getApellido());
+        usuarioOk.setNombreUsuario(usuarioFront.getNombreUsuario());
+
+
+        usuarioOk.setRoles(cambiarRolesListToSet(usuarioFront.getRoles()));
         usuarioService.save(usuarioOk);
         return new ResponseEntity<>(new Mensaje("Usuario actualizado"), HttpStatus.CREATED);
     }
@@ -300,7 +314,7 @@ public class AuthController {
         return new ResponseEntity<>(rolService.guardar(permiso), HttpStatus.CREATED);
     }
 
-    private void agregarHistorial(Usuario usuarioActual, List<String> rolesFront) {
+    private void agregarHistorialRolesUsuario(Usuario usuarioActual, List<String> rolesFront) {
         HistoriaUsuario historial = new HistoriaUsuario();
         String detalle = "";
         List<String> rolesUsuarioActual = cambiarRolesToString(cambiarSetToList(usuarioActual.getRoles()));
@@ -328,7 +342,45 @@ public class AuthController {
         usuarioService.crearHistoriaUsuario(historial);
     }
 
+    private void agregarHistorialAtributos (Usuario usuarioActual, NuevoUsuario usuarioFront) {
+
+        if(!usuarioActual.getNombre().equals(usuarioFront.getNombre())) {
+            String detalle = "Se cambió el nombre de "+usuarioActual.getNombre()+" a " + usuarioFront.getNombre()+ "." ;
+            nuevoHistorialUsuario(detalle, usuarioActual);
+        }
+
+        if(!usuarioActual.getApellido().equals(usuarioFront.getApellido())) {
+            String detalle = "Se cambió el apellido de "+usuarioActual.getApellido()+" a " + usuarioFront.getApellido()+ "." ;
+            nuevoHistorialUsuario(detalle, usuarioActual);
+        }
+
+        if(!usuarioActual.getEmail().equals(usuarioFront.getEmail())) {
+            String detalle = "Se cambió el correo de "+usuarioActual.getEmail()+" a " + usuarioFront.getEmail()+ "." ;
+            nuevoHistorialUsuario(detalle, usuarioActual);
+        }
+
+        if(!usuarioActual.getNombreUsuario().equals(usuarioFront.getNombreUsuario())) {
+            String detalle = "Se cambió el usuario de "+usuarioActual.getNombreUsuario()+" a " + usuarioFront.getNombreUsuario()+ "." ;
+            nuevoHistorialUsuario(detalle, usuarioActual);
+        }
+
+        }
+
+        private String estadoToString(Boolean estado) {
+            return estado ? "ACTIVO": "INACTIVO";
+        }
+
+        private void nuevoHistorialUsuario(String detalle, Usuario usuario) {
+            HistoriaUsuario historial = new HistoriaUsuario();
+            detalle = detalle.replace(".",". ");
+            historial.setDetalle(detalle);
+            historial.setUsuario(usuario);
+            usuarioService.crearHistoriaUsuario(historial);
+        }
+
+    }
 
 
 
-}
+
+

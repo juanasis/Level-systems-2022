@@ -59,6 +59,7 @@ export class RolFormularioComponent implements OnInit {
 
   actualizarRol() {
     this.rol.permisos = [];
+    this.rol.usuarios = [];
     this.authService.actualizarRol(this.rol)
         .subscribe(() => {
           Swal.fire(

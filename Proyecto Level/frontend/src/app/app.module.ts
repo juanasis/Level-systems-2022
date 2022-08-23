@@ -24,6 +24,7 @@ import { RecuperarPasswordComponent } from "./pages/recuperar-password/recuperar
 import { RolesComponent } from "./pages/administrador/roles/roles.component";
 import { RolFormularioComponent } from "./pages/administrador/roles/rol-formulario/rol-formulario.component";
 import { CajaActivaComponent } from "./pages/cajeros/caja-activa/caja-activa.component";
+import { PaginatorComponent } from "./pages/shared/paginator/paginator.component";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { CajaActivaComponent } from "./pages/cajeros/caja-activa/caja-activa.com
     RecuperarPasswordComponent,
     RolesComponent,
     RolFormularioComponent,
-    CajaActivaComponent
+    CajaActivaComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,

@@ -63,6 +63,7 @@ public class MesasService {
                     m.setEstado(EstadoMesa.OCUPADA);
                 }else {
                     m.setEstado(EstadoMesa.LIBRE);
+                    m.setMozoId(null);
                 }
             });
             List<Mesa> mesas = mesaRepository.saveAll(mesaList);

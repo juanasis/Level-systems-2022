@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CajaDtoOut } from 'src/app/models/caja-dto-out';
 import { ItemPedido } from 'src/app/models/itempedido';
 import { Pedido } from 'src/app/models/pedido';
@@ -29,22 +29,38 @@ export class CajaActivaComponent implements OnInit {
   sendEmalActivo: boolean = false;
 
 
-  constructor(private cajaService: CajaService, private router: Router, private pedidoService: PedidoService, private authService: AuthService, private tokenService: TokenService) { }
+  constructor(private cajaService: CajaService, 
+    private router: Router, 
+    private pedidoService: PedidoService, 
+    private authService: AuthService, 
+    private tokenService: TokenService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-        this.authService.buscarPorNonbreUsuario(this.tokenService.getUserName())
-            .subscribe(response => {
-              console.log(response)
-              this.cajaService.obtenerCajaActiva(response.data.id)
-              .subscribe(response => {
-                this.cajaDtoOut = response.data;
-                this.obtenerPedidosPorMesa();
-              }, err => {
-                Swal.fire('Sin permisos', err.error.message, 'info');
-                this.router.navigate(['/cajeros']);
-              })
-            })
 
+    this.activatedRoute.params.subscribe(params => {
+      let idCaja = +params['idCaja'];
+
+      if(!idCaja) {
+        this.authService.buscarPorNonbreUsuario(this.tokenService.getUserName())
+        .subscribe(response => {
+          this.cajaService.obtenerCajaActiva(response.data.id)
+          .subscribe(response => {
+            this.cajaDtoOut = response.data;
+            this.obtenerPedidosPorMesa();
+          }, err => {
+            Swal.fire('Sin permisos', err.error.message, 'info');
+            this.router.navigate(['/cajeros']);
+          })
+        })
+      } else {
+        this.cajaService.obtenerCajaPorId(idCaja)
+            .subscribe(response => {
+              this.cajaDtoOut = response.data
+              this.obtenerPedidosPorMesa();
+            });
+      }
+    })
   }
 
   obtenerPedidosPorMesa() {

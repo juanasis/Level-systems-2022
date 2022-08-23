@@ -18,4 +18,6 @@ public interface ProductosRepository extends JpaRepository<Producto, Integer> {
 
     @Query("FROM Categoria")
     List<Categoria> getAllCategorias();
+
+    List<Producto> findByNombreContaining(String filtroNombre);
 }

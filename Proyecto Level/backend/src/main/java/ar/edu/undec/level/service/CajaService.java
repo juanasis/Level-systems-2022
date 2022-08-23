@@ -45,6 +45,17 @@ public class CajaService {
         return cajaMapper.mapOut(cajaActiva.get());
     }
 
+    public CajaDtoOut obtenerCajaPorId(Long idCaja) {
+        Optional<Caja> cajaEncontrada = cajaRepository.findById(idCaja);
+
+        if(!cajaEncontrada.isPresent()) {
+            throw new RuntimeException("No hay una caja con ese ID"+idCaja);
+        }
+
+        return cajaMapper.mapOut(cajaEncontrada.get());
+
+    }
+
     public List<CajaDtoOut> listarCajas() {
         List<Caja> listaCajas = (List<Caja>) cajaRepository.findAll();
         return listaCajas.stream().map(cajaMapper::mapOut).collect(Collectors.toList());

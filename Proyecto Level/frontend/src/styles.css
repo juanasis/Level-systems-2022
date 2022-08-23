@@ -1,15 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 body{
-    background: #D3CCE3;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #E9E4F0, #D3CCE3);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #E9E4F0, #D3CCE3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     height: 100vh;
 }
 body {
-    heigh:1000px;
     /*background-image: url("https://wallpapercave.com/wp/wp1874155.jpg");
     */
-    background-image: url("https://wallpapercave.com/wp/wp1874155.jpg");
+    /* background-image: url("https://wallpapercave.com/wp/wp1874155.jpg"); */
 
     background-size: 90rem;
     

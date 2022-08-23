@@ -13,8 +13,6 @@ public class Producto implements Serializable {
    private String nombre;
    private String descripcion;
    private Integer cantidad;
-
-
    private  Categoria categoria;
    private  String imgpath;
    private Double precio;

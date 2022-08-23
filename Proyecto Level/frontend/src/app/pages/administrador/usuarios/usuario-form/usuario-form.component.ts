@@ -37,7 +37,9 @@ export class UsuarioFormComponent implements OnInit {
           if(this.nombreUsuario) {
             this.authService.buscarPorNonbreUsuario(this.nombreUsuario)
                 .subscribe(response => {
+                  console.log(response)
                   this.nuevoUsuario = response.data;
+                  console.log(this.nuevoUsuario)
                   this.rolesAsignados = response.data.roles;
                   this.confirmarPassword = this.nuevoUsuario.password;
                   
@@ -155,7 +157,6 @@ export class UsuarioFormComponent implements OnInit {
     }else{
       this.rolesAsignados.push(rol);
     }
-    console.log(this.rolesAsignados)
   }
 
 }
