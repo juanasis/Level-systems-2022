@@ -6,6 +6,6 @@ export class PedidoDTO {
     idmozo: number;
     idmesa: number;    
     itemProductoDtoList: ItemPedidoDTO[];
-    estado: String;
+    estado: string;
     fecha: Date;
 }

@@ -219,7 +219,7 @@ public class PedidosService {
         LocalDate fechaActual = LocalDate.now();
         List<Pedido> pedidosEncontrados = pedidosRepo.findByFechaQueryAndMesa_Id(fechaActual, idMesa);
         return pedidosEncontrados.stream()
-                .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
+                .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO) || p.getEstado().equals(EstadoPedido.ENTREGADO))
                 .map(p -> {
                     p.setCaja(null);
                     return p;
@@ -233,7 +233,7 @@ public class PedidosService {
         System.out.println(pedidosEncontrados.size());
 
         return pedidosEncontrados.stream()
-                .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
+                .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO) || p.getEstado().equals(EstadoPedido.ENTREGADO))
                 .map(p -> {
                     p.setCaja(null);
                     return p;
@@ -247,7 +247,7 @@ public class PedidosService {
 
         return pedidosEncontrados.stream()
                 .filter(this::isPedidoCategoriaBebidaAndCategoriaDiferenteToBebida)
-                .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO))
+                .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO) || p.getEstado().equals(EstadoPedido.ENTREGADO))
                 .map(p -> {
                     p.setCaja(null);
                     return p;

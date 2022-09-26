@@ -1,4 +1,4 @@
-<div class="container bg-white rounded">
+<div class=" bg-white rounded">
 
 
   <div class="mt-5 rounded-3 pb-5" style="width: 80%; margin: auto;">
@@ -10,6 +10,7 @@
         <button class="btn btn-danger mr-3 btn-sm" (click)="pedidosPorEstado('EN_COLA')">EN COLA</button>
         <button class="btn btn-warning btn-sm mr-3"(click)="pedidosPorEstado('EN_PREPARACION')">EN PREPARACIÓN</button>
         <button class="btn btn-success btn-sm mr-3"(click)="pedidosPorEstado('LISTO')">LISTO</button>
+        <button class="btn btn-info btn-sm mr-3"(click)="pedidosPorEstado('ENTREGADO')">ENTREGADO</button>
           <span class="font-weight-bold">HORA: {{fechaActual | date: 'shortTime'}}</span> 
       </div>
 
@@ -22,7 +23,7 @@
               <span class="font-weight-bold">Mesa</span>
             </div>
           <div class="col">
-            <span class="font-weight-bold text-center">Hora</span>
+            <span class="font-weight-bold text-center">Hora de creación de pedido</span>
           </div>
           <div class="col text-center font-weight-bold">
             <span>Estado</span>
@@ -46,6 +47,7 @@
                 <div class="btn btn-danger btn-sm btn-block" *ngIf="pedido.estado == 'EN_COLA'">EN COLA</div>
                 <div class="btn btn-warning btn-sm btn-block" *ngIf="pedido.estado == 'EN_PREPARACION'">EN PREPARACIÓN</div>
                 <div class="btn btn-success btn-sm btn-block" *ngIf="pedido.estado == 'LISTO'">LISTO</div>
+                <div class="btn btn-info btn-sm btn-block" *ngIf="pedido.estado === 'ENTREGADO'">ENTREGADO</div>
               </div>
               <div class="col">
                 <a class="btn btn-light btn-sm  float-right font-weight-bold" href="#xd{{i}}" data-bs-toggle="collapse" aria-expanded="false" >Detalle</a>
@@ -59,7 +61,8 @@
                 <span class="font-weight-bold mr-2">Actualizar estado:</span>
                 <div class="badge badge-pill badge-danger"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'EN_COLA')">EN COLA</div>
                 <div class="badge badge-pill badge-warning mx-2"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'EN_PREPARACION')">EN PREPARACIÓN</div>
-                <div class="badge badge-pill badge-success"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'LISTO')">LISTO</div>
+                <div class="badge badge-pill badge-success mx-2"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'LISTO')">LISTO</div>
+                <div class="badge badge-pill badge-info"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'ENTREGADO')">ENTREGADO</div>
               </div>
               
             
@@ -81,6 +84,7 @@
                 <div class="btn btn-danger btn-sm btn-block" *ngIf="pedido.estado == 'EN_COLA'">EN COLA</div>
                 <div class="btn btn-warning btn-sm btn-block" *ngIf="pedido.estado == 'EN_PREPARACION'">EN PREPARACIÓN</div>
                 <div class="btn btn-success btn-sm btn-block" *ngIf="pedido.estado == 'LISTO'">LISTO</div>
+                <div class="btn btn-info btn-sm btn-block" *ngIf="pedido.estado == 'ENTREGADO'">ENTREGADO</div>
               </div>
               <div class="col">
                 <a class="btn btn-light btn-sm  float-right font-weight-bold" href="#xd{{i}}" data-bs-toggle="collapse" aria-expanded="false" >Detalle</a>
@@ -94,7 +98,8 @@
                 <span class="font-weight-bold mr-2">Actualizar estado:</span>
                 <div class="badge badge-pill badge-danger"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'EN_COLA')">EN COLA</div>
                 <div class="badge badge-pill badge-warning mx-2"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'EN_PREPARACION')">EN PREPARACIÓN</div>
-                <div class="badge badge-pill badge-success"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'LISTO')">LISTO</div>
+                <div class="badge badge-pill badge-success mx-2"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'LISTO')">LISTO</div>
+                <div class="badge badge-pill badge-info"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'ENTREGADO')">ENTREGADO</div>
               </div>
               
             

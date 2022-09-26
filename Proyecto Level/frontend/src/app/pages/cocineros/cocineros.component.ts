@@ -36,6 +36,7 @@ export class CocinerosComponent implements OnInit {
     pedidosPorEstado(estado: string) {
       this.pedidosFiltradoActivo = true;
       this.pedidosFiltrados = this.pedidos.filter(p => p.estado == estado);
+      console.log(this.pedidosFiltrados)
     }
 
     activarTodosLosPedidos() {

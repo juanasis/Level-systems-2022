@@ -75,9 +75,6 @@ export class LoginComponent implements OnInit {
         this.isLogged = false;
         console.log(err)
         this.errMsj = "Usuario y/o contraseña inválido."
-        this.toastr.error(this.errMsj, 'Fail', {
-          timeOut: 3000,  positionClass: 'toast-top-center',
-        });
         // console.log(err.error.message);
       }
     );

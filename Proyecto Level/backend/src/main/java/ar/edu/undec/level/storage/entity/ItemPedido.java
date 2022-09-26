@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "item_pedido", schema = "levelbasedatos")
+@Table(name = "item_pedido", schema = "levelbd")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ItemPedido implements Serializable {
 

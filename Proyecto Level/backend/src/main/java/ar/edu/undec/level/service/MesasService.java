@@ -55,8 +55,9 @@ public class MesasService {
                 List<Pedido> pedidosActivos = m.getPedidos().stream()
                         .filter(p ->
                                 p.getEstado().equals(EstadoPedido.EN_PREPARACION) ||
-                                p.getEstado().equals(EstadoPedido.EN_COLA )||
-                                p.getEstado().equals(EstadoPedido.LISTO))
+                                        p.getEstado().equals(EstadoPedido.EN_COLA )||
+                                        p.getEstado().equals(EstadoPedido.LISTO) ||
+                                        p.getEstado().equals(EstadoPedido.ENTREGADO))
                         .collect(Collectors.toList());
 
                 if(pedidosActivos.size() > 0) {
