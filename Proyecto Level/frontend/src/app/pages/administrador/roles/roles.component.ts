@@ -17,7 +17,6 @@ export class RolesComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getRoles()
         .subscribe(response => {
-          console.log(response)
           this.roles = response.data
         })
   }

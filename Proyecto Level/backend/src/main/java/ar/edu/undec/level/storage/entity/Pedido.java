@@ -58,6 +58,8 @@ public class Pedido implements Serializable {
     @JsonIgnore
     private Caja caja;
 
+    private PedidoEstadoBebida pedidoEstadoBebida;
+
 
     private static final long serialVersionUID = 1L;
 
@@ -145,5 +147,13 @@ public class Pedido implements Serializable {
 
     public void setEmailUsuario(String emailUsuario) {
         this.emailUsuario = emailUsuario;
+    }
+
+    public PedidoEstadoBebida getPedidoEstadoBebida() {
+        return pedidoEstadoBebida;
+    }
+
+    public void setPedidoEstadoBebida(PedidoEstadoBebida pedidoEstadoBebida) {
+        this.pedidoEstadoBebida = pedidoEstadoBebida;
     }
 }

@@ -1,10 +1,12 @@
 package ar.edu.undec.level.security.entity;
 
 import ar.edu.undec.level.storage.entity.Pedido;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +30,12 @@ public class Usuario {
 
     private Boolean activo;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate fecha_creacion;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate fecha_actualizacion;
+
     private String tokenPassword;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -39,6 +47,16 @@ public class Usuario {
     private Collection<Pedido> pedidos;
 
     public Usuario( ) {
+    }
+
+    @PrePersist
+    public void fechaCreacion() {
+        this.fecha_creacion = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void fechaActualizacion() {
+        this.fecha_actualizacion = LocalDate.now();
     }
 
     public Usuario(@NotNull String nombre, @NotBlank String apellido, @NotNull String nombreUsuario, @NotNull String email, @NotNull String password) {
@@ -132,5 +150,21 @@ public class Usuario {
 
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+
+    public LocalDate getFecha_creacion() {
+        return fecha_creacion;
+    }
+
+    public void setFecha_creacion(LocalDate fecha_creacion) {
+        this.fecha_creacion = fecha_creacion;
+    }
+
+    public LocalDate getFecha_actualizacion() {
+        return fecha_actualizacion;
+    }
+
+    public void setFecha_actualizacion(LocalDate fecha_actualizacion) {
+        this.fecha_actualizacion = fecha_actualizacion;
     }
 }

@@ -65,7 +65,7 @@
 
      <div class="row row-cols-1 row-cols-md-5 g-4">
       <div class="col" *ngFor="let producto of productosPorCategoriaSeleccionado">
-        <div class="card p-0 m-0 " [ngClass]="producto.estado == 'DISPONIBLE'? '': 'disabled'">  
+        <div class="card p-0 m-0 " [ngClass]="producto.estado == 'DISPONIBLE'? '': 'disabled'" data-agotado="AGOTADO">  
           <!-- <p class="text-center mb-0 py-2 fw-bold" >{{producto.nombre}}</p> -->
           <img [src]="producto.imgpath" class="card-img-top " style="height: 220px; " alt="...">
           <hr class="m-0">

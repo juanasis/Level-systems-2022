@@ -48,6 +48,13 @@ public class PedidosService {
             Caja cajaEncontrada = new Caja();
             cajaEncontrada.setIdCaja(cajaAbierta.get().getIdCaja());
             pedido.setCaja(cajaEncontrada);
+
+            if(this.isPedidoCategoriaBebidaAndCategoriaDiferenteToBebida(pedido)) {
+                pedido.setPedidoEstadoBebida(PedidoEstadoBebida.EN_COLA);
+            } else {
+                pedido.setPedidoEstadoBebida(PedidoEstadoBebida.NO_REQUIERE);
+            }
+
             Pedido pedidoGuardado = pedidosRepo.save(pedido);
            response.setData(pedidoGuardado);
        } catch (Exception e) {
@@ -98,6 +105,19 @@ public class PedidosService {
         System.out.println(new Date());
         return new Date();
     }
+
+    public void actualizarItemPedido(Pedido pedido) {
+        Pedido pedidoEncontrado = pedidosRepo.findById(pedido.getId()).get();
+        pedidoEncontrado.setItemsList(pedido.getItemsList());
+        pedidosRepo.save(pedidoEncontrado);
+    }
+
+    public void actualizarPedidoEstadoBebida(Pedido pedido) {
+        Pedido pedidoEncontrado = pedidosRepo.findById(pedido.getId()).get();
+        pedidoEncontrado.setPedidoEstadoBebida(pedido.getPedidoEstadoBebida());
+        pedidosRepo.save(pedidoEncontrado);
+    }
+
     public Response update(Pedido pedido) {
         Response response = new Response();
         try {
@@ -118,6 +138,7 @@ public class PedidosService {
 
             pedidoEncontrado.setTipoPago(pedido.getTipoPago());
             pedidoEncontrado.setEstado(pedido.getEstado());
+            pedidoEncontrado.setPedidoEstadoBebida(pedido.getPedidoEstadoBebida());
             pedidoEncontrado.setItemsList(pedido.getItemsList());
 
             if(pedido.getEmailUsuario() != null) {
@@ -230,7 +251,6 @@ public class PedidosService {
     public List<Pedido> obtenerPedidosPorMesaPorMozo(Integer idMozo){
         LocalDate fechaActual = LocalDate.now();
         List<Pedido> pedidosEncontrados = pedidosRepo.findByFechaQueryAndMozo_Id(fechaActual, idMozo);
-        System.out.println(pedidosEncontrados.size());
 
         return pedidosEncontrados.stream()
                 .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO) || p.getEstado().equals(EstadoPedido.ENTREGADO))

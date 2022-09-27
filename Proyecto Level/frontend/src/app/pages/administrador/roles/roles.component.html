@@ -9,6 +9,8 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Nombre</th>
+        <th scope="col">Fec. Creación</th>
+        <th scope="col">Ult. modificación</th>
         <th scope="col">Acción</th>
       </tr>
     </thead>
@@ -16,7 +18,12 @@
       <tr *ngFor="let rol of roles" >
         <th scope="row"><button class="btn btn-primary" [routerLink]="['editar-rol',rol.id]">{{rol.id}}</button> </th>
         <td>{{rol.rolNombre}} </td>
-        <td><button class="btn btn-danger" (click)="eliminarRol(rol)">Eliminar</button></td>
+        <td>{{rol.fecha_creacion}}</td>
+        <td>{{rol.fecha_actualizacion}}</td>
+        <td>
+          <button class="btn btn-info me-2" [routerLink]="[rol.id,'historial']">Historial</button>
+          <button class="btn btn-danger" (click)="eliminarRol(rol)">Eliminar</button>
+        </td>
       </tr>
        
     </tbody>

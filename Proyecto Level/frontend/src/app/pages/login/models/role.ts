@@ -7,7 +7,9 @@ export enum RolNombre {
 export class Role {
     id: number;
     rolNombre: string;
+    fecha_creacion: string;
+    fecha_actualizacion: string;
     asignado: boolean;
-    permisos: Permiso[] = [];
-    usuarios: any[] = [];
+    permisos: Permiso[];
+    usuarios: any[];
 }

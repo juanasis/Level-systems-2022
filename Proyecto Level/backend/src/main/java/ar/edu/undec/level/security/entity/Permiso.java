@@ -15,7 +15,7 @@ public class Permiso {
 
     private String nombre;
 
-    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"permisos","hibernateLazyInitializer", "handler"})
     @JoinTable(
             name = "permisos_roles",

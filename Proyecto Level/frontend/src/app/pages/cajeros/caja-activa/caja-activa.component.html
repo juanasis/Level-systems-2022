@@ -15,8 +15,8 @@
                 Inicio $: <span class="badge badge-secondary  ms-1">{{cajaDtoOut.monto_inicial | currency:'$'}}</span>
             </div>
             <div  class="shadow p-3 bg-white rounded ms-1">
-                Final $: 
-                <span class="badge badge-secondary  ms-1" *ngIf="cajaDtoOut.monto_final">{{cajaDtoOut.monto_final | currency:'$'}}</span>
+                Total caja $: 
+                <span class="badge badge-secondary  ms-1" >{{cajaDtoOut.monto_final | currency:'$'}}</span>
                 <!-- <span class="badge badge-secondary  ms-2" *ngIf="!cajaDtoOut.monto_final">{{cajaDtoOut.monto_final | currency:'$'}}</span> -->
             </div>
             <div  class="shadow p-3 bg-white rounded ms-1">
@@ -112,16 +112,24 @@
   
             </tbody>
           </table>
+
+          <div class="d-flex mb-2">
+            <span for="estado" class="mr-3">Estado bebida</span>
+            <button class="btn btn-light btn-sm" *ngIf="pedidoSeleccionado.pedidoEstadoBebida == 'NO_REQUIERE'">NO REQUIERE</button>
+            <button class="btn btn-light btn-sm mr-2 disabled" *ngIf="pedidoSeleccionado.pedidoEstadoBebida == 'EN_COLA' || pedidoSeleccionado.pedidoEstadoBebida == 'ENTREGADO'">EN_COLA</button>
+            <button class="btn btn-info btn-sm" *ngIf="pedidoSeleccionado.pedidoEstadoBebida == 'EN_COLA' || pedidoSeleccionado.pedidoEstadoBebida == 'ENTREGADO'" (click)="actualizarPedidoEstadoBebida('ENTREGADO')" [ngClass]="pedidoSeleccionado.pedidoEstadoBebida == 'ENTREGADO' ? 'btn-light text-dark disabled': ''">ENTREGADO</button>
+           
+          </div>
           
-          <div class="w-50">
-            <button class="btn btn-info btn-sm text-white mb-2 ms-2" *ngIf="!sendEmalActivo" [disabled]="cajaDtoOut.estado == 'CERRADO'" (click)="sendEmalActivo = true">Enviar comprobante al correo</button>
-            <input *ngIf="sendEmalActivo" type="text" [(ngModel)]="pedidoSeleccionado.emailUsuario" name="correo" class="form-control mb-2 ms-2" id="exampleFormControlInput1" placeholder="Ingrese el correo">
+          <div class="w-50 mb-2">
+            <button class="btn btn-info btn-sm text-white" *ngIf="!sendEmalActivo" [disabled]="cajaDtoOut.estado == 'CERRADO'" (click)="sendEmalActivo = true">Enviar comprobante al correo</button>
+            <input *ngIf="sendEmalActivo" type="text" [(ngModel)]="pedidoSeleccionado.emailUsuario" name="correo" class="form-control" id="exampleFormControlInput1" placeholder="Ingrese el correo">
           </div>
           <div class="form-group row">
 
             
             <div class="col-sm-12 d-flex">
-                <label for="estado" class="col-form-label col-sm-1 mr-3">Estado</label>
+                <span for="estado" class="col-form-label  mr-3">Estado pedido</span>
             <select class="custom-select col-sm-4" [(ngModel)]="pedidoSeleccionado.estado" name="estado" [disabled]="cajaDtoOut.estado == 'CERRADO'">
                 <option [ngValue]="undefined">--Seleccione estado--</option>
               <option *ngFor="let estado of estados" [ngValue]="estado">{{estado}}</option>

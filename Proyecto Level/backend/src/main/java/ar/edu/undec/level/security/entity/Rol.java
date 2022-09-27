@@ -1,9 +1,11 @@
 package ar.edu.undec.level.security.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +17,11 @@ public class Rol {
     @NotNull
 //    @Enumerated(EnumType.STRING)
     private String rolNombre;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate fecha_creacion;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate fecha_actualizacion;
 
 //    @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -26,6 +33,16 @@ public class Rol {
     private Set<Usuario> usuarios= new HashSet<>();
 
     public Rol() {
+    }
+
+    @PrePersist
+    public void fechaCreacion() {
+        this.fecha_creacion = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void fechaActualizacion() {
+        this.fecha_actualizacion = LocalDate.now();
     }
 
     public void setRolNombre(String rolNombre) {
@@ -66,5 +83,21 @@ public class Rol {
 
     public void setUsuarios(Set<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public LocalDate getFecha_creacion() {
+        return fecha_creacion;
+    }
+
+    public void setFecha_creacion(LocalDate fecha_creacion) {
+        this.fecha_creacion = fecha_creacion;
+    }
+
+    public LocalDate getFecha_actualizacion() {
+        return fecha_actualizacion;
+    }
+
+    public void setFecha_actualizacion(LocalDate fecha_actualizacion) {
+        this.fecha_actualizacion = fecha_actualizacion;
     }
 }

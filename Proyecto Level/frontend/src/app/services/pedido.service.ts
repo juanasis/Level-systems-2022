@@ -42,6 +42,14 @@ export class PedidoService {
     return this.httpClient.put<any>(this.pedidoURL + `/actualizar`, pedido);
   }
 
+  public actualizarItemsPedido(pedido: Pedido): Observable<any> {
+    return this.httpClient.put<any>(this.pedidoURL + `/actualizar/items`, pedido);
+  }
+
+  public actualizarPedidoEstadoBebida(pedido: Pedido): Observable<any> {
+    return this.httpClient.put<any>(this.pedidoURL + `/actualizar/estado-bebida`, pedido);
+  }
+
   public delete(id: number): Observable<any> {
     return this.httpClient.delete<any>(this.pedidoURL + `/delete/${id}`);
   }

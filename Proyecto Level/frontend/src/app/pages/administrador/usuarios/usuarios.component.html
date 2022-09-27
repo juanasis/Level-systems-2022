@@ -20,8 +20,8 @@
           <th scope="row"><button class="btn btn-primary" [routerLink]="['editar-usuario',usuario.nombreUsuario]">{{usuario.id}}</button> </th>
           <td>{{usuario.nombre}} </td>
           <td>{{usuario.nombreUsuario}} </td>
-          <td>19/08/2022</td>
-          <td>19/08/2022</td>
+          <td>{{usuario.fecha_creacion}}</td>
+          <td>{{usuario.fecha_actualizacion}}</td>
           <td><span class="badge badge-primary ms-1" *ngFor="let rol of usuario.roles">{{rol.rolNombre.toString().split('_')[1]}}</span></td>
           <td>
             <button class="btn btn-info " [routerLink]="[usuario.nombreUsuario,'historial']">Historial</button>

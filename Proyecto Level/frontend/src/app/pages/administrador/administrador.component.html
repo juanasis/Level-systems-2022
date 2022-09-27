@@ -2,7 +2,7 @@
   <div class="card-deck mt-5">
     <div class="card  mb-3 list-group-item-action" style="max-width: 18rem; cursor: pointer;" [routerLink]="['productos/page/0']">
         <div class="card-body">
-        <h2 class="card-title">Productos</h2>
+        <h4 class="card-title">Productos</h4>
         <ul class="list-group">
             <li class="list-group-item" aria-disabled="true"> Listar productos</li>
             <li class="list-group-item">Crear productos</li>
@@ -11,9 +11,22 @@
           </ul>
         </div>
     </div>
+
+    <div class="card  mb-3 list-group-item-action" style="max-width: 18rem; cursor: pointer;" [routerLink]="['materias-prima']">
+      <div class="card-body">
+      <h4 class="card-title">Materias prima</h4>
+      <ul class="list-group">
+          <li class="list-group-item" aria-disabled="true"> Listar materias prima</li>
+          <li class="list-group-item">Crear materias prima</li>
+          <li class="list-group-item">Editar materias prima</li>
+          <li class="list-group-item">Eliminar materias prima</li>
+        </ul>
+      </div>
+  </div>
+
     <div class="card  mb-3  list-group-item-action" style="max-width: 18rem; cursor: pointer;" [routerLink]="['usuarios']">
         <div class="card-body">
-        <h2 class="card-title">Usuarios</h2>
+        <h4 class="card-title">Usuarios</h4>
         <ul class="list-group">
             <li class="list-group-item" aria-disabled="true"> Listar usuarios</li>
             <li class="list-group-item">Crear usuarios</li>
@@ -25,7 +38,7 @@
 
     <div class="card  mb-3  list-group-item-action" style="max-width: 18rem; cursor: pointer;" [routerLink]="['roles']">
       <div class="card-body">
-      <h2 class="card-title">Roles</h2>
+      <h4 class="card-title">Roles</h4>
       <ul class="list-group">
           <li class="list-group-item" aria-disabled="true"> Listar usuarios</li>
           <li class="list-group-item">Crear roles</li>
@@ -37,7 +50,7 @@
 
     <div class="card  mb-3  list-group-item-action" style="max-width: 18rem; cursor: pointer;" [routerLink]="['permisos']">
       <div class="card-body">
-      <h2 class="card-title">Permisos</h2>
+      <h4 class="card-title">Permisos</h4>
       <ul class="list-group">
           <li class="list-group-item" aria-disabled="true"> Listar permisos</li>
           <li class="list-group-item">Editar permisos</li>

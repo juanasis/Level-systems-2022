@@ -14,14 +14,17 @@ export class MenuComponent implements OnInit {
   rolAdmin: string = '';
   rolCajero: string = '';
 
+  rolesUsuario: string[] = [];
+  formularioSeguridadActivo: boolean = false;
+
   opcionesActivas: boolean = false;
 
   codigo: string = '';
   rutasActivas = [];
   rutas = [
     {
-      path: '/cajeros',
-      name: 'Cajeros',
+      path: '/caja',
+      name: 'Caja',
       permiso: 'CAJA',
       activo: false
     },
@@ -32,8 +35,8 @@ export class MenuComponent implements OnInit {
       activo: false
     },
     {
-      path: '/cocineros',
-      name: 'Cocineros',
+      path: '/cocina',
+      name: 'Cocina',
       permiso: 'COCINA',
       activo: false
     },
@@ -53,18 +56,9 @@ export class MenuComponent implements OnInit {
   
   isLogged = false;
   constructor(private tokenService: TokenService, private router: Router) {
-    // this.router.events.subscribe((data) => {
-    //   if (data instanceof RoutesRecognized) {
-    //    console.log(data.state.root.firstChild.data.expectedPermisos)
-    //    let permisosEsperados = data.state.root.firstChild.data.expectedPermisos;
-    //    let ruta = data.state.root.firstChild.routeConfig.path;
-    //    console.log(data.state.root.firstChild.routeConfig.path)
-    //     this.rutasActivas.push({path: `/${ruta}`, permisosEsperados: permisosEsperados})
-    //   }
-    // });
    }
   onLogOut(): void {
-    this.tokenService.getAuthorities().forEach(rol => {
+    this.rolesUsuario.forEach(rol => {
       this.desactivarRoles(rol);
     });
     this.tokenService.getPermisos().forEach(rol => {
@@ -73,7 +67,8 @@ export class MenuComponent implements OnInit {
     this.tokenService.logOut();
     this.isLogged = false;
     this.router.navigate(['/']);
-    
+    this.formularioSeguridadActivo = false;
+    this.opcionesActivas = true;
    }
 
 
@@ -85,14 +80,30 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    
+    this.rolesUsuario = this.tokenService.getAuthorities();
+    if(this.rolesUsuario.includes('ROLE_MOZO') && this.rolesUsuario.length == 1) {
+      this.formularioSeguridadActivo = true;
+      this.opcionesActivas = false;
+    } else {
+      this.opcionesActivas = true;
+      this.formularioSeguridadActivo = false;
+    }
+
+    this.tokenService.formularioNavBarStatus$
+    .subscribe(response => {
+      this.codigo = ''
+      this.opcionesActivas = response.activo
+      this.formularioSeguridadActivo = true;
+    })
+
+
     
     this.tokenService.getPermisos()
         .forEach(p => {
           this.validarRoles(p)
         })
-    // this.tokenService.getAuthorities().forEach(rol => {
-    //   this.validarRoles(rol);
-    // })
     
     this.tokenService.loginStatus$.subscribe(
       data => {
@@ -107,6 +118,8 @@ export class MenuComponent implements OnInit {
     } else {
       this.isLogged = false;
     }
+
+
   }
 
   validarRoles(rol: string) {

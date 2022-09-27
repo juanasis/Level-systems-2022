@@ -8,15 +8,14 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class
-Caja {
+public class Caja {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCaja;
 
     private EstadoCaja estado;
-    //no puede ser nulo
+
     private Double monto_inicial;
 
     private Double monto_final;

@@ -62,8 +62,6 @@ export class ClientesComponent implements OnInit {
   }
   quitarProducto(producto: Producto){
     this.pedido.quitar(producto);
-    // this.pedido.items = this.pedido.items.filter((i: ItemPedido) => i.producto_id !=  producto.id)
-    // console.log(this.pedido.items)
     let productoInfo = this.pedidovista.quitar(producto);
     this.total = productoInfo[1];
     producto = productoInfo[0];

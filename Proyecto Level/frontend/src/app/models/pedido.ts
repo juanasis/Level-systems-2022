@@ -14,6 +14,7 @@ export class Pedido {
     fecha: Date;
     tipoPago: string;
     emailUsuario: string;
+    pedidoEstadoBebida: string;
 
     constructor(){
         this.itemsList = [];

@@ -1,0 +1,34 @@
+<div class="container">
+    <h2 class=" mt-5">Lista de materias prima</h2>
+  
+    <a class="btn btn-primary mb-4" [routerLink]="['crear']" routerLinkActive="router-link-active" >Nueva materia prima</a>
+    
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Stock mínimo</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Alerta stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let materiaPrima of listaMateriaPrima" >
+            <th scope="row"><button class="btn btn-primary" [routerLink]="[materiaPrima.id]">{{materiaPrima.id}}</button> </th>
+            <td>{{materiaPrima.nombre}} </td>
+            <td>{{materiaPrima.stock}} </td>
+            <td>{{materiaPrima.cantidadMinima}} </td>
+            <td>{{materiaPrima.descripcion}} </td>
+            <td>
+              <button class="btn btn-success " style="width: 150px" *ngIf="!materiaPrima.alertaCantidad">OK</button>
+              <button class="btn btn-warning " style="width: 150px" *ngIf="materiaPrima.alertaCantidad">Aumentar stock</button>
+            </td>
+        
+          </tr>
+           
+        </tbody>
+      </table>
+  </div>
+  

@@ -24,7 +24,7 @@ export class CajerosComponent implements OnInit {
   constructor(private cajaService: CajaService, private router: Router, private pedidoService: PedidoService, private tokenService: TokenService, private authService: AuthService) { }
 
   ngOnInit(): void {
-
+    this.cajaDtoIn.monto_inicial = 0;
     this.cajaService.listarCajas()
         .subscribe(response => {
           this.cajas = response.data;

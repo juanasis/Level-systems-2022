@@ -22,14 +22,12 @@ export class MenuGuard implements CanActivate {
     const roles: Role[] = [];
     let permitido: boolean = false; 
     this.permisos = this.tokenService.getPermisos();
-    // console.log(this.permisos)
 
     expectedPermisos.forEach(p => {
       if(this.permisos.includes(p)){
         permitido = true;
       }
     })
-    // console.log(permitido)
 
     if(!permitido ) {
       Swal.fire('Sin acceso','El rol actual no tiene acceso a este recurso.','info')

@@ -17,25 +17,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let pedido of pedidosMozo">
+                        <tr *ngFor="let pedido of pedidosMozo; let i = index">
                             <td class="text-center"><span class="badge bg-primary">Mesa {{pedido.mesa.id}}</span></td>
                             <td class="text-center"><img *ngIf="pedido.estado == 'EN_COLA'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
                             <td class="text-center"><img *ngIf="pedido.estado == 'EN_PREPARACION'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
                             <td class="text-center"><img *ngIf="pedido.estado == 'LISTO'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
                             <td class="text-center"><img *ngIf="pedido.estado == 'ENTREGADO'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
                             <td class="text-center">{{pedido.fecha}}</td>
-                            <td>
-                                <a class="btn btn-light btn-sm  float-right font-weight-bold" href="#xd{{i}}" data-bs-toggle="collapse" aria-expanded="false" >Detalle</a>
-                                <ul class="list-group list-group-flush ml-4 collapse list-unstyled mt-2"  id="xd{{i}}">
-                                    <li class="list-group-item font-italic pl-1" *ngFor="let item of pedido.itemsList"><span *ngIf="item.producto.categoria.nombre != 'BEBIDAS'">{{item.cantidad}}x {{item.producto.nombre}}</span></li>
-                                    <div class="d-flex align-items-center mt-1">
-                                     
-                                    </div>                              
-                                
+                            <td class=" ">
+                                <ul class="list-group list-group-flush collapse list-unstyled "  id="xd{{i}}">
+                                    <li class="list-group-item font-italic pl-1" *ngFor="let item of pedido.itemsList"><span>{{item.cantidad}}x {{item.producto.nombre}}</span></li>
                                 </ul>
+                                <div class="mt-1">
+                                    <a class="btn btn-light btn-sm  float-right font-weight-bold" href="#xd{{i}}" data-bs-toggle="collapse" aria-expanded="false" >Detalle</a>
+                                  </div>
                             </td>
-                                
-                           
                         </tr>
                     </tbody>
                 </table>

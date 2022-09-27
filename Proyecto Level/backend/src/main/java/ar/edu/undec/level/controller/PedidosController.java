@@ -1,5 +1,6 @@
 package ar.edu.undec.level.controller;
 
+import ar.edu.undec.level.controller.dto.Mensaje;
 import ar.edu.undec.level.controller.dto.PedidoRequest;
 import ar.edu.undec.level.controller.dto.Response;
 import ar.edu.undec.level.security.entity.Usuario;
@@ -74,6 +75,24 @@ public class PedidosController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping("/actualizar/estado-bebida")
+    public ResponseEntity<?> actualizarPedidoEstadoBebida(@RequestBody Pedido pedido) {
+
+        pedidosService.actualizarPedidoEstadoBebida(pedido);
+
+        return new ResponseEntity<>(new Mensaje("Pedido actualizado"), HttpStatus.OK);
+    }
+
+    @PutMapping("/actualizar/items")
+    public ResponseEntity<?> actualizarItemsPedido(@RequestBody Pedido pedido) {
+
+        pedidosService.actualizarItemPedido(pedido);
+
+        return new ResponseEntity<>(new Mensaje("Pedido actualizado"), HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Response> delete(@PathVariable(value = "id") Integer pedidoId) {
         Response response = pedidosService.delete(pedidoId);

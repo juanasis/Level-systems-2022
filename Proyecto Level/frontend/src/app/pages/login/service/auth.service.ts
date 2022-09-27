@@ -74,6 +74,10 @@ export class AuthService {
     return this.httpClient.get<any>(this.authURL + 'obtener-historial/' + nombreUsuario);
   }
 
+  public obtenerHistorialRol(idRol: number): Observable<any> {
+    return this.httpClient.get<any>(this.authURL + 'obtener-historial-rol/' + idRol);
+  }
+
   public listarPermisos(): Observable<Permiso[]> {
     return this.httpClient.get<Permiso[]>(this.authURL + 'permisos');
   }

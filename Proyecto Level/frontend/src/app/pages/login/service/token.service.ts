@@ -17,6 +17,9 @@ export class TokenService {
   private _sendLoginStatusSource = new Subject<any>();
   loginStatus$ = this._sendLoginStatusSource.asObservable();
 
+  private _activarFormularioNavBar = new Subject<any>();
+  formularioNavBarStatus$ = this._activarFormularioNavBar.asObservable();
+
   constructor() { }
 
   public setToken(token: string): void {
@@ -75,8 +78,12 @@ export class TokenService {
 
   sendLoginStatus( status: boolean, roles: string[]) {
     let params= {status, roles}
-    console.log(params)
     this._sendLoginStatusSource.next(params);
+  }
+
+  activarFormularioNavBar(){
+    let param = {activo: false}
+    this._activarFormularioNavBar.next(param);
   }
 
 

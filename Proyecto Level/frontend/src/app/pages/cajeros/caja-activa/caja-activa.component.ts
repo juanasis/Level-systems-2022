@@ -48,9 +48,10 @@ export class CajaActivaComponent implements OnInit {
           .subscribe(response => {
             this.cajaDtoOut = response.data;
             this.obtenerPedidosPorMesa();
+            console.log(this.cajaDtoOut)
           }, err => {
             Swal.fire('Sin permisos', err.error.message, 'info');
-            this.router.navigate(['/cajeros']);
+            this.router.navigate(['/caja']);
           })
         })
       } else {
@@ -82,6 +83,17 @@ mostrarDetallePedido(pedido: Pedido){
   this.pedidoSeleccionado = pedido;
 }
 
+actualizarPedidoEstadoBebida(estadoBebida: string) {
+  let pedidoActualizar : Pedido = new Pedido();
+  this.pedidoSeleccionado.pedidoEstadoBebida = estadoBebida;
+  pedidoActualizar.id = this.pedidoSeleccionado.id;
+  pedidoActualizar.pedidoEstadoBebida = this.pedidoSeleccionado.pedidoEstadoBebida;
+  this.pedidoService.actualizarPedidoEstadoBebida(pedidoActualizar)
+      .subscribe(response => {
+        Swal.fire('Estado actualizado', 'Se actualizó el estado de la bebida','success')
+      })
+}
+
 actualizarPedido() {
   let pedidoActualizar : Pedido = new Pedido();
 
@@ -90,7 +102,7 @@ actualizarPedido() {
     return
   }
 
-  if(!this.pedidoSeleccionado.tipoPago) {
+  if(!this.pedidoSeleccionado.tipoPago && this.pedidoSeleccionado.estado.includes('PAGADO')) {
     Swal.fire('Alerta', 'Seleccione un tipo de pago','info')
     return
   }
@@ -106,9 +118,14 @@ actualizarPedido() {
         if(pedidoActualizar.estado == 'CANCELADO'){
           Swal.fire('Pedido cancelado', 'Se canceló el pedido','success')
         }else {
-          Swal.fire('Pedido pagado', 'Se hizo el pago del pedido','success')
+
+          if(pedidoActualizar.emailUsuario != null) {
+            Swal.fire('Pedido pagado', 'Se hizo el pago del pedido. Se envió el comprobante al email ingresado.','success')
+          }else {
+            Swal.fire('Pedido pagado', 'Se hizo el pago del pedido','success')
+          }
         }
-        
+        this.pedidoSeleccionado = undefined;
         setInterval(() => {
           window.location.reload()
         }, 1300)
@@ -130,19 +147,47 @@ quitarItemPedido(item: ItemPedido){
   }).then((result) => {
     if (result.isConfirmed) {
       this.pedidoSeleccionado.itemsList = this.pedidoSeleccionado.itemsList.filter(i => i.id != item.id);
+      let pedidoActualizar = new Pedido();
+      pedidoActualizar.id = this.pedidoSeleccionado.id;
+      pedidoActualizar.itemsList = this.pedidoSeleccionado.itemsList;
+      this.pedidoService.actualizarItemsPedido(pedidoActualizar)
+          .subscribe()
     }
   })
   
 }
 
 cerrarCaja() {
-  this.cajaService.cerrarCaja(this.cajaDtoOut.idCaja)
+
+  Swal.fire({
+    title: '¿Está seguro de cerrar caja?',
+    text: "Está apunto de cerrar caja",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Sí, cerrar!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.cajaService.cerrarCaja(this.cajaDtoOut.idCaja)
       .subscribe(response => {
         Swal.fire('Caja cerrada', 'Se cerró la caja con éxito','success')
-        this.router.navigate(['/cajeros']);
+        this.router.navigate(['/caja']);
       }, err => {
         Swal.fire('Caja cerrada', err.error.message,'info')
       })
+    }
+  })
+
+
+
+
+
+
+
+
+
 }
 
 }

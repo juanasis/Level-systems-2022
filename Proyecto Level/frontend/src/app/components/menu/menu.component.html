@@ -13,17 +13,19 @@
           <a class="nav-link"  routerLink="/login"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>  
         </li>
 
-        <li class="nav-item" *ngIf="!opcionesActivas && isLogged">
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="password" placeholder="Ingresar código" [(ngModel)]="codigo" name="codigo" aria-label="Search">
-            <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit" (click)="redireccionar()">Mostrar opciones</button>
-          </form>
-        </li>
+          <li class="nav-item" *ngIf="!opcionesActivas && isLogged && formularioSeguridadActivo">
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="password" placeholder="Ingresar código" [(ngModel)]="codigo" name="codigo" aria-label="Search">
+              <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit" (click)="redireccionar()">Mostrar opciones</button>
+            </form>
+          </li>
 
-        <li class="nav-item ms-4" *ngIf="isLogged" (click)="onLogOut()" >
-          <a class="nav-link" style="cursor: pointer;"><i class="fas fa-door-open" ></i> Cerrar Sesión</a>
-        </li>
+
+
       </ul>
+      <div *ngIf="isLogged" (click)="onLogOut()">
+          <a class="nav-link" style="cursor: pointer; color: #000;"><i class="fas fa-door-open" ></i> Cerrar Sesión</a>
+      </div>
     </div>
   </nav>
   

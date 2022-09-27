@@ -22,20 +22,23 @@ import { PermisosComponent } from './pages/administrador/permisos/permisos.compo
 import { ActualizarPermisoComponent } from './pages/administrador/permisos/actualizar-permiso/actualizar-permiso.component';
 import { HistorialUsuarioComponent } from './pages/administrador/usuarios/historial-usuario/historial-usuario.component';
 import { CajaActivaComponent } from './pages/cajeros/caja-activa/caja-activa.component';
+import { MateriasPrimaComponent } from './pages/administrador/materias-prima/materias-prima.component';
+import { FormMateriaPrimaComponent } from './pages/administrador/materias-prima/form-materia-prima/form-materia-prima.component';
+import { HistorialRolComponent } from './pages/administrador/roles/historial-rol/historial-rol.component';
  
 const routes: Routes = [  
 {
-  path: 'cajeros',
+  path: 'caja',
   component: CajerosComponent,
   canActivate: [guard], data: {expectedPermisos: ['CAJA']}
 },
 {
-  path: 'cajeros/caja-activa',
+  path: 'caja/caja-activa',
   component: CajaActivaComponent,
   canActivate: [guard], data: {expectedPermisos: ['CAJA']}
 },
 {
-  path: 'cajeros/caja-activa/:idCaja',
+  path: 'caja/caja-activa/:idCaja',
   component: CajaActivaComponent,
   canActivate: [guard], data: {expectedPermisos: ['CAJA']}
 },
@@ -50,7 +53,7 @@ const routes: Routes = [
   canActivate: [guard], data: {expectedPermisos: ['LISTAR_PEDIDOS_MOZO']}
 },
 {
-  path: 'cocineros',
+  path: 'cocina',
   component: CocinerosComponent,
   canActivate: [guard], data: {expectedPermisos: ['COCINA']}
 },
@@ -110,6 +113,21 @@ const routes: Routes = [
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
+  path: 'administrador/materias-prima',
+  component: MateriasPrimaComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
+  path: 'administrador/materias-prima/:id',
+  component: FormMateriaPrimaComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
+  path: 'administrador/materias-prima/crear',
+  component: FormMateriaPrimaComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
   path: 'administrador/roles',
   component: RolesComponent,
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
@@ -117,6 +135,11 @@ const routes: Routes = [
 {
   path: 'administrador/roles/crear-rol',
   component: RolFormularioComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
+  path: 'administrador/roles/:idRol/historial',
+  component: HistorialRolComponent,
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {

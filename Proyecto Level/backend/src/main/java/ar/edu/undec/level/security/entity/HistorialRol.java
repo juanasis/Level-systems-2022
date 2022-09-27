@@ -2,14 +2,13 @@ package ar.edu.undec.level.security.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-
-@Table(name = "historia_usuario")
 @Entity
-public class HistoriaUsuario {
+public class HistorialRol {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +21,7 @@ public class HistoriaUsuario {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Usuario usuario;
+    private Rol rol;
 
     @PrePersist
     public void prePersist(){
@@ -53,11 +52,11 @@ public class HistoriaUsuario {
         this.detalle = detalle;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 }

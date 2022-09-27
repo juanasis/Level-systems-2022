@@ -1,4 +1,4 @@
 export class CajaDtoIn {
-    fecha_cierre: Date;
     cajero: any;
+    monto_inicial: number;
 }

@@ -28,6 +28,7 @@ export class ActualizarPermisoComponent implements OnInit {
                   this.authService.getRoles()
                   .subscribe(response => {
                     this.roles = response.data;
+                    
                     this.permiso.roles.forEach(rol => {
                       rol.asignado = true;
                       rol.usuarios = []
@@ -39,6 +40,8 @@ export class ActualizarPermisoComponent implements OnInit {
                         }
                       })
                     })
+                    console.log(this.roles)
+                    console.log(this.permiso)
                   })
                 })
           }
@@ -72,11 +75,26 @@ export class ActualizarPermisoComponent implements OnInit {
   }
 
   actualizar(): void {
-    this.authService.actualizarPermiso(this.permiso)
+    let permisoActualizar = new Permiso();
+    permisoActualizar.permisoId = this.permiso.permisoId;
+    permisoActualizar.roles = this.mapRolToRolId(this.permiso.roles)
+    console.log(permisoActualizar)
+    this.authService.actualizarPermiso(permisoActualizar)
         .subscribe(() => {
           this.router.navigate(['/administrador/permisos'])
         }
         )
+  }
+
+  mapRolToRolId(roles: Role[]): Role[] {
+    return roles.map(r => {
+      let rol = new Role();
+      rol.id = r.id;
+      rol.fecha_creacion = r.fecha_creacion;
+      rol.fecha_actualizacion = r.fecha_actualizacion;
+      rol.rolNombre = r.rolNombre
+      return rol;
+    })
   }
 
   regresar() {

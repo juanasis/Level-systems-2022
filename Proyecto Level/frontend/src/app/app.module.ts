@@ -25,6 +25,10 @@ import { RolesComponent } from "./pages/administrador/roles/roles.component";
 import { RolFormularioComponent } from "./pages/administrador/roles/rol-formulario/rol-formulario.component";
 import { CajaActivaComponent } from "./pages/cajeros/caja-activa/caja-activa.component";
 import { PaginatorComponent } from "./pages/shared/paginator/paginator.component";
+import { MateriasPrimaComponent } from "./pages/administrador/materias-prima/materias-prima.component";
+import { FormMateriaPrimaComponent } from "./pages/administrador/materias-prima/form-materia-prima/form-materia-prima.component";
+import { HistorialRolComponent } from "./pages/administrador/roles/historial-rol/historial-rol.component";
+import { HistorialUsuarioComponent } from "./pages/administrador/usuarios/historial-usuario/historial-usuario.component";
 
 @NgModule({
   declarations: [
@@ -46,7 +50,11 @@ import { PaginatorComponent } from "./pages/shared/paginator/paginator.component
     RolesComponent,
     RolFormularioComponent,
     CajaActivaComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    MateriasPrimaComponent,
+    FormMateriaPrimaComponent,
+    HistorialRolComponent,
+    HistorialUsuarioComponent
   ],
   imports: [
     BrowserModule,

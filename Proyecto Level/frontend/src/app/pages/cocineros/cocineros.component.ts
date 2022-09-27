@@ -22,7 +22,6 @@ export class CocinerosComponent implements OnInit {
     ngOnInit(): void {
       this.pedidoService.obtenerPedidosActivosCocina()
           .subscribe(response => {
-            console.log(response)
             this.pedidos = response.data;
             this.pedidosAuxiliar = this.pedidos;
           })
@@ -36,7 +35,6 @@ export class CocinerosComponent implements OnInit {
     pedidosPorEstado(estado: string) {
       this.pedidosFiltradoActivo = true;
       this.pedidosFiltrados = this.pedidos.filter(p => p.estado == estado);
-      console.log(this.pedidosFiltrados)
     }
 
     activarTodosLosPedidos() {
@@ -53,12 +51,12 @@ export class CocinerosComponent implements OnInit {
       pedidoActualizar.id = pedido.id;
       pedidoActualizar.estado = estado;
       pedidoActualizar.itemsList = pedido.itemsList;
+      pedidoActualizar.pedidoEstadoBebida = pedido.pedidoEstadoBebida;
       this.pedidoService.update(pedidoActualizar)
           .subscribe(response => {
             this.pedidoService.obtenerPedidosActivosCocina()
                 .subscribe(response => {
                   this.pedidos = response.data;
-                  console.log(this.pedidos)
 
                   this.pedidosFiltrados = this.pedidosFiltrados.filter(p => {
                     if(p.estado != estado && p.id != pedido.id) {

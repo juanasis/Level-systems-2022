@@ -1,0 +1,22 @@
+<div class="container">
+    <div class=" bg-white mt-5 p-2 " style="width: 900px; height: 800px; margin: auto;">
+      <div class="card" style="width: 100%;">
+          <div class="card-header bg-white">
+            Cambios en el rol
+            <button class="btn btn-outline-secondary btn-sm float-end" (click)="regresar()" routerLinkActive="router-link-active" >Regresar</button>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let item of listaHistorial">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <b>Cambio: </b> {{item.detalle}}
+                    </div>
+                    <div>
+                      <b>Fecha: </b> {{item.fechaActualizacion}}
+                    </div>
+                </div>
+            </li>
+          </ul>
+        </div>
+  </div>
+  </div>

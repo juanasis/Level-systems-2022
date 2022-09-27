@@ -32,6 +32,10 @@ export class MozosComponent implements OnInit {
      private authService: AuthService) { }
   ngOnInit(): void {
 
+    if(this.rolesDelUsuario.includes('ROLE_MOZO') && this.rolesDelUsuario.length == 1) {
+      this.tokenService.activarFormularioNavBar();
+    }
+
     let nombreUsuario: string = this.tokenService.getUserName();
     
     this.rolesDelUsuario = this.tokenService.getAuthorities();
@@ -41,6 +45,8 @@ export class MozosComponent implements OnInit {
         this.rolCajeroOk = true;
       }
     })
+    
+    
 
 
     this.authService.buscarPorNonbreUsuario(nombreUsuario)
@@ -58,7 +64,10 @@ export class MozosComponent implements OnInit {
 
 
   obtenerPedidosPorMesa(mesa: Mesa) {
-    console.log(mesa.mozoId, this.idMozo)
+
+    if(this.rolesDelUsuario.includes('ROLE_MOZO') && this.rolesDelUsuario.length == 1) {
+      this.tokenService.activarFormularioNavBar();
+    }
 
     if(mesa.mozoId == this.idMozo || mesa.mozoId == null) {
       this.pedidoService.obtenerPedidosActivosDeMesa(mesa.id)

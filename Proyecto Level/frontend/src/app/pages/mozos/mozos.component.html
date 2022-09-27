@@ -28,7 +28,7 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="tipoPago = undefined">Cerrar</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
                       <button type="button" class="btn btn-primary" *ngIf="tipoPago.length > 0" data-bs-dismiss="modal" (click)="pagarTodosLosPedidos()">Pagar</button>
                     </div>
                   </div>
@@ -51,10 +51,10 @@
             <thead>
               <tr>
                   <th class=""># de pedido</th>
-                 
-                  <th class="">Estado de la comida</th>
-                  <th class="">Estado de la bebida</th>
                   <th class="">Producto</th>
+                  
+                  <th class="">Estado de comida</th>
+                  <th class="">Estado de la bebida</th>
                   <th class="">Precio</th>
                   <!-- <th style="width: 140px;">Acción</th> -->
               </tr>
@@ -63,23 +63,21 @@
           <tbody>
             <tr *ngFor="let pedido of pedidosActivosMesa">
                 <td class="d-flex justify-content-center align-items-center"><span class="badge bg-primary">Pedido #{{pedido.id}}</span></td>
-                <td class=""> 
-                  <div class="btn btn-danger btn-sm btn-block" *ngIf="pedido.estado == 'EN_COLA'">EN COLA</div>
-                <div class="btn btn-warning btn-sm btn-block" *ngIf="pedido.estado == 'EN_PREPARACION'">EN PREPARACIÓN</div>
-                <div class="btn btn-success btn-sm btn-block" *ngIf="pedido.estado == 'LISTO'">LISTO</div>
-                <div class="btn btn-info btn-sm btn-block" *ngIf="pedido.estado === 'ENTREGADO'">ENTREGADO</div>
-                </td>
-                <td class=""> 
-                  <div class="btn btn-danger btn-sm btn-block" *ngIf="pedido.estado == 'EN_COLA'">EN COLA</div>
-                <div class="btn btn-warning btn-sm btn-block" *ngIf="pedido.estado == 'EN_PREPARACION'">EN PREPARACIÓN</div>
-                <div class="btn btn-success btn-sm btn-block" *ngIf="pedido.estado == 'LISTO'">LISTO</div>
-                <div class="btn btn-info btn-sm btn-block" *ngIf="pedido.estado === 'ENTREGADO'">ENTREGADO</div>
-                </td>
                 <td class=""  >
                   <p class="flex-column mb-0" *ngFor="let item of pedido.itemsList">*{{item.producto.nombre}}</p>
                   <p class="mb-0"><strong>Total a pagar</strong> </p>
                 </td>
-               
+                <td>
+                  <button class="btn btn-danger btn-block" *ngIf="pedido.estado == 'EN_COLA'">EN COLA</button>
+                  <button class="btn btn-warning btn-block" *ngIf="pedido.estado == 'EN_PREPARACION'">EN PREPARACIÓN</button>
+                  <button class="btn btn-success btn-block" *ngIf="pedido.estado == 'LISTO'">LISTO</button>
+                  <button class="btn btn-info btn-block" *ngIf="pedido.estado == 'ENTREGADO'">ENTREGADO</button>
+                </td>
+                <td>
+                  <button class="btn btn-light btn-block" *ngIf="pedido.pedidoEstadoBebida == 'NO_REQUIERE'">NO REQUIERE</button>
+                  <button class="btn btn-danger btn-block" *ngIf="pedido.pedidoEstadoBebida == 'EN_COLA'">EN COLA</button>
+                  <button class="btn btn-info btn-block" *ngIf="pedido.pedidoEstadoBebida == 'ENTREGADO'">ENTREGADO</button>
+                </td>
                 <td class="" >
                   <p class=" flex-column mb-0 text-end" *ngFor="let item of pedido.itemsList; let i = index" >${{item.precio * item.cantidad}}</p>
                   <hr class="my-0">
@@ -126,7 +124,7 @@
                         </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="pedido.tipoPago = undefined">Cerrar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
                         <button type="button" class="btn btn-primary" *ngIf="pedido.tipoPago" data-bs-dismiss="modal" (click)="actualizarPedido(pedido)">Pagar</button>
                       </div>
                     </div>

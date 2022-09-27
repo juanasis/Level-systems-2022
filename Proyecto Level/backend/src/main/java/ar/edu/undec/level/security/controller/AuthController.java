@@ -4,10 +4,7 @@ package ar.edu.undec.level.security.controller;
 import ar.edu.undec.level.controller.dto.Mensaje;
 import ar.edu.undec.level.controller.dto.Response;
 import ar.edu.undec.level.security.dto.*;
-import ar.edu.undec.level.security.entity.HistoriaUsuario;
-import ar.edu.undec.level.security.entity.Permiso;
-import ar.edu.undec.level.security.entity.Rol;
-import ar.edu.undec.level.security.entity.Usuario;
+import ar.edu.undec.level.security.entity.*;
 import ar.edu.undec.level.security.jwt.JwtProvider;
 import ar.edu.undec.level.security.service.RolService;
 import ar.edu.undec.level.security.service.UsuarioService;
@@ -78,7 +75,8 @@ public class AuthController {
                 .collect(Collectors.toSet());
 
         usuario.setRoles(rolesTransformados);
-        usuarioService.save(usuario);
+        Usuario usuarioCreado = usuarioService.save(usuario);
+        crearHistorialCuandoSeCreaUsuario(usuarioCreado);
         return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
     }
 
@@ -86,12 +84,19 @@ public class AuthController {
 * va a devolver un token, usando el nombre de usuario y contraseña
 * */
     @PostMapping("/login")
-    public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
+    public ResponseEntity<?> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Mensaje("campos mal puestos"), HttpStatus.BAD_REQUEST);
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        Optional<Usuario> usuarioEncontrado = usuarioService.getByNombreUsuario(loginUsuario.getNombreUsuario());
+        if(!usuarioEncontrado.isPresent()) {
+            return new ResponseEntity(new Mensaje("Usuario no existe"), HttpStatus.NOT_FOUND);
+        }
+
+        if(!usuarioEncontrado.get().getActivo()) return new ResponseEntity(new Mensaje("El usuario '"+ usuarioEncontrado.get().getNombreUsuario()+ "' está deshabilitado"), HttpStatus.CONFLICT);
+
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
         JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
@@ -191,7 +196,7 @@ public class AuthController {
             agregarHistorialRolesUsuario(usuarioOk, rolesUsuarioFront);
         }
 
-        agregarHistorialAtributos(usuarioEncontrado.get(), usuarioFront);
+        agregarHistorialAtributosUsuario(usuarioEncontrado.get(), usuarioFront);
 
         usuarioOk.setNombre(usuarioFront.getNombre());
         usuarioOk.setApellido(usuarioFront.getApellido());
@@ -246,7 +251,8 @@ public class AuthController {
         Optional<Rol> rolEncontrado = rolService.getByRolNombre(rol.getRolNombre());
         if(rolEncontrado.isPresent()) return new ResponseEntity<>(new Mensaje("El rol ya existe"), HttpStatus.BAD_REQUEST);
 
-        rolService.save(rol);
+        Rol rolCreado = rolService.save(rol);
+        this.crearHistorialCuandoSeCreaRol(rolCreado);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -272,10 +278,17 @@ public class AuthController {
         }
 
         Rol rolEncontradoGet = rolEncontrado.get();
+        agregarHistorialAtributosRol(rolEncontradoGet, rol);
         rolEncontradoGet.setRolNombre(rol.getRolNombre());
         rolService.save(rolEncontradoGet);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
+    @GetMapping("/obtener-historial-rol/{id_rol}")
+    public ResponseEntity<?> obtenerHistorialUsuario(@PathVariable Integer id_rol){
+        Response response = new Response();
+        response.setData(rolService.listarHistorialRol(id_rol));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/eliminar-rol/{idRol}")
@@ -342,7 +355,7 @@ public class AuthController {
         usuarioService.crearHistoriaUsuario(historial);
     }
 
-    private void agregarHistorialAtributos (Usuario usuarioActual, NuevoUsuario usuarioFront) {
+    private void agregarHistorialAtributosUsuario (Usuario usuarioActual, NuevoUsuario usuarioFront) {
 
         if(!usuarioActual.getNombre().equals(usuarioFront.getNombre())) {
             String detalle = "Se cambió el nombre de "+usuarioActual.getNombre()+" a " + usuarioFront.getNombre()+ "." ;
@@ -366,6 +379,15 @@ public class AuthController {
 
         }
 
+    private void agregarHistorialAtributosRol (Rol rolActual, Rol rolFront) {
+
+        if(!rolActual.getRolNombre().equals(rolFront.getRolNombre())) {
+            String detalle = "Se cambió el nombre de "+rolActual.getRolNombre()+" a " + rolFront.getRolNombre()+ "." ;
+            nuevoHistorialRol(detalle, rolActual);
+        }
+
+    }
+
         private String estadoToString(Boolean estado) {
             return estado ? "ACTIVO": "INACTIVO";
         }
@@ -376,6 +398,27 @@ public class AuthController {
             historial.setDetalle(detalle);
             historial.setUsuario(usuario);
             usuarioService.crearHistoriaUsuario(historial);
+        }
+
+        private void nuevoHistorialRol(String detalle, Rol rol) {
+            HistorialRol historial = new HistorialRol();
+            historial.setDetalle(detalle);
+            historial.setRol(rol);
+            rolService.crearHistoriaRol(historial);
+        }
+
+        private void crearHistorialCuandoSeCreaUsuario(Usuario usuario) {
+            HistoriaUsuario historial = new HistoriaUsuario();
+            historial.setDetalle("Se creó al usuario.");
+            historial.setUsuario(usuario);
+            usuarioService.crearHistoriaUsuario(historial);
+        }
+
+        private void crearHistorialCuandoSeCreaRol(Rol rol) {
+            HistorialRol historial = new HistorialRol();
+            historial.setDetalle("Se creó el rol.");
+            historial.setRol(rol);
+            rolService.crearHistoriaRol(historial);
         }
 
     }

@@ -6,7 +6,6 @@ import { FormsModule } from "@angular/forms";
 import { PedidosMozoComponent } from './pedidos-mozo/pedidos-mozo.component';
 import { PermisosComponent } from './administrador/permisos/permisos.component';
 import { ActualizarPermisoComponent } from './administrador/permisos/actualizar-permiso/actualizar-permiso.component';
-import { HistorialUsuarioComponent } from './administrador/usuarios/historial-usuario/historial-usuario.component';
 @NgModule({
     declarations: [
       
@@ -16,10 +15,8 @@ import { HistorialUsuarioComponent } from './administrador/usuarios/historial-us
       
       PermisosComponent,
       
-      ActualizarPermisoComponent,
-      
-      HistorialUsuarioComponent
-      
+      ActualizarPermisoComponent
+
          ],
     imports: [
       CommonModule,

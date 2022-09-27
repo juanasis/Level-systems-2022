@@ -61,7 +61,6 @@ export class LoginComponent implements OnInit {
         .subscribe(response => {
           let permisos: string[] = [];
           response.data.roles.forEach(rol => {
-            console.log(rol)
             rol.permisos.forEach(permiso => {
               if(permisos.includes(permiso.nombre)) return
               permisos.push(permiso.nombre);
@@ -73,9 +72,13 @@ export class LoginComponent implements OnInit {
       },
       err => {
         this.isLogged = false;
-        console.log(err)
+
+        if(err.status == 409) {
+          Swal.fire('Usuario deshabilitado', err.error.mensaje, 'info');
+          return
+        }
+
         this.errMsj = "Usuario y/o contraseña inválido."
-        // console.log(err.error.message);
       }
     );
   }
@@ -91,12 +94,10 @@ export class LoginComponent implements OnInit {
   sendEmail() {
     this.authService.sendEmail(this.emailDto)
         .subscribe(response => {
-          console.log(response)
           this.emailSentMessageSuccess = response.mensaje;
           this.emailSentMessageError = undefined;
         },
         err => {
-          console.log(err.error.mensaje);
           this.emailSentMessageError = err.error.mensaje;
           this.emailSentMessageSuccess = undefined;
         })
