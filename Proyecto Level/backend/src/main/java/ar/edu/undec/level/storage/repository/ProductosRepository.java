@@ -2,7 +2,8 @@ package ar.edu.undec.level.storage.repository;
 
  import ar.edu.undec.level.storage.entity.Categoria;
  import ar.edu.undec.level.storage.entity.Producto;
-import org.springframework.data.jpa.repository.JpaRepository;
+ import ar.edu.undec.level.storage.entity.Receta;
+ import org.springframework.data.jpa.repository.JpaRepository;
  import org.springframework.data.jpa.repository.Query;
 
  import java.util.List;
@@ -20,4 +21,5 @@ public interface ProductosRepository extends JpaRepository<Producto, Integer> {
     List<Categoria> getAllCategorias();
 
     List<Producto> findByNombreContaining(String filtroNombre);
+
 }

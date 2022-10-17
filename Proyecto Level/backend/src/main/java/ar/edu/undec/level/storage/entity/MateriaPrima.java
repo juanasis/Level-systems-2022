@@ -1,9 +1,6 @@
 package ar.edu.undec.level.storage.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class MateriaPrima {
@@ -14,7 +11,7 @@ public class MateriaPrima {
 
     private String nombre;
 
-    private Integer stock;
+    private Double stock;
 
     private Integer cantidadMinima;
 
@@ -38,11 +35,11 @@ public class MateriaPrima {
         this.nombre = nombre;
     }
 
-    public Integer getStock() {
+    public Double getStock() {
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setStock(Double stock) {
         this.stock = stock;
     }
 
@@ -69,4 +66,5 @@ public class MateriaPrima {
     public void setAlertaCantidad(Boolean alertaCantidad) {
         this.alertaCantidad = alertaCantidad;
     }
+
 }

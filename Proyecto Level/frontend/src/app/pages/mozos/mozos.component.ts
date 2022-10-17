@@ -72,7 +72,7 @@ export class MozosComponent implements OnInit {
     if(mesa.mozoId == this.idMozo || mesa.mozoId == null) {
       this.pedidoService.obtenerPedidosActivosDeMesa(mesa.id)
       .subscribe(response => {
-        
+          console.log(response)
         if(response.data.length == 0) {
           this.router.navigate(['/clientes',mesa.id]);
           return 

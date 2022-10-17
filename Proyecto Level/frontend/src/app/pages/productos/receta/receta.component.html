@@ -1,0 +1,64 @@
+<div class="container pb-5">
+    <div class="card mx-auto mt-4" style="width: 700px;">
+        <div *ngIf="recetaDto">
+            <div class="card-header bg-white">Receta del producto {{recetaDto.nombreRecetaProducto}} <a type="button" (click)="regresarToProductos()" class="btn btn-sm btn-light float-end"><i class="fa-solid fa-arrow-left"></i></a></div>
+            <div class="card-body">
+                <h6>Ingredientes</h6>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of recetaDto.listaRecetaItems">
+                      {{item.nombreMateriaPrima}}
+                      <span class="badge bg-primary rounded-pill"> {{item.cantidad}} {{item.descripcionMateriaPrima}}</span>
+                    </li>
+                  </ul>
+            </div>
+        </div>
+        <div *ngIf="!recetaDto">
+            <div class="card-header bg-white">Crear receta <a type="button" (click)="regresarToProductos()" class="btn btn-sm btn-light float-end"><i class="fa-solid fa-arrow-left"></i></a></div>
+            <div class="card-body">
+                
+                <div class="d-flex justify-content-between">
+                    <div class=" w-50">
+                        <h6>Ingredientes seleccionados</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of listaItemRecetaSeleccionada; let i = index">
+                              <div>
+                                {{item.nombreMateriaPrima}}
+                              </div>
+                                
+                              <div class="d-flex">
+                                <div class="d-flex">
+                                    <input type="number" class="text-center" onkeydown="return event.keyCode !== 69" style="width: 45px" pattern="[0-9]" [(ngModel)]="item.cantidad"><div style="width: 30px; margin-left: 10px;">{{item.descripcionMateriaPrima}}</div>
+                                </div>
+                                
+                                <button class="btn btn-outline-danger btn-sm ms-2" (click)="quitarItem(item)"><i class="fa-sharp fa-solid fa-trash"></i></button>
+                              </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class=" w-50">
+                        <h6>Lista de ingredientes </h6>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of listaItemsReceta">
+                              <div>
+                                {{item.nombreMateriaPrima}}
+                              </div>
+                                
+                              <div class="d-flex">
+                                <div class="d-flex">
+                                    <input type="number" pattern="[0-9]" min="0" onkeydown="return event.keyCode !== 69" class="text-center" style="width: 45px" [(ngModel)]="item.cantidad"><div style="width: 30px; margin-left: 10px;">{{item.descripcionMateriaPrima}}</div>
+                                </div>
+                                
+                                <button class="btn btn-outline-success btn-sm ms-2" (click)="agregarItem(item)"><i class="fa-solid fa-plus"></i></button>
+                              </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+            <button class="btn btn-primary ms-3 mb-3" (click)="crearReceta()" >Crear receta</button>
+        </div>
+
+    </div>
+</div>

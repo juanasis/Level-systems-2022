@@ -6,6 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { PedidosMozoComponent } from './pedidos-mozo/pedidos-mozo.component';
 import { PermisosComponent } from './administrador/permisos/permisos.component';
 import { ActualizarPermisoComponent } from './administrador/permisos/actualizar-permiso/actualizar-permiso.component';
+import { RecetaComponent } from './productos/receta/receta.component';
 @NgModule({
     declarations: [
       
@@ -15,7 +16,9 @@ import { ActualizarPermisoComponent } from './administrador/permisos/actualizar-
       
       PermisosComponent,
       
-      ActualizarPermisoComponent
+      ActualizarPermisoComponent,
+      
+      RecetaComponent
 
          ],
     imports: [

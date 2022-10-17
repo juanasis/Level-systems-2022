@@ -1,11 +1,9 @@
 package ar.edu.undec.level.service;
 
-import ar.edu.undec.level.controller.dto.ProductoRequest;
 import ar.edu.undec.level.controller.dto.Response;
 
-import ar.edu.undec.level.storage.entity.Categoria;
-import ar.edu.undec.level.storage.entity.EstadoProducto;
-import ar.edu.undec.level.storage.entity.Producto;
+import ar.edu.undec.level.mapper.MapperImpl;
+import ar.edu.undec.level.storage.entity.*;
 import ar.edu.undec.level.storage.repository.ProductosRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 

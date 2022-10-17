@@ -31,6 +31,15 @@ public class PedidosService {
     private EmailService emailService;
 
     @Autowired
+    private RecetaService recetaService;
+
+    @Autowired
+    private RecetaRepository recetaRepository;
+
+    @Autowired
+    private MateriaPrimaService materiaPrimaService;
+
+    @Autowired
     private CajaRepository cajaRepository;
 
     static final Logger LOGGER = LoggerFactory.getLogger(PedidosService.class);
@@ -49,7 +58,7 @@ public class PedidosService {
             cajaEncontrada.setIdCaja(cajaAbierta.get().getIdCaja());
             pedido.setCaja(cajaEncontrada);
 
-            if(this.isPedidoCategoriaBebidaAndCategoriaDiferenteToBebida(pedido)) {
+            if(this.pedidoContieneBebida(pedido)) {
                 pedido.setPedidoEstadoBebida(PedidoEstadoBebida.EN_COLA);
             } else {
                 pedido.setPedidoEstadoBebida(PedidoEstadoBebida.NO_REQUIERE);
@@ -138,6 +147,13 @@ public class PedidosService {
 
             pedidoEncontrado.setTipoPago(pedido.getTipoPago());
             pedidoEncontrado.setEstado(pedido.getEstado());
+
+            if(pedido.getEstado().equals(EstadoPedido.EN_PREPARACION)){
+                pedidoEncontrado.getItemsList().forEach(item -> {
+                    recetaService.descontarStockMateriaPrima(item.getProducto().getId());
+                });
+            }
+
             pedidoEncontrado.setPedidoEstadoBebida(pedido.getPedidoEstadoBebida());
             pedidoEncontrado.setItemsList(pedido.getItemsList());
 
@@ -266,7 +282,7 @@ public class PedidosService {
         List<Pedido> pedidosEncontrados = pedidosRepo.findByFechaQuery(fechaActual);
 
         return pedidosEncontrados.stream()
-                .filter(this::isPedidoCategoriaBebidaAndCategoriaDiferenteToBebida)
+                .filter(p -> !pedidoContieneSoloBebida(p))
                 .filter(p -> p.getEstado().equals(EstadoPedido.EN_COLA) || p.getEstado().equals(EstadoPedido.EN_PREPARACION) || p.getEstado().equals(EstadoPedido.LISTO) || p.getEstado().equals(EstadoPedido.ENTREGADO))
                 .map(p -> {
                     p.setCaja(null);
@@ -275,19 +291,26 @@ public class PedidosService {
                 .collect(Collectors.toList());
     }
 
-    private boolean isPedidoCategoriaBebidaAndCategoriaDiferenteToBebida(Pedido pedido) {
-
-        boolean categoriaBebidas = false;
-        boolean categoriaDiferenteToBebidas = false;
-
+    private boolean pedidoContieneBebida(Pedido pedido) {
         for (ItemPedido item : pedido.getItemsList()) {
             if(item.getProducto().getCategoria().getNombre().contains("BEBIDAS")){
-                categoriaBebidas = true;
-            } else {
-                categoriaDiferenteToBebidas = true;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean pedidoContieneSoloBebida(Pedido pedido){
+        int comidaCount = 0;
+        int bebidaCount = 0;
+        for (ItemPedido item : pedido.getItemsList()) {
+            if(item.getProducto().getCategoria().getNombre().contains("BEBIDAS")){
+                bebidaCount++;
+            }else{
+                comidaCount++;
             }
         }
 
-        return !(categoriaBebidas && !categoriaDiferenteToBebidas);
+        return comidaCount == 0 && bebidaCount > 0;
     }
 }

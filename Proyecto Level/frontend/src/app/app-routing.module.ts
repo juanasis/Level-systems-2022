@@ -25,6 +25,7 @@ import { CajaActivaComponent } from './pages/cajeros/caja-activa/caja-activa.com
 import { MateriasPrimaComponent } from './pages/administrador/materias-prima/materias-prima.component';
 import { FormMateriaPrimaComponent } from './pages/administrador/materias-prima/form-materia-prima/form-materia-prima.component';
 import { HistorialRolComponent } from './pages/administrador/roles/historial-rol/historial-rol.component';
+import { RecetaComponent } from './pages/productos/receta/receta.component';
  
 const routes: Routes = [  
 {
@@ -110,6 +111,11 @@ const routes: Routes = [
 {
   path: 'administrador/productos/crear-producto',
   component: NuevoComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
+  path: 'administrador/productos/:idProducto/receta',
+  component: RecetaComponent,
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {

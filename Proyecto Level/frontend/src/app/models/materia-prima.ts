@@ -10,4 +10,6 @@ export class MateriaPrima {
     descripcion: string ;
 
     alertaCantidad: boolean;
+
+    descontarStock: number;
 }

@@ -24,6 +24,7 @@ export class CocinerosComponent implements OnInit {
           .subscribe(response => {
             this.pedidos = response.data;
             this.pedidosAuxiliar = this.pedidos;
+            console.log(this.pedidos)
           })
 
 
@@ -43,30 +44,47 @@ export class CocinerosComponent implements OnInit {
 
     actualizarEstadoPedido(pedido: Pedido, estado: string) {
 
-      if(pedido.estado == estado) {
-        return
-      }
 
-      let pedidoActualizar = new Pedido();
-      pedidoActualizar.id = pedido.id;
-      pedidoActualizar.estado = estado;
-      pedidoActualizar.itemsList = pedido.itemsList;
-      pedidoActualizar.pedidoEstadoBebida = pedido.pedidoEstadoBebida;
-      this.pedidoService.update(pedidoActualizar)
-          .subscribe(response => {
-            this.pedidoService.obtenerPedidosActivosCocina()
-                .subscribe(response => {
-                  this.pedidos = response.data;
+      Swal.fire({
+        title: 'Cambiar de estado',
+        text: "¿Está seguro de cambiar el estado?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
 
-                  this.pedidosFiltrados = this.pedidosFiltrados.filter(p => {
-                    if(p.estado != estado && p.id != pedido.id) {
-                      return true;
-                    }
-                    return false;
-                  })
-                  Swal.fire('Pedido actualizado',`Pedido ${estado}`, 'success')
-                })
-          });
+          if(pedido.estado == estado) {
+            return
+          }
+    
+          let pedidoActualizar = new Pedido();
+          pedidoActualizar.id = pedido.id;
+          pedidoActualizar.estado = estado;
+          pedidoActualizar.itemsList = pedido.itemsList;
+          pedidoActualizar.pedidoEstadoBebida = pedido.pedidoEstadoBebida;
+          this.pedidoService.update(pedidoActualizar)
+              .subscribe(response => {
+                this.pedidoService.obtenerPedidosActivosCocina()
+                    .subscribe(response => {
+                      this.pedidos = response.data;
+                      
+                      this.pedidosFiltrados = this.pedidosFiltrados.filter(p => {
+                        if(p.estado != estado && p.id != pedido.id) {
+                          return true;
+                        }
+                        return false;
+                      })
+                      Swal.fire('Pedido actualizado',`Pedido ${estado}`, 'success')
+                    })
+              });
+        }
+      })
+
+
     }
 
 }

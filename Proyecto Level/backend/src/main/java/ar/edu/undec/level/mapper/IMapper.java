@@ -1,10 +1,10 @@
 package ar.edu.undec.level.mapper;
 
-import ar.edu.undec.level.storage.entity.Caja;
-import ar.edu.undec.level.storage.entity.CajaDtoIn;
-import ar.edu.undec.level.storage.entity.CajaDtoOut;
+import ar.edu.undec.level.storage.entity.*;
 
 public interface IMapper{
-    public Caja mapIn(CajaDtoIn cajaDtoIn);
-    public CajaDtoOut mapOut(Caja caja);
+    Caja mapInCaja(CajaDtoIn cajaDtoIn);
+    CajaDtoOut mapOutCajaDto(Caja caja);
+    Receta mapInReceta(RecetaDtoIn dtoIn);
+    RecetaDtoOut mapOutRecetaDto(Receta receta);
 }

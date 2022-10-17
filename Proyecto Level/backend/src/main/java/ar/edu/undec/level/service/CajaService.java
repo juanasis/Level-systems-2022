@@ -1,6 +1,6 @@
 package ar.edu.undec.level.service;
 
-import ar.edu.undec.level.mapper.CajaDtoToCaja;
+import ar.edu.undec.level.mapper.MapperImpl;
 import ar.edu.undec.level.storage.entity.*;
 import ar.edu.undec.level.storage.repository.CajaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class CajaService {
     private CajaRepository cajaRepository;
 
     @Autowired
-    private CajaDtoToCaja cajaMapper;
+    private MapperImpl cajaMapper;
 
     public CajaDtoOut crearCaja(CajaDtoIn cajaDtoIn) {
         Optional<Caja> cajaActiva = cajaRepository.buscarCajaActiva(EstadoCaja.ABIERTO);
@@ -28,9 +28,9 @@ public class CajaService {
         if(cajaActiva.isPresent()) {
             throw new RuntimeException("Ya hay una caja activa.");
         }
-        Caja cajaCreada = cajaRepository.save(cajaMapper.mapIn(cajaDtoIn));
+        Caja cajaCreada = cajaRepository.save(cajaMapper.mapInCaja(cajaDtoIn));
 
-        return cajaMapper.mapOut(cajaCreada);
+        return cajaMapper.mapOutCajaDto(cajaCreada);
     }
 
     public CajaDtoOut obtenerCajaActiva(Integer idCajero){
@@ -42,7 +42,7 @@ public class CajaService {
         if(!Objects.equals(cajaActiva.get().getCajero().getId(), idCajero)){
             throw new RuntimeException("El cajero actual no tiene permisos para mostrar la caja activa.");
         }
-        return cajaMapper.mapOut(cajaActiva.get());
+        return cajaMapper.mapOutCajaDto(cajaActiva.get());
     }
 
     public CajaDtoOut obtenerCajaPorId(Long idCaja) {
@@ -52,13 +52,13 @@ public class CajaService {
             throw new RuntimeException("No hay una caja con ese ID"+idCaja);
         }
 
-        return cajaMapper.mapOut(cajaEncontrada.get());
+        return cajaMapper.mapOutCajaDto(cajaEncontrada.get());
 
     }
 
     public List<CajaDtoOut> listarCajas() {
         List<Caja> listaCajas = (List<Caja>) cajaRepository.findAll();
-        return listaCajas.stream().map(cajaMapper::mapOut).collect(Collectors.toList());
+        return listaCajas.stream().map(cajaMapper::mapOutCajaDto).collect(Collectors.toList());
     }
 
 
@@ -86,7 +86,7 @@ public class CajaService {
 
         caja.setMonto_final(montoTotalCierreCaja+caja.getMonto_inicial());
 
-        return cajaMapper.mapOut(cajaRepository.save(caja));
+        return cajaMapper.mapOutCajaDto(cajaRepository.save(caja));
     }
 
     private Double obtenerMontoTotalPedido(List<ItemPedido> items) {
