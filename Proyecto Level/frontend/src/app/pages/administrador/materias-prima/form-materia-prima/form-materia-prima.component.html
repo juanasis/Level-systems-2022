@@ -21,10 +21,15 @@
           <input type="number" [(ngModel)]="materiaPrima.cantidadMinima" class="form-control" placeholder=" " name="cantidadMinima" required>
           <label for="floatingInput">Cantidad mínima</label>
         </div>
-        <div class="form-group form-floating mt-2">
-          <input type="text" [(ngModel)]="materiaPrima.descripcion" class="form-control" placeholder=" " name="descripcion" required>
-          <label for="floatingInput">Descripción</label>
-        </div>
+        <div class="form-group row">
+          <label for="descripcion" class="col-form-label col-sm-4">Unidad de medida</label>
+          <div class="col-sm-8">
+              <select  [(ngModel)]="materiaPrima.descripcion" class="form-select" name="descripcion" required>
+                  <option [ngValue]="undefined">--- Seleccionar unidad de medida ---</option>
+                  <option *ngFor="let desc of listaDescripcion" [ngValue]="desc">{{ desc }}</option>
+              </select>
+          </div>
+      </div>
   
   
 

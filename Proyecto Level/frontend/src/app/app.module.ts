@@ -29,6 +29,10 @@ import { MateriasPrimaComponent } from "./pages/administrador/materias-prima/mat
 import { FormMateriaPrimaComponent } from "./pages/administrador/materias-prima/form-materia-prima/form-materia-prima.component";
 import { HistorialRolComponent } from "./pages/administrador/roles/historial-rol/historial-rol.component";
 import { HistorialUsuarioComponent } from "./pages/administrador/usuarios/historial-usuario/historial-usuario.component";
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DashboardComponent } from "./pages/administrador/dashboard/dashboard.component";
+import { LineChartComponent } from "./pages/administrador/dashboard/components/line-chart/line-chart.component";
+import { PieChartComponent } from "./pages/administrador/dashboard/components/pie-chart/pie-chart.component";
 
 @NgModule({
   declarations: [
@@ -54,7 +58,10 @@ import { HistorialUsuarioComponent } from "./pages/administrador/usuarios/histor
     MateriasPrimaComponent,
     FormMateriaPrimaComponent,
     HistorialRolComponent,
-    HistorialUsuarioComponent
+    HistorialUsuarioComponent,
+    DashboardComponent,
+    LineChartComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,
@@ -63,6 +70,7 @@ import { HistorialUsuarioComponent } from "./pages/administrador/usuarios/histor
     ToastrModule.forRoot(),
     FormsModule,    
     BrowserAnimationsModule,
+    NgxChartsModule,
     HttpClientModule,ReactiveFormsModule
   ],
   providers: [interceptorProvider],

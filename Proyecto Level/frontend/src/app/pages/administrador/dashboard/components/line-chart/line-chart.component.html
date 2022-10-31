@@ -1,0 +1,20 @@
+<div style="height: 250px" >
+    <ngx-charts-line-chart *ngIf="pedidosPorFecha.length > 0"
+    [legend]="legend"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [scheme]="colorScheme"
+    [xAxis]="xAxis"
+    [yAxis]="yAxis"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [timeline]="timeline"
+    autoScale="true"
+    [results]="multi">
+    </ngx-charts-line-chart>
+
+    <div class="alert alert-primary" role="alert" *ngIf="pedidosPorFecha.length == 0">
+        No hay pedidos en este rango de fechas.
+      </div>
+</div>
+

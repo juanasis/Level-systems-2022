@@ -13,11 +13,14 @@ import ar.edu.undec.level.storage.entity.Pedido;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/pedidos")
@@ -103,6 +106,30 @@ public class PedidosController {
     public ResponseEntity<Response> obtenerPedidosActivosDeMesa(@PathVariable Integer idMesa){
         Response response = new Response();
         response.setData(pedidosService.obtenerPedidosActivosDeMesa(idMesa));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/pedidos-por-rango-fecha")
+    public ResponseEntity<Response> pedidosPorRangoFecha(@RequestParam("fecha_desde")
+                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                     LocalDate fecha_desde,
+                                                         @RequestParam("fecha_hasta")
+                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                 LocalDate fecha_hasta){
+        Response response = new Response();
+        response.setData(pedidosService.listarPedidosPorRangoFecha(fecha_desde, fecha_hasta));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/productos-mas-vendidos")
+    public ResponseEntity<Response> topTresProductosMasVendidos(@RequestParam("fecha_desde")
+                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                 LocalDate fecha_desde,
+                                                         @RequestParam("fecha_hasta")
+                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                 LocalDate fecha_hasta){
+        Response response = new Response();
+        response.setData(pedidosService.topTresProductosMasVendidos(fecha_desde, fecha_hasta));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

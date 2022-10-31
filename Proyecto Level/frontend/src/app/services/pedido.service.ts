@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, JsonpClientBackend } from '@angular/common/http';
+import { HttpClient, HttpParams, JsonpClientBackend } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pedido } from '../models/pedido';
 import { ItemPedidoDTO } from '../models/itempedidoDTO';
@@ -66,5 +66,18 @@ export class PedidoService {
     return this.httpClient.get<any>(`${this.pedidoURL}/pedidos-cocina`);
   }
 
+  public obtenerPedidosPorRangoDeFecha(fecha_desde: string, fecha_hasta: string): Observable<any> {
+    let params = new HttpParams();
+    params = params.set('fecha_desde', fecha_desde);
+    params =  params.set('fecha_hasta', fecha_hasta);
+    return this.httpClient.get<any>(`${this.pedidoURL}/pedidos-por-rango-fecha`, {params: params});
+  }
+
+  public topTresProductosMasVendidos(fecha_desde: string, fecha_hasta: string): Observable<any> {
+    let params = new HttpParams();
+    params = params.set('fecha_desde', fecha_desde);
+    params =  params.set('fecha_hasta', fecha_hasta);
+    return this.httpClient.get<any>(`${this.pedidoURL}/productos-mas-vendidos`, {params: params});
+  }
 
 }

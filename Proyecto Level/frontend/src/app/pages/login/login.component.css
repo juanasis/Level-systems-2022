@@ -39,6 +39,13 @@ html {
     width: 100%;
     min-height: 100%;
     padding: 20px;
+
+    background: url("https://www.expohip.com/app/uploads/sites/2/2019/10/gestion-de-restaurantes.jpg") no-repeat center center fixed;
+    height: 81.7vh;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
   }
   
   #formContent {

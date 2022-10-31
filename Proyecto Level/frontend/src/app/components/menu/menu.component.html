@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active" *ngFor="let ruta of rutas">
-          <a class="nav-link" *ngIf="ruta.activo  && opcionesActivas && isLogged" [routerLink]="[ruta.path]">{{ruta.name}}</a>
+          <a class="nav-link" *ngIf="ruta.activo  && opcionesActivas && isLogged" [routerLinkActive]="['border','border-secondary','rounded']" [routerLink]="[ruta.path]">{{ruta.name}}</a>
         </li>
         <li class="nav-item" *ngIf="!isLogged">
           <a class="nav-link"  routerLink="/login"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>  

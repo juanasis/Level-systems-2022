@@ -4,7 +4,7 @@ public class ItemRecetaDto {
     private Long materiaPrimaId;
     private String nombreMateriaPrima;
     private String descripcionMateriaPrima;
-    private Double cantidad;
+    private Float cantidad;
 
     public Long getMateriaPrimaId() {
         return materiaPrimaId;
@@ -14,11 +14,11 @@ public class ItemRecetaDto {
         this.materiaPrimaId = materiaPrimaId;
     }
 
-    public Double getCantidad() {
+    public Float getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Double cantidad) {
+    public void setCantidad(Float cantidad) {
         this.cantidad = cantidad;
     }
 

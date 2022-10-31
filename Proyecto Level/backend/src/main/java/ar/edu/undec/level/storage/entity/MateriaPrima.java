@@ -11,7 +11,7 @@ public class MateriaPrima {
 
     private String nombre;
 
-    private Double stock;
+    private Float stock;
 
     private Integer cantidadMinima;
 
@@ -35,11 +35,11 @@ public class MateriaPrima {
         this.nombre = nombre;
     }
 
-    public Double getStock() {
+    public Float getStock() {
         return stock;
     }
 
-    public void setStock(Double stock) {
+    public void setStock(Float stock) {
         this.stock = stock;
     }
 

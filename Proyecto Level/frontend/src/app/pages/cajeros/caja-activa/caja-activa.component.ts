@@ -19,6 +19,7 @@ export class CajaActivaComponent implements OnInit {
   cajaDtoOut: CajaDtoOut = new CajaDtoOut();
   pedidoSeleccionado: Pedido;
   pedidoSeleccionadoAux: Pedido;
+  pedidoEstadoAux: string;
 
   estados = ['PAGADO', 'CANCELADO','EN_PREPARACION', 'EN_COLA', 'LISTO'];
   tiposPagos = ['EFECTIVO', 'TARJETA'];
@@ -79,8 +80,10 @@ export class CajaActivaComponent implements OnInit {
 }
 
 mostrarDetallePedido(pedido: Pedido){
+  this.pedidoEstadoAux = undefined;
   this.pedidoSeleccionado = undefined;
   this.pedidoSeleccionado = pedido;
+  this.pedidoEstadoAux = pedido.estado;
 }
 
 actualizarPedidoEstadoBebida(estadoBebida: string) {
@@ -96,6 +99,11 @@ actualizarPedidoEstadoBebida(estadoBebida: string) {
 
 actualizarPedido() {
   let pedidoActualizar : Pedido = new Pedido();
+
+  if(!this.pedidoEstadoAux.includes('EN_COLA') && this.pedidoSeleccionado.estado.includes('CANCELADO')) {
+    Swal.fire('Alerta', 'El pedido solo se puede cancelar si está EN_COLA','info')
+    return
+  }
 
   if(!this.pedidoSeleccionado.estado.includes('CANCELADO') && !this.pedidoSeleccionado.estado.includes('PAGADO')) {
     Swal.fire('Alerta', 'Seleccione CANCELADO O PAGADO','info')

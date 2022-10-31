@@ -16,7 +16,7 @@ public class ItemReceta {
     @JoinColumn(name = "materia_prima_id", nullable = false)
     private MateriaPrima materiaPrima;
 
-    private Double cantidad;
+    private Float cantidad;
 
     public Long getItemRecetaId() {
         return itemRecetaId;
@@ -34,11 +34,11 @@ public class ItemReceta {
         this.materiaPrima = materiaPrima;
     }
 
-    public Double getCantidad() {
+    public Float getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Double cantidad) {
+    public void setCantidad(Float cantidad) {
         this.cantidad = cantidad;
     }
 }

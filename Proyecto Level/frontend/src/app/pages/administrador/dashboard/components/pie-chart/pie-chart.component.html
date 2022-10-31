@@ -1,0 +1,16 @@
+<div style="height: 250px">
+    <ngx-charts-pie-chart *ngIf="productosVendidos.length > 0"
+  [results]="single"
+  [gradient]="gradient"
+  [legend]="showLegend"
+  [legendPosition]="legendPosition"
+  [labels]="showLabels"
+  [doughnut]="isDoughnut"
+  legendTitle="Productos"
+  
+  >
+</ngx-charts-pie-chart>
+<div class="alert alert-primary" role="alert" *ngIf="productosVendidos.length == 0">
+  No hay productos vendidos en este rango de fechas.
+</div>
+</div>

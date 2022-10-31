@@ -26,6 +26,7 @@ import { MateriasPrimaComponent } from './pages/administrador/materias-prima/mat
 import { FormMateriaPrimaComponent } from './pages/administrador/materias-prima/form-materia-prima/form-materia-prima.component';
 import { HistorialRolComponent } from './pages/administrador/roles/historial-rol/historial-rol.component';
 import { RecetaComponent } from './pages/productos/receta/receta.component';
+import { DashboardComponent } from './pages/administrador/dashboard/dashboard.component';
  
 const routes: Routes = [  
 {
@@ -81,6 +82,11 @@ const routes: Routes = [
 {
   path: 'editarpedido',
   component: EditarPedidoComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
+  path: 'administrador/dashboard',
+  component: DashboardComponent,
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {

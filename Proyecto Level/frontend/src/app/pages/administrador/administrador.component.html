@@ -1,6 +1,15 @@
 <div class="container">
-  <div class="card-deck mt-5">
-    <div class="card  mb-3 list-group-item-action" style="max-width: 18rem; cursor: pointer;" [routerLink]="['productos/page/0']">
+  <div class="card-deck mt-5 d-flex flex-wrap">
+    <div class="card  mb-3 " style="min-width: 20rem; max-width: 20rem; cursor: pointer;" [routerLink]="['dashboard']">
+      <div class="card-body">
+      <h4 class="card-title">Reportes</h4>
+      <ul class="list-group">
+          <li class="list-group-item" aria-disabled="true">Productos más vendidos</li>
+          <li class="list-group-item">Usuarios</li>
+        </ul>
+      </div>
+  </div>
+    <div class="card  mb-3 " style="min-width: 20rem; max-width: 20rem; cursor: pointer;" [routerLink]="['productos/page/0']">
         <div class="card-body">
         <h4 class="card-title">Productos</h4>
         <ul class="list-group">
@@ -12,7 +21,7 @@
         </div>
     </div>
 
-    <div class="card  mb-3 list-group-item-action" style="max-width: 18rem; cursor: pointer;" [routerLink]="['materias-prima']">
+    <div class="card  mb-3 " style="min-width: 20rem; max-width: 20rem; cursor: pointer;" [routerLink]="['materias-prima']">
       <div class="card-body">
       <h4 class="card-title">Materias prima</h4>
       <ul class="list-group">
@@ -24,7 +33,7 @@
       </div>
   </div>
 
-    <div class="card  mb-3  list-group-item-action" style="max-width: 18rem; cursor: pointer;" [routerLink]="['usuarios']">
+    <div class="card  mb-3  " style="min-width: 20rem; max-width: 20rem; cursor: pointer;" [routerLink]="['usuarios']">
         <div class="card-body">
         <h4 class="card-title">Usuarios</h4>
         <ul class="list-group">
@@ -36,7 +45,7 @@
         </div>
     </div>
 
-    <div class="card  mb-3  list-group-item-action" style="max-width: 18rem; cursor: pointer;" [routerLink]="['roles']">
+    <div class="card  mb-3  " style="min-width: 20rem; max-width: 20rem; cursor: pointer;" [routerLink]="['roles']">
       <div class="card-body">
       <h4 class="card-title">Roles</h4>
       <ul class="list-group">
@@ -48,7 +57,7 @@
       </div>
     </div>
 
-    <div class="card  mb-3  list-group-item-action" style="max-width: 18rem; cursor: pointer;" [routerLink]="['permisos']">
+    <div class="card  mb-3  " style="width: 20rem; max-width: 20rem; cursor: pointer;" [routerLink]="['permisos']">
       <div class="card-body">
       <h4 class="card-title">Permisos</h4>
       <ul class="list-group">

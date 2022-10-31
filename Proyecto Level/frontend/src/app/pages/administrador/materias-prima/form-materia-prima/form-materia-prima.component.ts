@@ -13,6 +13,8 @@ export class FormMateriaPrimaComponent implements OnInit {
 
   materiaPrima: MateriaPrima = new MateriaPrima();
 
+  listaDescripcion: string[] = ['Kilos', 'Litros', 'Unidad', 'Gramos'];
+
   constructor(private router: Router, 
     private activatedRoute: ActivatedRoute,
     private materiaPrimaService: MateriaPrimaService) { }
@@ -46,6 +48,7 @@ export class FormMateriaPrimaComponent implements OnInit {
   buscarMateriaPrimaPorId(materia_prima_id: number) {
     this.materiaPrimaService.buscarMateriaPrimaPorId(materia_prima_id)
         .subscribe(response => {
+          console.log(response)
           this.materiaPrima = response.data;
           this.verificarStockMinimo(this.materiaPrima.alertaCantidad);
         })

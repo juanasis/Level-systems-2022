@@ -5,6 +5,8 @@ import ar.edu.undec.level.storage.entity.*;
 import ar.edu.undec.level.storage.repository.ProductosRepository;
 import ar.edu.undec.level.storage.repository.RecetaRepository;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -30,11 +32,12 @@ public class RecetaService {
         return mapper.mapOutRecetaDto(recetaEncontrada.get());
     }
 
-    public void descontarStockMateriaPrima(Integer productoId) {
+    public void descontarStockMateriaPrima(Integer productoId, Integer cantidadItemPedido) {
         Optional<Receta> recetaEncontrada = recetaRepository.obtenerRecetaPorProductId(productoId);
+
         recetaEncontrada.ifPresent(r -> {
             r.getListaItemsReceta().forEach(item -> {
-                item.getMateriaPrima().setStock(item.getMateriaPrima().getStock() - item.getCantidad());
+                item.getMateriaPrima().setStock(item.getMateriaPrima().getStock() - (cantidadItemPedido * item.getCantidad()));
             });
         });
     }

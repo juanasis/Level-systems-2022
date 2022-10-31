@@ -150,7 +150,7 @@ public class PedidosService {
 
             if(pedido.getEstado().equals(EstadoPedido.EN_PREPARACION)){
                 pedidoEncontrado.getItemsList().forEach(item -> {
-                    recetaService.descontarStockMateriaPrima(item.getProducto().getId());
+                    recetaService.descontarStockMateriaPrima(item.getProducto().getId(), item.getCantidad());
                 });
             }
 
@@ -291,6 +291,40 @@ public class PedidosService {
                 .collect(Collectors.toList());
     }
 
+    public List<RespuestaLineChart> listarPedidosPorRangoFecha(LocalDate fecha_desde, LocalDate fecha_hasta) {
+
+        List<Pedido> pedidosEncontrados = pedidosRepo.buscarPedidosRangoFecha(fecha_desde, fecha_hasta);
+
+        Map<String, List<Pedido>> collect = pedidosEncontrados.stream()
+                .collect(Collectors.groupingBy(pedido -> pedido.getFechaQuery().toString()));
+
+        return collect.entrySet()
+                .stream()
+                .map(p -> new RespuestaLineChart(
+                        p.getKey(),
+                        p.getValue())).collect(Collectors.toList());
+
+    }
+
+    public List<RespuestaPieChart> topTresProductosMasVendidos(LocalDate fecha_desde, LocalDate fecha_hasta) {
+        List<Pedido> pedidosEncontrados = pedidosRepo.buscarPedidosRangoFecha(fecha_desde, fecha_hasta);
+
+        List<ItemPedido> itemsTotal = new ArrayList<>();
+
+        pedidosEncontrados.forEach(p -> {
+            itemsTotal.addAll(p.getItemsList());
+        });
+
+        Map<String, List<ItemPedido>> listaItemsPorProducto = itemsTotal
+                .stream().collect(Collectors.groupingBy(i -> i.getProducto().getNombre()));
+
+        return listaItemsPorProducto.entrySet()
+                .stream()
+                 .map(i -> new RespuestaPieChart(i.getKey(),i.getValue().stream().mapToInt(ItemPedido::getCantidad).sum()))
+                 .collect(Collectors.toList());
+
+    }
+
     private boolean pedidoContieneBebida(Pedido pedido) {
         for (ItemPedido item : pedido.getItemsList()) {
             if(item.getProducto().getCategoria().getNombre().contains("BEBIDAS")){
@@ -313,4 +347,59 @@ public class PedidosService {
 
         return comidaCount == 0 && bebidaCount > 0;
     }
+
+    public static class RespuestaPieChart {
+        private String producto;
+        private int cantidad;
+
+        public RespuestaPieChart(String producto, int cantidad) {
+            this.producto = producto;
+            this.cantidad = cantidad;
+        }
+
+        public String getProducto() {
+            return producto;
+        }
+
+        public void setProducto(String producto) {
+            this.producto = producto;
+        }
+
+        public int getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(int cantidad) {
+            this.cantidad = cantidad;
+        }
+    }
+
+
+    public static class RespuestaLineChart {
+        private String fecha;
+        private List<Pedido> pedidos;
+
+
+        public RespuestaLineChart(String fecha, List<Pedido> pedidos) {
+            this.fecha = fecha;
+            this.pedidos = pedidos;
+        }
+
+        public String getFecha() {
+            return fecha;
+        }
+
+        public void setFecha(String fecha) {
+            this.fecha = fecha;
+        }
+
+        public List<Pedido> getPedidos() {
+            return pedidos;
+        }
+
+        public void setPedidos(List<Pedido> pedidos) {
+            this.pedidos = pedidos;
+        }
+    }
+
 }

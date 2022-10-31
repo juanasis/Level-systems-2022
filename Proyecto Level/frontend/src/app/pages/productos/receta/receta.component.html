@@ -1,5 +1,5 @@
 <div class="container pb-5">
-    <div class="card mx-auto mt-4" style="width: 700px;">
+    <div class="card mx-auto mt-4" style="width: 800px;">
         <div *ngIf="recetaDto">
             <div class="card-header bg-white">Receta del producto {{recetaDto.nombreRecetaProducto}} <a type="button" (click)="regresarToProductos()" class="btn btn-sm btn-light float-end"><i class="fa-solid fa-arrow-left"></i></a></div>
             <div class="card-body">
@@ -27,7 +27,7 @@
                                 
                               <div class="d-flex">
                                 <div class="d-flex">
-                                    <input type="number" class="text-center" onkeydown="return event.keyCode !== 69" style="width: 45px" pattern="[0-9]" [(ngModel)]="item.cantidad"><div style="width: 30px; margin-left: 10px;">{{item.descripcionMateriaPrima}}</div>
+                                    <input type="number" class="text-center" onkeydown="return event.keyCode !== 69" style="width: 50px" pattern="[0-9]" [(ngModel)]="item.cantidad"><div style="width: 60px; margin-left: 10px;">{{item.descripcionMateriaPrima}}</div>
                                 </div>
                                 
                                 <button class="btn btn-outline-danger btn-sm ms-2" (click)="quitarItem(item)"><i class="fa-sharp fa-solid fa-trash"></i></button>
@@ -45,7 +45,7 @@
                                 
                               <div class="d-flex">
                                 <div class="d-flex">
-                                    <input type="number" pattern="[0-9]" min="0" onkeydown="return event.keyCode !== 69" class="text-center" style="width: 45px" [(ngModel)]="item.cantidad"><div style="width: 30px; margin-left: 10px;">{{item.descripcionMateriaPrima}}</div>
+                                    <input type="number" pattern="[0-9]" min="0" onkeydown="return event.keyCode !== 69" class="text-center" style="width: 50px" [(ngModel)]="item.cantidad"><div style="width: 60px; margin-left: 10px;">{{item.descripcionMateriaPrima}}</div>
                                 </div>
                                 
                                 <button class="btn btn-outline-success btn-sm ms-2" (click)="agregarItem(item)"><i class="fa-solid fa-plus"></i></button>

@@ -107,7 +107,7 @@
                 <td>x{{item.cantidad}}</td>
                 <td>{{item.producto.nombre}}</td>
                 <td>{{item.producto.precio * item.cantidad | currency:'$'}}</td>
-                <td class="text-center"><button class="btn btn-sm btn-danger font-weight-bold px-2" [disabled]="cajaDtoOut.estado == 'CERRADO'" (click)="quitarItemPedido(item)">X</button></td>
+                <td class="text-center"><button class="btn btn-sm btn-danger font-weight-bold px-2" [disabled]="cajaDtoOut.estado == 'CERRADO' || pedidoSeleccionado.estado != 'EN_COLA'" (click)="quitarItemPedido(item)">X</button></td>
               </tr>
   
             </tbody>
