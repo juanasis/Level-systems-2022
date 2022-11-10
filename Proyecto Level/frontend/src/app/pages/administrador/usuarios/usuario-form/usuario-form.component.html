@@ -48,10 +48,12 @@
           <div class="input-group-append ">
             <button class="btn btn-outline-secondary" (click)="password()">{{show ? 'Ocultar' : 'Mostrar'}}</button>
           </div>
+          
         </div>
         
 
       </div>
+      <span class="text-muted" style="font-size: 13px">Use 6 o más caracteres, incluir un caracter especial.</span>
       <span class="text-danger ms-2" *ngIf="mensajeErrorPassword">{{mensajeErrorPassword}}</span>
       <div class="row col-12 mt-2">
         <label for="rol" class="input-label mb-2">Roles</label>

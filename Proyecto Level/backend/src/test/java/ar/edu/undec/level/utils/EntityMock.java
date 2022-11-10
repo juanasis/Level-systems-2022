@@ -23,7 +23,7 @@ public final class EntityMock {
         materiaPrima.setId(1L);
         materiaPrima.setNombre("Papa");
         materiaPrima.setDescripcion("KG");
-        itemReceta.setCantidad(200.0);
+        itemReceta.setCantidad(200.0f);
         itemReceta.setMateriaPrima(materiaPrima);
         items.add(itemReceta);
         receta.setListaItemsReceta(items);
@@ -38,7 +38,7 @@ public final class EntityMock {
         recetaDtoIn.setProductoId(1);
         List<ItemRecetaDto> items = new ArrayList<>();
         ItemRecetaDto itemRecetaDto = new ItemRecetaDto();
-        itemRecetaDto.setCantidad(200.0);
+        itemRecetaDto.setCantidad(200.0f);
         itemRecetaDto.setMateriaPrimaId(1L);
         items.add(itemRecetaDto);
         recetaDtoIn.setListaItemsReceta(items);
@@ -50,7 +50,7 @@ public final class EntityMock {
         recetaDtoOut.setNombreRecetaProducto("LOMO SALTADO");
         List<ItemRecetaDto> items = new ArrayList<>();
         ItemRecetaDto itemRecetaDto = new ItemRecetaDto();
-        itemRecetaDto.setCantidad(200.0);
+        itemRecetaDto.setCantidad(200.0f);
         itemRecetaDto.setDescripcionMateriaPrima("KG");
         itemRecetaDto.setNombreMateriaPrima("Papa");
         items.add(itemRecetaDto);

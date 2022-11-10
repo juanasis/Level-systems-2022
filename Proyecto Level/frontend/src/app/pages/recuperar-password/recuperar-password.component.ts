@@ -15,6 +15,8 @@ export class RecuperarPasswordComponent implements OnInit {
   errorMessage: string;
   successMessage: string;
 
+  mensajeErrorPassword: string;
+
   constructor(private activeRoute: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -35,6 +37,30 @@ export class RecuperarPasswordComponent implements OnInit {
   }
 
   changePasswordUser() {
+
+
+
+    if(this.changePassword.password != this.changePassword.confirmPassword){
+      this.mensajeErrorPassword = 'Las contraseñas no coinciden';
+      return;
+    }
+
+    if(this.changePassword.password.length < 6) {
+      this.mensajeErrorPassword = 'La contraseña debe tener mínimo 6 caracteres.';
+      return;
+    }
+
+    let format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+
+    if(!format.test(this.changePassword.password)){
+      this.mensajeErrorPassword = 'La contraseña necesita un caracter especial';
+      
+      return
+    }
+
+
+
+
     this.authService.changePassword(this.changePassword)
         .subscribe(response => {
           this.successMessage = response.mensaje;
