@@ -2,11 +2,16 @@ package ar.edu.undec.level.controller;
 
 import ar.edu.undec.level.controller.dto.Response;
 import ar.edu.undec.level.service.CajaService;
+import ar.edu.undec.level.storage.entity.Caja;
 import ar.edu.undec.level.storage.entity.CajaDtoIn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -41,6 +46,8 @@ public class CajaController {
     public ResponseEntity<?> listarCajas() {
         Response response = new Response();
         response.setData(cajaService.listarCajas());
+
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

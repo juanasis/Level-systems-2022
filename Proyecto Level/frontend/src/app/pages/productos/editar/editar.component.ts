@@ -59,9 +59,9 @@ export class EditarComponent implements OnInit {
         this.router.navigate(['/administrador/productos/page/0']);
       },
       err => {
-        this.toastr.error(err.error.mensaje, 'Fail', {
-          timeOut: 3000,  positionClass: 'toast-top-center',
-        });
+        if(err.status == 400) {
+          Swal.fire('Producto existente', `${err.error.mensaje}`, 'info');
+        }
         // this.router.navigate(['/']);
       }
     );

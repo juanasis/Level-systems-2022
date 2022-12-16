@@ -19,6 +19,10 @@ public class Mesa implements Serializable {
     @JsonIgnoreProperties({"nroMesa","hibernateLazyInitializer", "handler"})
     private List<Pedido> pedidos;
 
+    private Boolean activo;
+
+    private String nombre;
+
 
     private Integer mozoId;
 
@@ -50,5 +54,21 @@ public class Mesa implements Serializable {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

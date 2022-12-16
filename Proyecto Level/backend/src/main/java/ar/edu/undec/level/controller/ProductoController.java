@@ -1,5 +1,7 @@
 package ar.edu.undec.level.controller;
 
+import ar.edu.undec.level.controller.dto.Mensaje;
+import ar.edu.undec.level.controller.dto.ProductoRequest;
 import ar.edu.undec.level.controller.dto.Response;
 import ar.edu.undec.level.service.ProductosService;
 import ar.edu.undec.level.storage.entity.Producto;
@@ -71,14 +73,20 @@ public class ProductoController {
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Integer id, @RequestBody Producto producto){
         Response response = productosService.editarProducto(id,producto);
+
+        if(response == null) return new ResponseEntity<>(new Mensaje("El producto ya existe"), HttpStatus.BAD_REQUEST);
+
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PostMapping("/agregar")
-//    public ResponseEntity<Response> save(@Valid @RequestBody ProductoRequest request  ){
-//        Response response = productosService.save(request);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+
+    @PostMapping("/agregar")
+    public ResponseEntity<?> save(@Valid @RequestBody Producto producto  ){
+        Producto productoCreado = productosService.crearProducto(producto);
+
+        if(productoCreado == null) return new ResponseEntity<>(new Mensaje("El producto ya existe"), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(productoCreado, HttpStatus.CREATED);
+    }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Response> delete(@PathVariable(value = "id") Integer productoId) {

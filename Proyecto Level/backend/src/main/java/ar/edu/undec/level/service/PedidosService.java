@@ -154,7 +154,6 @@ public class PedidosService {
                 });
             }
 
-            pedidoEncontrado.setPedidoEstadoBebida(pedido.getPedidoEstadoBebida());
             pedidoEncontrado.setItemsList(pedido.getItemsList());
 
             if(pedido.getEmailUsuario() != null) {

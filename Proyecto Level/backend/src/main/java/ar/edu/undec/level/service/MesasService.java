@@ -27,6 +27,11 @@ public class MesasService {
     private MesaRepository mesaRepository;
 
     public Response save(Mesa mesa) {
+
+        Mesa mesaEncontrada = mesaRepository.findByNombreIgnoreCase(mesa.getNombre());
+
+        if(mesaEncontrada != null) return null;
+
         Response response = new Response();
         mesa.setEstado(EstadoMesa.LIBRE);
         mesaRepository.save(mesa);
@@ -35,9 +40,19 @@ public class MesasService {
     }
 
     public Response actualizar(Mesa mesa) {
-        Response response = new Response();
+
         Mesa mesaEncontrada = mesaRepository.findById(mesa.getId()).get();
-        BeanUtils.copyProperties(mesa, mesaEncontrada);
+
+        if(!mesaEncontrada.getNombre().equals(mesa.getNombre())) {
+            Mesa mesaEncontradaPorNombre = mesaRepository.findByNombreIgnoreCase(mesa.getNombre());
+
+            if(mesaEncontradaPorNombre != null) return null;
+        }
+        Response response = new Response();
+
+        mesaEncontrada.setNombre(mesa.getNombre());
+        mesaEncontrada.setActivo(mesa.getActivo());
+
         mesaRepository.save(mesaEncontrada);
         response.setData(mesaEncontrada);
         return response;

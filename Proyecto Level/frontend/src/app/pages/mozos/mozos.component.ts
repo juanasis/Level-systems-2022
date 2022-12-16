@@ -69,7 +69,19 @@ export class MozosComponent implements OnInit {
       this.tokenService.activarFormularioNavBar();
     }
 
-    if(mesa.mozoId == this.idMozo || mesa.mozoId == null) {
+    if(mesa.mozoId != this.idMozo && mesa.mozoId != null && !(this.rolesDelUsuario.includes('ROLE_CAJERO') || this.rolesDelUsuario.includes('ROLE_ADMIN'))) {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Esta no es su mesa',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      console.log('xd')
+      return
+    }
+
+    // if(mesa.mozoId == this.idMozo || mesa.mozoId == null) {
       this.pedidoService.obtenerPedidosActivosDeMesa(mesa.id)
       .subscribe(response => {
           console.log(response)
@@ -85,21 +97,12 @@ export class MozosComponent implements OnInit {
           })
         })
       })
-      return
-    }
+      // return
+    // }
+    console.log(this.rolesDelUsuario)
+    console.log((this.rolesDelUsuario.includes('ROLE_CAJERO') || this.rolesDelUsuario.includes('ROLE_ADMIN')))
 
 
-
-    if(mesa.mozoId != this.idMozo) {
-      Swal.fire({
-        position: 'center',
-        icon: 'warning',
-        title: 'Esta no es su mesa',
-        showConfirmButton: false,
-        timer: 1500
-      })
-      return
-    }
 
 
 

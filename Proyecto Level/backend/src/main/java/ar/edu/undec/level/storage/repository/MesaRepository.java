@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface MesaRepository extends JpaRepository<Mesa,Integer > {
 
-
+    Mesa findByNombreIgnoreCase(String name);
 
 }

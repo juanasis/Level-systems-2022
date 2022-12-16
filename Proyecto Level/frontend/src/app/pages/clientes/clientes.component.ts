@@ -175,6 +175,13 @@ export class ClientesComponent implements OnInit {
     })
   }
 
+  cancelarCompra(){
+    this.pedido.itemsList = [];
+    this.total = 0;
+
+    Swal.fire('Pedido cancelado','Su pedido ha sido cancelado','warning')
+  }
+
 
 
 }

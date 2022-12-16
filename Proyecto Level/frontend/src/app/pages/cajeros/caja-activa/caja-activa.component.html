@@ -121,10 +121,7 @@
            
           </div>
           
-          <div class="w-50 mb-2">
-            <button class="btn btn-info btn-sm text-white" *ngIf="!sendEmalActivo" [disabled]="cajaDtoOut.estado == 'CERRADO'" (click)="sendEmalActivo = true">Enviar comprobante al correo</button>
-            <input *ngIf="sendEmalActivo" type="text" [(ngModel)]="pedidoSeleccionado.emailUsuario" name="correo" class="form-control" id="exampleFormControlInput1" placeholder="Ingrese el correo">
-          </div>
+
           <div class="form-group row">
 
             
@@ -136,14 +133,21 @@
             </select>
             <label for="tipoPago" class="col-form-label col-sm-2">Tipo de pago</label>
             <select class="custom-select col-sm-4" [(ngModel)]="pedidoSeleccionado.tipoPago" name="tipoPago" [disabled]="cajaDtoOut.estado == 'CERRADO'">
+              <option [ngValue]="null">--Selecciona una opción--</option>
               <option *ngFor="let pago of tiposPagos" [ngValue]="pago">{{pago}}</option>
             </select>
             
           </div>
 
         </div>
+
+        <div class="w-50 mb-2">
+          <button class="btn btn-info btn-sm text-white" *ngIf="!sendEmalActivo" [disabled]="cajaDtoOut.estado == 'CERRADO'" (click)="sendEmalActivo = true">Enviar comprobante al correo</button>
+          <input *ngIf="sendEmalActivo" type="text" [(ngModel)]="pedidoSeleccionado.emailUsuario" name="correo" class="form-control" id="exampleFormControlInput1" placeholder="Ingrese el correo">
+        </div>
+
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="this.sendEmalActivo = false">Cerrar</button>
             <button type="submit" class="btn btn-primary" (click)="actualizarPedido()" *ngIf="cajaDtoOut.estado != 'CERRADO'">Guardar</button>
           </div>
         </form>

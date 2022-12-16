@@ -27,6 +27,7 @@ import { FormMateriaPrimaComponent } from './pages/administrador/materias-prima/
 import { HistorialRolComponent } from './pages/administrador/roles/historial-rol/historial-rol.component';
 import { RecetaComponent } from './pages/productos/receta/receta.component';
 import { DashboardComponent } from './pages/administrador/dashboard/dashboard.component';
+import { MesasComponent } from './pages/administrador/mesas/mesas.component';
  
 const routes: Routes = [  
 {
@@ -122,6 +123,11 @@ const routes: Routes = [
 {
   path: 'administrador/productos/:idProducto/receta',
   component: RecetaComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
+  path: 'administrador/mesas',
+  component: MesasComponent,
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {

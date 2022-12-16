@@ -69,6 +69,16 @@ public class ProductosService {
             throw new RuntimeException("No existe producto con el ID: " + id);
         }
 
+        if(!producto.getNombre().trim().equals(productoEncontrado.get().getNombre().trim())) {
+            Producto productoEncontradoPorNombre = productosRepo.findByNombreIgnoreCase(producto.getNombre());
+            if(productoEncontradoPorNombre != null) {
+                return null;
+            }
+
+        }
+
+
+
         Response response = new Response();
         Producto productoGet = productoEncontrado.get();
 
@@ -98,6 +108,14 @@ public class ProductosService {
 //    public Response save(ProductoRequest productos) {
 //        return save(-1,productos);
 //    }
+
+    public Producto crearProducto(Producto producto) {
+        Producto productoEncontrado = productosRepo.findByNombreIgnoreCase(producto.getNombre());
+        if(productoEncontrado != null) return null;
+        producto.setEstado(EstadoProducto.DISPONIBLE);
+        return productosRepo.save(producto);
+    }
+
     private Date nuevaFecha(){
         System.out.println(new Date());
         return new Date();
@@ -136,9 +154,6 @@ public class ProductosService {
 
     public boolean existsById(int id){
         return productosRepo.existsById(id);
-    }
-    public Producto getByNombre(String nombre){
-        return productosRepo.findByNombre(nombre);
     }
 
     public Optional<Producto> getOne(int id){

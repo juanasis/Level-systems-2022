@@ -11,7 +11,7 @@ package ar.edu.undec.level.storage.repository;
 
 public interface ProductosRepository extends JpaRepository<Producto, Integer> {
     List<Producto> findAllByNombreContaining(String nombre);
-    Producto findByNombre(String nombre);
+    Producto findByNombreIgnoreCase(String nombre);
     List<Producto> findByCategoria_Id(Long id);
 
     @Query("FROM Categoria c where c.nombre = ?1")

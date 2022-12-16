@@ -1,0 +1,3 @@
+.tableFixHead          { overflow: auto; height: calc(100vh - 350px ); }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; background-color: #fff; }
+.tableFixHead thead th { border-bottom: 0px; }

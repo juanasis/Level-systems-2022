@@ -1,5 +1,6 @@
 package ar.edu.undec.level.controller;
 
+import ar.edu.undec.level.controller.dto.Mensaje;
 import ar.edu.undec.level.controller.dto.MesaRequest;
 import ar.edu.undec.level.controller.dto.Response;
 import ar.edu.undec.level.service.MesasService;
@@ -23,10 +24,26 @@ public class MesaController {
     private MesasService mesasService;
 
     @PostMapping("/agregar")
-    public ResponseEntity<Response> save(@Valid @RequestBody Mesa mesa  ){
+    public ResponseEntity<?> save(@Valid @RequestBody Mesa mesa  ){
+
         Response response = mesasService.save(mesa);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+
+        if(response == null) return new ResponseEntity<>(new Mensaje("La mesa ya existe."), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @PutMapping("/actualizar")
+    public ResponseEntity<?> update(@Valid @RequestBody Mesa mesa  ){
+
+        Response response = mesasService.actualizar(mesa);
+
+        if(response == null) return new ResponseEntity<>(new Mensaje("La mesa ya existe."), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+
     @GetMapping()
     public ResponseEntity<Response> getPedidos(){
         Response response;
