@@ -41,7 +41,7 @@ export class ProductoService {
   }
 
   public save(producto: Producto): Observable<any> {
-    return this.httpClient.post<any>(this.productoURL + '/agregar', producto);
+    return this.httpClient.post<any>(this.productoURL + 'agregar', producto);
   }
 
   public update(id: number, producto: Producto): Observable<any> {

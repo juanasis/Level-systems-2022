@@ -23,9 +23,6 @@
 
 
       </ul>
-      <div *ngIf="isLogged && usuarioLogeado" >
-        <a class="nav-link" style=" color: #000;"><i class="fas fa-user mr-1" ></i>{{tokenService.getUserName()}}</a>
-    </div>
       <div *ngIf="isLogged" (click)="onLogOut()">
           <a class="nav-link" style="cursor: pointer; color: #000;"><i class="fas fa-door-open" ></i> Cerrar Sesión</a>
       </div>
