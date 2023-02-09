@@ -8,7 +8,10 @@
             <h2 class=" text-center w-100" id="exampleModalLabel">Productos seleccionados</h2>
           </div>
           <div class="modal-body">
-            <ul class="list-group">
+            <div class="alert alert-info" role="alert" *ngIf="pedido.itemsList.length == 0" style="background-color: #d1ecf1;">
+              No hay productos en el carrito.
+            </div>
+            <ul class="list-group" *ngIf="pedido.itemsList.length > 0">
               <li class="list-group-item d-flex justify-content-between" *ngFor="let item of pedido.itemsList">
                 <div class="p-0">
                   {{item.producto.nombre}} <strong >x{{item.cantidad}}</strong>
@@ -28,8 +31,9 @@
                 </h4>
             </div>
             <div>
-              <button type="button" class="btn text-white" data-bs-dismiss="modal" style="background-color: rgb(67, 126, 243);">Agregar más productos</button>
-              <button type="button" class="btn text-white ms-4" *ngIf="pedido.itemsList.length > 0" style="background-color: rgb(67, 125, 243);" (click)="guardarpedido()">Realizar pedido</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" *ngIf="pedido.itemsList.length > 0" (click)="cancelarCompra()">Cancelar compra</button>
+              <button type="button" class="btn text-white mx-2 btn-sm" data-bs-dismiss="modal" style="background-color: rgb(67, 126, 243);">Agregar más productos</button>
+              <button type="button" class="btn text-white btn-sm" *ngIf="pedido.itemsList.length > 0" style="background-color: rgb(67, 125, 243);" (click)="guardarpedido()">Realizar pedido</button>
             </div>
 
           </div>

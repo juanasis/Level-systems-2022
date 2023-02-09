@@ -5,4 +5,6 @@ export class Mesa {
     estado: String;
     pedidos: Pedido[] = [];
     mozoId: number;
+    nombre: string;
+    activo: boolean;
 }

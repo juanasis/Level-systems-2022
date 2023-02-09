@@ -21,7 +21,7 @@ export class CajaActivaComponent implements OnInit {
   pedidoSeleccionadoAux: Pedido;
   pedidoEstadoAux: string;
 
-  estados = ['PAGADO', 'CANCELADO','EN_PREPARACION', 'EN_COLA', 'LISTO'];
+  estados = ['PAGADO', 'CANCELADO'];
   tiposPagos = ['EFECTIVO', 'TARJETA'];
   estadoSeleccionado: string;
   tipoPagoSeleccionado: string;
@@ -83,7 +83,8 @@ mostrarDetallePedido(pedido: Pedido){
   this.pedidoEstadoAux = undefined;
   this.pedidoSeleccionado = undefined;
   this.pedidoSeleccionado = pedido;
-  this.pedidoEstadoAux = pedido.estado;
+  this.pedidoEstadoAux = this.pedidoSeleccionado.estado
+  console.log(this.pedidoSeleccionado)
 }
 
 actualizarPedidoEstadoBebida(estadoBebida: string) {
@@ -100,8 +101,13 @@ actualizarPedidoEstadoBebida(estadoBebida: string) {
 actualizarPedido() {
   let pedidoActualizar : Pedido = new Pedido();
 
-  if(!this.pedidoEstadoAux.includes('EN_COLA') && this.pedidoSeleccionado.estado.includes('CANCELADO')) {
+  if((this.pedidoEstadoAux && !this.pedidoEstadoAux.includes('EN_COLA')) && this.pedidoSeleccionado.estado.includes('CANCELADO')) {
     Swal.fire('Alerta', 'El pedido solo se puede cancelar si está EN_COLA','info')
+    return
+  }
+
+  if(this.pedidoSeleccionado.estado == undefined) {
+    Swal.fire('Alerta', 'Seleccione CANCELADO O PAGADO','info')
     return
   }
 
@@ -121,8 +127,11 @@ actualizarPedido() {
   pedidoActualizar.itemsList = this.pedidoSeleccionado.itemsList;
   pedidoActualizar.emailUsuario = this.pedidoSeleccionado.emailUsuario;
 
+
+
   this.pedidoService.update(pedidoActualizar)
       .subscribe(response => {
+        this.sendEmalActivo = false;
         if(pedidoActualizar.estado == 'CANCELADO'){
           Swal.fire('Pedido cancelado', 'Se canceló el pedido','success')
         }else {

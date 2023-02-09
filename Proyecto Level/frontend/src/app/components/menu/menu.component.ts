@@ -8,6 +8,9 @@ import { TokenService } from 'src/app/pages/login/service/token.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
+
+  usuarioLogeado: string;
+
   activeRole: string = '';
   rolMozo: string = '';
   rolCocinero: string = '';
@@ -80,6 +83,8 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.usuarioLogeado = this.tokenService.getUserName();
 
     
     this.rolesUsuario = this.tokenService.getAuthorities();

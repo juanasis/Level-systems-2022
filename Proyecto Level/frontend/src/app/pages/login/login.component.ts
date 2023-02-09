@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
           })
           this.tokenService.setPermisos(permisos);
           this.tokenService.sendLoginStatus(true, this.tokenService.getPermisos());
+          this.tokenService.getUserName();
         })
       },
       err => {

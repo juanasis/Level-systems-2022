@@ -33,6 +33,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { DashboardComponent } from "./pages/administrador/dashboard/dashboard.component";
 import { LineChartComponent } from "./pages/administrador/dashboard/components/line-chart/line-chart.component";
 import { PieChartComponent } from "./pages/administrador/dashboard/components/pie-chart/pie-chart.component";
+import { BarChartComponent } from "./pages/administrador/dashboard/components/bar-chart/bar-chart.component";
+import { MesasComponent } from "./pages/administrador/mesas/mesas.component";
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { PieChartComponent } from "./pages/administrador/dashboard/components/pi
     HistorialUsuarioComponent,
     DashboardComponent,
     LineChartComponent,
-    PieChartComponent
+    PieChartComponent,
+    BarChartComponent,
+    MesasComponent
   ],
   imports: [
     BrowserModule,
