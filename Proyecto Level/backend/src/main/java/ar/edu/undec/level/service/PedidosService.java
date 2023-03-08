@@ -295,6 +295,7 @@ public class PedidosService {
         List<Pedido> pedidosEncontrados = pedidosRepo.buscarPedidosRangoFecha(fecha_desde, fecha_hasta);
 
         Map<String, List<Pedido>> collect = pedidosEncontrados.stream()
+                .filter(p -> p.getEstado().equals(EstadoPedido.PAGADO))
                 .collect(Collectors.groupingBy(pedido -> pedido.getFechaQuery().toString()));
 
         return collect.entrySet()
@@ -305,23 +306,59 @@ public class PedidosService {
 
     }
 
+    public List<MozoReporte> obtenerReporteMozos(LocalDate fecha_desde, LocalDate fecha_hasta) {
+        List<Pedido> pedidosEncontrados = pedidosRepo.buscarPedidosPagadosPorRangoFecha(fecha_desde, fecha_hasta);
+
+        Map<String, List<Pedido>> collect = pedidosEncontrados.stream()
+                .filter(p -> p.getEstado().equals(EstadoPedido.PAGADO))
+                .collect(Collectors.groupingBy(p -> p.getMozo().getNombre()));
+
+        return collect.entrySet().stream()
+                        .map(innerEntry -> new MozoReporte(innerEntry.getKey(),
+                                innerEntry.getValue().stream().mapToDouble(Pedido::getTotal).sum()))
+                .collect(Collectors.toList());
+    }
+
     public List<RespuestaPieChart> topTresProductosMasVendidos(LocalDate fecha_desde, LocalDate fecha_hasta) {
         List<Pedido> pedidosEncontrados = pedidosRepo.buscarPedidosRangoFecha(fecha_desde, fecha_hasta);
 
         List<ItemPedido> itemsTotal = new ArrayList<>();
 
-        pedidosEncontrados.forEach(p -> {
+        List<Pedido> pedidosPagados = pedidosEncontrados.stream()
+                .filter(pedido -> pedido.getEstado().equals(EstadoPedido.PAGADO)).collect(Collectors.toList());
+
+        pedidosPagados.forEach(p -> {
             itemsTotal.addAll(p.getItemsList());
         });
 
-        Map<String, List<ItemPedido>> listaItemsPorProducto = itemsTotal
-                .stream().collect(Collectors.groupingBy(i -> i.getProducto().getNombre()));
+        Map<Producto, List<ItemPedido>> listaItemsPorProducto = itemsTotal
+                .stream().collect(Collectors.groupingBy(ItemPedido::getProducto));
 
         return listaItemsPorProducto.entrySet()
                 .stream()
                  .map(i -> new RespuestaPieChart(i.getKey(),i.getValue().stream().mapToInt(ItemPedido::getCantidad).sum()))
                  .collect(Collectors.toList());
 
+    }
+
+    public int getCantidadPedidosDelDia() {
+        System.out.println(LocalDate.now());
+        return pedidosRepo.countByFechaQuery(LocalDate.now());
+    }
+
+    public BigDecimal getIngresosDelDiaPorPedidosPagado() {
+        List<Pedido> pedidosHoy = pedidosRepo.getListaPedidosHoy(LocalDate.now(), EstadoPedido.PAGADO);
+
+        return pedidosHoy.stream()
+                .map( p -> montoTotalPorPedido((List<ItemPedido>) p.getItemsList()))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal montoTotalPorPedido(List<ItemPedido> itemPedidos) {
+        double itemsTotal = itemPedidos.stream()
+                .mapToDouble(i -> i.getCantidad() * i.getProducto().getPrecio())
+                .sum();
+        return new BigDecimal(itemsTotal);
     }
 
     private boolean pedidoContieneBebida(Pedido pedido) {
@@ -333,13 +370,13 @@ public class PedidosService {
         return false;
     }
 
-    private boolean pedidoContieneSoloBebida(Pedido pedido){
+    private boolean pedidoContieneSoloBebida(Pedido pedido) {
         int comidaCount = 0;
         int bebidaCount = 0;
         for (ItemPedido item : pedido.getItemsList()) {
-            if(item.getProducto().getCategoria().getNombre().contains("BEBIDAS")){
+            if (item.getProducto().getCategoria().getNombre().contains("BEBIDAS")) {
                 bebidaCount++;
-            }else{
+            } else {
                 comidaCount++;
             }
         }
@@ -348,19 +385,19 @@ public class PedidosService {
     }
 
     public static class RespuestaPieChart {
-        private String producto;
+        private Producto producto;
         private int cantidad;
 
-        public RespuestaPieChart(String producto, int cantidad) {
+        public RespuestaPieChart(Producto producto, int cantidad) {
             this.producto = producto;
             this.cantidad = cantidad;
         }
 
-        public String getProducto() {
+        public Producto getProducto() {
             return producto;
         }
 
-        public void setProducto(String producto) {
+        public void setProducto(Producto producto) {
             this.producto = producto;
         }
 
@@ -400,5 +437,29 @@ public class PedidosService {
             this.pedidos = pedidos;
         }
     }
+    public static class MozoReporte {
+        private String mozo;
+        private Double montoTotalPedidos;
 
+        public MozoReporte(String mozo, Double montoTotalPedidos) {
+            this.mozo = mozo;
+            this.montoTotalPedidos = montoTotalPedidos;
+        }
+
+        public String getMozo() {
+            return mozo;
+        }
+
+        public void setMozo(String mozo) {
+            this.mozo = mozo;
+        }
+
+        public Double getMontoTotalPedidos() {
+            return montoTotalPedidos;
+        }
+
+        public void setMontoTotalPedidos(Double montoTotalPedidos) {
+            this.montoTotalPedidos = montoTotalPedidos;
+        }
+    }
 }

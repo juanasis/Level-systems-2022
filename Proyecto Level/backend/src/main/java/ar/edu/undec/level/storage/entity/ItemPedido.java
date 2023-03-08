@@ -1,17 +1,13 @@
 package ar.edu.undec.level.storage.entity;
 
 import ar.edu.undec.level.controller.dto.ItemPedidoDto;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "item_pedido", schema = "levelbd")
+@Table(name = "item_pedido")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ItemPedido implements Serializable {
 
@@ -48,6 +44,10 @@ public class ItemPedido implements Serializable {
 
     public ItemPedido() {
 
+    }
+
+    public Double getImporte() {
+        return cantidad.doubleValue() * producto.getPrecio();
     }
 
     public Integer getId() {

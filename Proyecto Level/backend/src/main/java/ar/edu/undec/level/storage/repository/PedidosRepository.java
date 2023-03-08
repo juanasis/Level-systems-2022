@@ -16,4 +16,12 @@ public interface PedidosRepository extends JpaRepository<Pedido, Integer> {
         @Query("FROM Pedido p WHERE p.fechaQuery >= ?1 and p.fechaQuery <= ?2")
         List<Pedido> buscarPedidosRangoFecha(LocalDate fecha_desde, LocalDate fecha_hasta);
 
+        @Query("FROM Pedido p WHERE p.fechaQuery >= ?1 and p.fechaQuery <= ?2 and p.estado= 4")
+        List<Pedido> buscarPedidosPagadosPorRangoFecha(LocalDate fecha_desde, LocalDate fecha_hasta);
+
+        int countByFechaQuery(LocalDate fechaHoy);
+
+        @Query("FROM Pedido p WHERE p.fechaQuery= ?1 AND p.estado = ?2")
+        List<Pedido> getListaPedidosHoy(LocalDate localDate, EstadoPedido estado);
+
 }

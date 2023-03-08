@@ -156,4 +156,12 @@ public class Pedido implements Serializable {
     public void setPedidoEstadoBebida(PedidoEstadoBebida pedidoEstadoBebida) {
         this.pedidoEstadoBebida = pedidoEstadoBebida;
     }
+
+    public Double getTotal() {
+        Double total = 0.0;
+        for (ItemPedido item : itemsList) {
+            total += item.getImporte();
+        }
+        return total;
+    }
 }

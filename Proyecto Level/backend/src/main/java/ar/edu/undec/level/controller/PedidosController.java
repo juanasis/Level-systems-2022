@@ -1,11 +1,9 @@
 package ar.edu.undec.level.controller;
 
 import ar.edu.undec.level.controller.dto.Mensaje;
-import ar.edu.undec.level.controller.dto.PedidoRequest;
 import ar.edu.undec.level.controller.dto.Response;
-import ar.edu.undec.level.security.entity.Usuario;
-import ar.edu.undec.level.security.service.UsuarioService;
 import ar.edu.undec.level.service.MesasService;
+import ar.edu.undec.level.service.PdfGeneradorService;
 import ar.edu.undec.level.service.PedidosService;
 import ar.edu.undec.level.storage.entity.EstadoMesa;
 import ar.edu.undec.level.storage.entity.Mesa;
@@ -18,7 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDate;
 
 @CrossOrigin(origins = "*")
@@ -34,7 +34,7 @@ public class PedidosController {
     private MesasService mesasService;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private PdfGeneradorService pdfGeneratorService;
 
     @PostMapping("/agregar")
     public ResponseEntity<Response> save(@Valid @RequestBody Pedido pedido  ){
@@ -147,8 +147,42 @@ public class PedidosController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/cantidad-pedidos-hoy")
+    public ResponseEntity<Response> getCantidadPedidosHoy() {
+        Response response = new Response();
+        response.setData(pedidosService.getCantidadPedidosDelDia());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
+    @GetMapping("/total-pedidos-ingresos")
+    public ResponseEntity<Response> getTotalPedidosIngresos() {
+        Response response = new Response();
+        response.setData(pedidosService.getIngresosDelDiaPorPedidosPagado());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
+    @GetMapping("/boleta/{pedidoId}")
+    public void generarBoleta(HttpServletResponse response, @PathVariable Long pedidoId) throws IOException {
+        response.setContentType("application/pdf");
 
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Comprobante de pago.pdf";
+        response.setHeader(headerKey, headerValue);
+
+        pdfGeneratorService.crearBoleta(response, pedidoId);
+    }
+
+    @GetMapping("/reporte-mozos")
+    public ResponseEntity<?> reporte(@RequestParam("fecha_desde")
+                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                         LocalDate fecha_desde,
+                                     @RequestParam("fecha_hasta")
+                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                         LocalDate fecha_hasta) {
+
+        Response response = new Response();
+        response.setData(pedidosService.obtenerReporteMozos(fecha_desde, fecha_hasta));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 }

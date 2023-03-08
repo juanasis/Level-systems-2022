@@ -135,7 +135,7 @@ public class AuthController {
 
         Usuario usuarioEncontrado = usuario.get();
 
-        emailDto.setMailFrom("levelsystems23@gmail.com");
+        emailDto.setMailFrom("anderson.bengolea@gmail.com");
         emailDto.setMailTo(usuarioEncontrado.getEmail());
         emailDto.setSubject("Restablecer contraseña");
         emailDto.setUsername(usuarioEncontrado.getNombreUsuario());

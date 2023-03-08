@@ -2,15 +2,16 @@ package ar.edu.undec.level.service;
 
 import ar.edu.undec.level.mapper.IMapper;
 import ar.edu.undec.level.mapper.MapperImpl;
-import ar.edu.undec.level.storage.entity.Receta;
-import ar.edu.undec.level.storage.entity.RecetaDtoOut;
+import ar.edu.undec.level.storage.entity.*;
 import ar.edu.undec.level.storage.repository.MateriaPrimaRepository;
 import ar.edu.undec.level.storage.repository.ProductosRepository;
 import ar.edu.undec.level.storage.repository.RecetaRepository;
 import ar.edu.undec.level.utils.EntityMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
