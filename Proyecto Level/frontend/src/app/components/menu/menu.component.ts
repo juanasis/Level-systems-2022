@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, Router, RoutesRecognized } from '@angular/router';
+import { Router } from '@angular/router';
 import { TokenService } from 'src/app/pages/login/service/token.service';
 
 @Component({
@@ -67,11 +67,15 @@ export class MenuComponent implements OnInit {
     this.tokenService.getPermisos().forEach(rol => {
       this.desactivarRoles(rol);
     });
-    this.tokenService.logOut();
-    this.isLogged = false;
-    this.router.navigate(['/']);
+    
     this.formularioSeguridadActivo = false;
     this.opcionesActivas = true;
+    this.tokenService.sendLoginStatus(false, []);
+    this.tokenService.logOut();
+    this.router.navigate(['/']);
+    if(this.router.url === '/') {
+      window.location.reload();
+    }
    }
 
 

@@ -1,5 +1,5 @@
 <div style="height: 250px" >
-  <ngx-charts-bar-vertical 
+  <ngx-charts-bar-vertical *ngIf="pedidosTotales.length > 0"
   [results]="single"
   [gradient]="gradient"
   [xAxis]="showXAxis"
@@ -8,7 +8,12 @@
   [showXAxisLabel]="showXAxisLabel"
   [showYAxisLabel]="showYAxisLabel"
   [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel">
+  [barPadding]="150"
+  [yAxisLabel]="yAxisLabel"
+  legendTitle="Método">
 </ngx-charts-bar-vertical>
+<div class="alert alert-primary" role="alert" *ngIf="pedidosTotales.length == 0">
+  No hay pagos en este rango de fechas.
+</div>
 </div>
 

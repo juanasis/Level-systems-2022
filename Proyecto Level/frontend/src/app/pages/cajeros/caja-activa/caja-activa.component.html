@@ -52,6 +52,7 @@
                 <th scope="col">Tipo de pago</th>
                 <th scope="col">Total</th>
                 <th scope="col">Detalle</th>
+                <th scope="col">Boleta</th>
             </thead>
             <tbody class="text-center">
               <tr *ngFor="let pedido of cajaDtoOut.pedidos">
@@ -69,6 +70,7 @@
                 </td>
                 <td>{{pedido.total | currency:'$'}}</td>
                 <td><button type="button" class="btn btn-outline-primary btn-block btn-sm" (click)="mostrarDetallePedido(pedido)"  data-toggle="modal" data-target="#staticBackdrop">Ver Detalle</button></td>
+                <td><button type="button" class="btn btn-info btn-sm" (click)="generarBoletaDeCompra(pedido.id)" [disabled]="pedido.estado !== 'PAGADO'"><i class="fa-solid fa-receipt"></i></button></td>
               </tr>
 
             </tbody>

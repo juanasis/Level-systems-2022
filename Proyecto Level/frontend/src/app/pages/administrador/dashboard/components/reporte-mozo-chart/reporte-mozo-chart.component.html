@@ -1,0 +1,26 @@
+
+
+<div style="height: 250px;">
+  <ngx-charts-bar-vertical *ngIf="reporteMozos.length > 0"
+  [results]="multi"
+  [scheme]="'night'"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [showDataLabel]="true"
+  [barPadding]="100"
+  [legendTitle]="legendTitle">
+  <ng-template #tooltipTemplate let-model="model">
+    <div class=" p-3">
+      <div style="font-size: 20px;"><span >Monto total de pedidos</span><br><b>$ {{ model.value | number:'1.0-2' }}</b></div>
+    </div>
+  </ng-template>
+</ngx-charts-bar-vertical >
+<div class="alert alert-primary" role="alert" *ngIf="reporteMozos.length == 0">
+  No hay ventas en este rango de fechas.
+</div>
+</div>

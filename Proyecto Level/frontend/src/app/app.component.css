@@ -1,0 +1,18 @@
+h3 {
+    font-family: 'Shantell Sans', cursive;
+}
+
+.square-3d {
+    transform:
+      perspective(750px)
+      rotateX(27deg)
+      scale(0.9, 0.9);
+    border-radius: 20px;
+    border: 5px solid #e6e6e6;
+    box-shadow: 0 70px 20px -20px rgba(0, 0, 0, 0.2);
+    transition: 0.4s ease-in-out transform;
+  }
+
+  .card-title {
+    margin-top: 2em;
+  }

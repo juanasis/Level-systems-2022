@@ -27,6 +27,8 @@ export class BarChartComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = 'Cantidad';
 
+  pedidosTotales: Pedido[] = [];
+
 
   constructor(private pedidoService: PedidoService) { 
     Object.assign(this, { single: this.single })
@@ -40,18 +42,17 @@ export class BarChartComponent implements OnInit {
   obtenerPedidosPorRangoFecha(fechaInicio: string, fechaFin: string) {
     this.pedidoService.obtenerPedidosPorRangoDeFecha(fechaInicio,fechaFin)
         .subscribe(response => {
-          console.log(response)
           this.single = []
           let nroPagoPorTarjeta = 0;
           let nroPagoPorEfectivo = 0;
 
-          let pedidosTotales: Pedido[] = [];
-
           response.data.forEach(data => {
-            data.pedidos.forEach(p => pedidosTotales.push(p))
+            data.pedidos.forEach(p => this.pedidosTotales.push(p))
           })
 
-          pedidosTotales.forEach(pedido => {
+          this.pedidosTotales = this.pedidosTotales.filter(p => p.estado === 'PAGADO')
+
+          this.pedidosTotales.forEach(pedido => {
             if(pedido.tipoPago != null && pedido.tipoPago == 'EFECTIVO') {
               nroPagoPorEfectivo++;
             }

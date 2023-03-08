@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container pb-5">
        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Reportes</h1>
         <form>
@@ -62,8 +62,8 @@
   
     
   </div>
-  <div class="mt-4 d-flex justify-content-between align-items-center pt-1 pb-2 mb-3 " >
-    <div class="card mb-3 col-sm mr-4">
+  <div class="mt-4 pt-1 pb-2 mb-3 " >
+    <div class="card mb-3 col-sm">
       <div class="card-header bg-white">Venta total</div>
       <div class="card-body">
         <div class="container" >
@@ -77,23 +77,51 @@
        
     </div>
     </div>
-    <div class="card mb-3 col-sm">
-      <div class="card-header bg-white">Productos Top</div>
-      <div class="card-body" >
-        <div >
-          <!-- <div class="alert alert-info" role="alert">
-            No hay pedidos. Por favor elija otra fecha.
-          </div> -->
-          <app-pie-chart [fecha_desde]="fecha_desde" [fecha_hasta]="fecha_hasta"></app-pie-chart>
-        </div>
-  
-      </div>
-    </div>
   
 </div>
 
-<!-- <div class="mt-4 pt-1" > -->
-  <div class="card mb-3 ">
+<div class="mt-4 d-flex justify-content-between align-items-center pt-1 pb-2 mb-3 " >
+  <div class="card mb-3 col-sm mr-4">
+    <div class="card-header bg-white">Comidas Top</div>
+    <div class="card-body" >
+      <div >
+        <!-- <div class="alert alert-info" role="alert">
+          No hay pedidos. Por favor elija otra fecha.
+        </div> -->
+        <app-pie-chart [fecha_desde]="fecha_desde" [fecha_hasta]="fecha_hasta" [categoria]="'COMIDA'"></app-pie-chart>
+      </div>
+
+    </div>
+  </div>
+  <div class="card mb-3 col-sm">
+    <div class="card-header bg-white">Bebidas Top</div>
+    <div class="card-body" >
+      <div >
+        <!-- <div class="alert alert-info" role="alert">
+          No hay pedidos. Por favor elija otra fecha.
+        </div> -->
+        <app-pie-chart [fecha_desde]="fecha_desde" [fecha_hasta]="fecha_hasta" [categoria]="'BEBIDAS'"></app-pie-chart>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="mt-4 d-flex justify-content-between align-items-center pt-1 pb-2 mb-3 " >
+  <div class="card mb-3 col-sm mr-4">
+    <div class="card-header bg-white">Postres Top</div>
+    <div class="card-body" >
+      <div >
+        <!-- <div class="alert alert-info" role="alert">
+          No hay pedidos. Por favor elija otra fecha.
+        </div> -->
+        <app-pie-chart [fecha_desde]="fecha_desde" [fecha_hasta]="fecha_hasta" [fecha_hasta]="fecha_hasta" [categoria]="'POSTRES'"></app-pie-chart>
+      </div>
+
+    </div>
+  </div>
+  <div class="card mb-3 col-sm">
     <div class="card-header bg-white">Métodos de pago</div>
     <div class="card-body">
       <div class="container" >
@@ -102,8 +130,21 @@
      
   </div>
   </div>
+</div>
+
+<!-- <div class="mt-4 pt-1" > -->
+
 
 <!-- </div> -->
+<div class="card">
+  <div class="card-header bg-white">Reporte de mozos</div>
+  <div class="card-body">
+    <div class="container" >
+      <app-reporte-mozo-chart [fecha_desde]="fecha_desde" [fecha_hasta]="fecha_hasta"></app-reporte-mozo-chart>
+    </div>
+   
+</div>
+</div>
 
 
 </div>

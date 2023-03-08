@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container pb-4">
 
 <br>
     <FONT SIZE=8 > Productos </FONT>
@@ -76,6 +76,6 @@
   <div class="alert alert-info" role="alert" *ngIf="filtroActivado && productosPorCategoriaSeleccionado.length == 0">
     No hay productos a mostrar en esta categoría. 
   </div>
-  <app-paginator [paginador]="paginador" *ngIf="paginador && !filtroActivado"></app-paginator>
+  <app-paginator  [paginador]="paginador" *ngIf="paginador && !filtroActivado"></app-paginator>
 
 </div>

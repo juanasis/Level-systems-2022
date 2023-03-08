@@ -49,7 +49,7 @@ export class CajaActivaComponent implements OnInit {
           .subscribe(response => {
             this.cajaDtoOut = response.data;
             this.obtenerPedidosPorMesa();
-            console.log(this.cajaDtoOut)
+            this.cajaDtoOut.pedidos.reverse();
           }, err => {
             Swal.fire('Sin permisos', err.error.message, 'info');
             this.router.navigate(['/caja']);
@@ -70,6 +70,8 @@ export class CajaActivaComponent implements OnInit {
     if(this.cajaDtoOut.pedidos.length == 0) {
       return
     }
+
+    console.log(this.cajaDtoOut)
 
     this.cajaDtoOut.pedidos.forEach(p => {
       p['total'] = 0;
@@ -164,6 +166,13 @@ quitarItemPedido(item: ItemPedido){
   }).then((result) => {
     if (result.isConfirmed) {
       this.pedidoSeleccionado.itemsList = this.pedidoSeleccionado.itemsList.filter(i => i.id != item.id);
+
+      this.cajaDtoOut.pedidos.forEach(p => {
+        p['total'] = 0;
+        p.itemsList.forEach(i => {
+          p['total'] += (i.cantidad * i.precio);
+        })
+      })
       let pedidoActualizar = new Pedido();
       pedidoActualizar.id = this.pedidoSeleccionado.id;
       pedidoActualizar.itemsList = this.pedidoSeleccionado.itemsList;
@@ -196,15 +205,12 @@ cerrarCaja() {
       })
     }
   })
+}
 
-
-
-
-
-
-
-
-
+generarBoletaDeCompra(pedidoId: number) {
+  let link = document.createElement("a");
+    link.href= `http://localhost:8080/pedidos/boleta/${pedidoId}`;
+    link.click();
 }
 
 }

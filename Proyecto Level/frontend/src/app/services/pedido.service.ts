@@ -80,4 +80,19 @@ export class PedidoService {
     return this.httpClient.get<any>(`${this.pedidoURL}/productos-mas-vendidos`, {params: params});
   }
 
+  public getCantidadPedidosHoy(): Observable<any> {
+    return this.httpClient.get<any>(`${this.pedidoURL}/cantidad-pedidos-hoy`)
+  }
+
+  public getTotalPedidosIngresos(): Observable<any> {
+    return this.httpClient.get<any>(`${this.pedidoURL}/total-pedidos-ingresos`)
+  }
+
+  public getReporteMozos(fecha_desde: string, fecha_hasta: string): Observable<any> {
+    let params = new HttpParams();
+    params = params.set('fecha_desde', fecha_desde);
+    params =  params.set('fecha_hasta', fecha_hasta);
+    return this.httpClient.get<any>(`${this.pedidoURL}/reporte-mozos`, {params: params})
+  }
+
 }

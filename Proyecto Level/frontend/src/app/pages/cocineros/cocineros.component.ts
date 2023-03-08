@@ -23,8 +23,8 @@ export class CocinerosComponent implements OnInit {
       this.pedidoService.obtenerPedidosActivosCocina()
           .subscribe(response => {
             this.pedidos = response.data;
+            this.pedidos.reverse();
             this.pedidosAuxiliar = this.pedidos;
-            console.log(this.pedidos)
           })
 
 
@@ -42,9 +42,10 @@ export class CocinerosComponent implements OnInit {
       this.pedidosFiltradoActivo = false;
     }
 
-    actualizarEstadoPedido(pedido: Pedido, estado: string) {
-
-
+    actualizarEstadoPedido(pedido: Pedido) {
+      if(pedido.estado === 'ENTREGADO') {
+        return
+      }
       Swal.fire({
         title: 'Cambiar de estado',
         text: "¿Está seguro de cambiar el estado?",
@@ -56,14 +57,26 @@ export class CocinerosComponent implements OnInit {
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
+          let validacionHecha = false;
 
-          if(pedido.estado == estado) {
-            return
+          if(pedido.estado === 'EN_COLA' && !validacionHecha) {
+            pedido.estado = 'EN_PREPARACION';
+            validacionHecha = true;
+          }
+
+          if(pedido.estado === 'EN_PREPARACION' && !validacionHecha) {
+            pedido.estado = 'LISTO';
+            validacionHecha = true;
+          }
+
+          if(pedido.estado === 'LISTO' && !validacionHecha) {
+            pedido.estado = 'ENTREGADO';
+            validacionHecha = true;
           }
     
           let pedidoActualizar = new Pedido();
           pedidoActualizar.id = pedido.id;
-          pedidoActualizar.estado = estado;
+          pedidoActualizar.estado = pedido.estado;
           pedidoActualizar.itemsList = pedido.itemsList;
           pedidoActualizar.pedidoEstadoBebida = pedido.pedidoEstadoBebida;
           this.pedidoService.update(pedidoActualizar)
@@ -71,14 +84,14 @@ export class CocinerosComponent implements OnInit {
                 this.pedidoService.obtenerPedidosActivosCocina()
                     .subscribe(response => {
                       this.pedidos = response.data;
-                      
+                      this.pedidos.reverse();
                       this.pedidosFiltrados = this.pedidosFiltrados.filter(p => {
-                        if(p.estado != estado && p.id != pedido.id) {
+                        if(p.estado != pedido.estado && p.id != pedido.id) {
                           return true;
                         }
                         return false;
                       })
-                      Swal.fire('Pedido actualizado',`Pedido ${estado}`, 'success')
+                      Swal.fire('Pedido actualizado',`Pedido ${pedido.estado}`, 'success')
                     })
               });
         }

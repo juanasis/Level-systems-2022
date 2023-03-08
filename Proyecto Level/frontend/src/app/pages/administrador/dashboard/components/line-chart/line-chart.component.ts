@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Pedido } from 'src/app/models/pedido';
 import { PedidoService } from 'src/app/services/pedido.service';
@@ -37,7 +38,7 @@ export class LineChartComponent implements OnInit {
 
   @Output() totalGananciaDePedidos = new EventEmitter<number>();
 
-  constructor(private pedidoService: PedidoService) { }
+  constructor(private pedidoService: PedidoService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     let fechaHoyFormateada = new Date().toISOString().slice(0,10);
@@ -59,7 +60,6 @@ export class LineChartComponent implements OnInit {
     this.pedidoService.obtenerPedidosPorRangoDeFecha(fecha_desde,fecha_hasta)
     .subscribe(response => {
       this.pedidosPorFecha = response.data
-      console.log(response.data.length,'data')
       this.multi = [];
       
       this.multi.push({
@@ -69,7 +69,6 @@ export class LineChartComponent implements OnInit {
 
       this.cargarDatosSeries(response.data)
 
-      this.multi[0].series.sort(this.compare)
 
       
 
@@ -80,7 +79,6 @@ export class LineChartComponent implements OnInit {
         data.pedidos.forEach(p => pedidosTotales.push(p))
       })
       this.enviarGananciaDelosPedidosTerminados(pedidosTotales)
-      console.log(pedidosTotales)
 
       this.enviarNumeroTotalPedidos(pedidosTotales.length)
 
@@ -89,10 +87,12 @@ export class LineChartComponent implements OnInit {
   }
 
   cargarDatosSeries(data: any) {
+    data.sort(this.compare)
+
     data.forEach(data => {
       this.multi[0].series.push(
         {
-          "name": this.convertirFecha(data.fecha.substring(5, data.fecha.length)),
+          "name": this.datePipe.transform(data.fecha, 'EEEE, dd/MM'),
           "value": this.obtenerMontoTotalPorFecha(data.pedidos)
         }
       )
@@ -117,7 +117,6 @@ export class LineChartComponent implements OnInit {
   }
 
   enviarNumeroTotalPedidos(nroTotalPedidos: number) {
-    console.log('emitiendo totalPedidos', nroTotalPedidos)
     this.totalPedidos.emit(nroTotalPedidos)
   }
 
@@ -131,15 +130,14 @@ export class LineChartComponent implements OnInit {
           })
       }
     })
-    console.log(total, 'emitiendo ganancia')
     this.totalGananciaDePedidos.emit(total);
   }
 
   compare( a: any, b: any ) {
-    if ( a.name < b.name ){
+    if ( a.fecha < b.fecha ){
       return -1;
     }
-    if ( a.name > b.name ){
+    if ( a.fecha > b.fecha ){
       return 1;
     }
     return 0;

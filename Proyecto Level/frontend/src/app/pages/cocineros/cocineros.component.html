@@ -59,10 +59,11 @@
               <li class="list-group-item font-italic pl-1" *ngFor="let item of pedido.itemsList"><span *ngIf="item.producto.categoria.nombre != 'BEBIDAS'">{{item.cantidad}}x {{item.producto.nombre}}</span></li>
               <div class="d-flex align-items-center mt-1">
                 <span class="font-weight-bold mr-2">Actualizar estado:</span>
-                <div class="btn  btn-danger" [ngClass]="pedido.estado == 'EN_COLA' || pedido.estado == 'EN_PREPARACION' || pedido.estado == 'LISTO' || pedido.estado == 'ENTREGADO' ? 'btn-light text-dark disabled': ''"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'EN_COLA')" >EN COLA</div>
-                <div class="btn  btn-warning mx-2" [ngClass]="pedido.estado == 'LISTO' || pedido.estado == 'ENTREGADO' || pedido.estado == 'EN_PREPARACION' ? 'btn-light text-dark disabled': ''" style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'EN_PREPARACION')">EN PREPARACIÓN</div>
-                <div class="btn  btn-success mx-2" [ngClass]="pedido.estado == 'EN_COLA' || pedido.estado == 'ENTREGADO' || pedido.estado == 'LISTO' ? 'btn-light text-dark disabled': ''" style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'LISTO')">LISTO</div>
-                <div class="btn  btn-info" [ngClass]="pedido.estado == 'EN_PREPARACION' || pedido.estado == 'EN_COLA' || pedido.estado == 'ENTREGADO' ? 'btn-light text-dark disabled': ''" style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'ENTREGADO')">ENTREGADO</div>
+                <div class="btn  btn-danger" [ngClass]="pedido.estado == 'EN_COLA' || pedido.estado == 'EN_PREPARACION' || pedido.estado == 'LISTO' || pedido.estado == 'ENTREGADO' ? 'btn-light text-dark disabled': ''"    >EN COLA</div>
+                <div class="btn  btn-warning mx-2" [ngClass]="pedido.estado == 'LISTO' || pedido.estado == 'ENTREGADO' || pedido.estado == 'EN_PREPARACION' ? 'btn-light text-dark disabled': ''"  >EN PREPARACIÓN</div>
+                <div class="btn  btn-success mx-2" [ngClass]="pedido.estado == 'EN_COLA' || pedido.estado == 'ENTREGADO' || pedido.estado == 'LISTO' ? 'btn-light text-dark disabled': ''"  >LISTO</div>
+                <div class="btn  btn-info mx-2" [ngClass]="pedido.estado == 'EN_PREPARACION' || pedido.estado == 'EN_COLA' || pedido.estado == 'ENTREGADO' ? 'btn-light text-dark disabled': ''"  >ENTREGADO</div>
+                <div class="btn  btn-light fw-bold"  (click)="actualizarEstadoPedido(pedido)">CAMBIAR ESTADO</div>
               </div>
               
             
@@ -96,10 +97,11 @@
               <li class="list-group-item font-italic pl-1" *ngFor="let item of pedido.itemsList"><span *ngIf="item.producto.categoria.nombre != 'BEBIDAS'">{{item.cantidad}}x {{item.producto.nombre}}</span></li>
               <div class="d-flex align-items-center mt-1">
                 <span class="font-weight-bold mr-2">Actualizar estado:</span>
-                <div class="btn  btn-danger" [ngClass]="pedido.estado == 'EN_COLA' || pedido.estado == 'EN_PREPARACION' || pedido.estado == 'LISTO' || pedido.estado == 'ENTREGADO' ? 'btn-light text-dark disabled': ''"  style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'EN_COLA')" >EN COLA</div>
-                <div class="btn  btn-warning mx-2" [ngClass]="pedido.estado == 'LISTO' || pedido.estado == 'ENTREGADO' || pedido.estado == 'EN_PREPARACION' ? 'btn-light text-dark disabled': ''" style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'EN_PREPARACION')">EN PREPARACIÓN</div>
-                <div class="btn  btn-success mx-2" [ngClass]="pedido.estado == 'EN_COLA' || pedido.estado == 'ENTREGADO' || pedido.estado == 'LISTO' ? 'btn-light text-dark disabled': ''" style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'LISTO')">LISTO</div>
-                <div class="btn  btn-info" [ngClass]="pedido.estado == 'EN_PREPARACION' || pedido.estado == 'EN_COLA' || pedido.estado == 'ENTREGADO' ? 'btn-light text-dark disabled': ''" style="cursor: pointer" (click)="actualizarEstadoPedido(pedido, 'ENTREGADO')">ENTREGADO</div>
+                <div class="btn  btn-danger" [ngClass]="pedido.estado == 'EN_COLA' || pedido.estado == 'EN_PREPARACION' || pedido.estado == 'LISTO' || pedido.estado == 'ENTREGADO' ? 'btn-light text-dark disabled': ''"    >EN COLA</div>
+                <div class="btn  btn-warning mx-2" [ngClass]="pedido.estado == 'LISTO' || pedido.estado == 'ENTREGADO' || pedido.estado == 'EN_PREPARACION' ? 'btn-light text-dark disabled': ''"  >EN PREPARACIÓN</div>
+                <div class="btn  btn-success mx-2" [ngClass]="pedido.estado == 'EN_COLA' || pedido.estado == 'ENTREGADO' || pedido.estado == 'LISTO' ? 'btn-light text-dark disabled': ''"  >LISTO</div>
+                <div class="btn  btn-info mx-2" [ngClass]="pedido.estado == 'EN_PREPARACION' || pedido.estado == 'EN_COLA' || pedido.estado == 'ENTREGADO' ? 'btn-light text-dark disabled': ''"  >ENTREGADO</div>
+                <div class="btn  btn-light fw-bold" style="cursor: pointer" (click)="actualizarEstadoPedido(pedido)">CAMBIAR ESTADO</div>
               </div>
               
             

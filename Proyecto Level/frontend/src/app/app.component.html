@@ -9,8 +9,33 @@
 </nav>
 
 <app-menu></app-menu>
-
-<div class="">
+<div class="d-flex justify-content-around container mt-5" *ngIf="rutaPrincipalActiva && (isLogged || cantidadRoles >= 1) && !rol_mozo">
+  <div class="square-3d text-white bg-danger mb-3" [routerLink]="['/caja']" style="width: 280px; height: 280px; cursor: pointer;">
+    <div class="card-header text-center">
+      <h3>Cantidad pedidos</h3>
+    </div>
+    <div class="card-body text-center">
+      <h3 class="card-title">{{ cantidadPedidos }}</h3>
+    </div>
+  </div>
+  <div class="square-3d text-white bg-primary mb-3" [routerLink]="['/mesas']" style="width: 280px;height: 280px; cursor: pointer;">
+    <div class="card-header text-center">
+      <h3>Mesas ocupadas</h3>
+    </div>
+    <div class="card-body text-center">
+      <h3 class="card-title">{{ porcentajeMesas }}%</h3>
+    </div>
+  </div>
+  <div class="square-3d text-white bg-success mb-3" [routerLink]="['/administrador/dashboard']" style="width: 280px; height: 280px; cursor: pointer;">
+    <div class="card-header text-center">
+      <h3>Ingresos</h3>
+    </div>
+    <div class="card-body text-center">
+      <h3 class="card-title">${{ ingresosHoy }}</h3>
+    </div>
+  </div>
+</div>
+<div class="" *ngIf="!rutaPrincipalActiva">
    
   <router-outlet></router-outlet>
   
