@@ -12,6 +12,7 @@
             <th scope="col">Stock mínimo</th>
             <th scope="col">Descripción</th>
             <th scope="col">Alerta stock</th>
+            <th scope="col">Acción</th>
           </tr>
         </thead>
         <tbody>
@@ -24,6 +25,9 @@
             <td>
               <button class="btn btn-success " style="width: 150px" *ngIf="!materiaPrima.alertaCantidad">OK</button>
               <button class="btn btn-warning " style="width: 150px" *ngIf="materiaPrima.alertaCantidad">Aumentar stock</button>
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="eliminarMateriaPrima(materiaPrima.id)">Eliminar</button>
             </td>
         
           </tr>

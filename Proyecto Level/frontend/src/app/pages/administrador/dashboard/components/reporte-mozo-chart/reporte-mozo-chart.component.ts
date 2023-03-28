@@ -36,9 +36,10 @@ export class ReporteMozoChartComponent implements OnInit {
   constructor(private pedidoService: PedidoService) { }
 
   ngOnInit(): void {
-    let fechaHoyFormateada = new Date().toISOString().slice(0,10);
-
-    this.obtenerDatosPorRangoDeFecha(fechaHoyFormateada,fechaHoyFormateada);
+    let fechaHoyFormateada = new Date();
+    let fechaDesde = new Date(fechaHoyFormateada.getDate() - 7).toISOString().slice(0,10);
+    let fechaHasta = fechaHoyFormateada.toISOString().slice(0,10);
+    this.obtenerDatosPorRangoDeFecha(fechaDesde,fechaHasta);
 
     Object.assign(this, { single: this.multi });
   }

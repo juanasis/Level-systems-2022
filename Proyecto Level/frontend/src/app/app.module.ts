@@ -39,6 +39,7 @@ import { MesasComponent } from "./pages/administrador/mesas/mesas.component";
 import { ReporteMozoChartComponent } from "./pages/administrador/dashboard/components/reporte-mozo-chart/reporte-mozo-chart.component";
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { EditarRecetaComponent } from "./pages/productos/receta/editar/editar-receta.component";
 
 registerLocaleData(localeEs, 'es');
 
@@ -72,7 +73,8 @@ registerLocaleData(localeEs, 'es');
     PieChartComponent,
     BarChartComponent,
     MesasComponent,
-    ReporteMozoChartComponent
+    ReporteMozoChartComponent,
+    EditarRecetaComponent
   ],
   imports: [
     BrowserModule,

@@ -35,8 +35,10 @@ export class BarChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let fechaHoyFormateada = new Date().toISOString().slice(0,10);
-    this.obtenerPedidosPorRangoFecha(fechaHoyFormateada, fechaHoyFormateada);
+    let fechaHoyFormateada = new Date();
+    let fechaDesde = new Date(fechaHoyFormateada.getDate() - 7).toISOString().slice(0,10);
+    let fechaHasta = fechaHoyFormateada.toISOString().slice(0,10);
+    this.obtenerPedidosPorRangoFecha(fechaDesde, fechaHasta);
   }
 
   obtenerPedidosPorRangoFecha(fechaInicio: string, fechaFin: string) {

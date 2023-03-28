@@ -25,10 +25,9 @@ export class FormMateriaPrimaComponent implements OnInit {
         .subscribe(params => {
           let materia_prima_id = params['id'];
 
-          if(!materia_prima_id) {
-            return
+          if(materia_prima_id) {
+            this.buscarMateriaPrimaPorId(materia_prima_id)
           }
-          this.buscarMateriaPrimaPorId(materia_prima_id)
           
         })
   }
@@ -42,13 +41,18 @@ export class FormMateriaPrimaComponent implements OnInit {
             'success'
           )
           this.router.navigate(['/administrador/materias-prima'])
+        }, error => {
+          Swal.fire(
+            'Alerta',
+            error.error.message,
+            'warning'
+          )
         })
   }
 
   buscarMateriaPrimaPorId(materia_prima_id: number) {
     this.materiaPrimaService.buscarMateriaPrimaPorId(materia_prima_id)
         .subscribe(response => {
-          console.log(response)
           this.materiaPrima = response.data;
           this.verificarStockMinimo(this.materiaPrima.alertaCantidad);
         })
@@ -63,6 +67,12 @@ export class FormMateriaPrimaComponent implements OnInit {
             'success'
           )
           this.router.navigate(['/administrador/materias-prima'])
+        }, error => {
+          Swal.fire(
+            'Alerta',
+            error.error.message,
+            'warning'
+          )
         })
   }
 

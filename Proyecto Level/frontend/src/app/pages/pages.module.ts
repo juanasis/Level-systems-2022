@@ -18,7 +18,7 @@ import { RecetaComponent } from './productos/receta/receta.component';
       
       ActualizarPermisoComponent,
       
-      RecetaComponent,
+      RecetaComponent
          ],
     imports: [
       CommonModule,

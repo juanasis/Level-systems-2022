@@ -8,6 +8,7 @@ import ar.edu.undec.level.storage.repository.ProductosRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -121,23 +122,12 @@ public class ProductosService {
         return new Date();
     }
 
-    public Response delete(Integer id) {
-            Response response = new Response();
-        try {
-            Producto producto = productosRepo.findById(id).get();
-            productosRepo.save(producto);
-
-            response.setMessage("Eliminado correctamente.");
-
-        } catch (NoSuchElementException e) {
-            LOGGER.error("No existe.");
-        } catch (Exception e) {
-            LOGGER.error("Error general.");
-            throw e;
+    public void delete(Integer id) {
+        try{
+            productosRepo.deleteById(id);
+        }catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("El producto no se puede eliminar");
         }
-        return response;
-
-
     }
     public Response findByName(String nombre) {
         Response response = new Response();

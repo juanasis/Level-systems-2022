@@ -25,11 +25,13 @@ export class AppComponent {
   cantidadRoles = 0;
 
   rol_mozo = false;
+  fechaHoy: Date;
   
   constructor(private mesaService: MesaServiceService,
     private pedidoService: PedidoService,
     private router: Router,
     private tokenService: TokenService){
+      this.fechaHoy = new Date();
 
       this.mesaService.listarMesas()
           .pipe(

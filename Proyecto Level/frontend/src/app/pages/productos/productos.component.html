@@ -21,9 +21,6 @@
     <button class="btn btn-outline-success" (click)="filtrarProductosPorNombre(nombre.value)" >
       <i class="fas fa-search" ></i>
     </button>
-
-      
-    
     
   </div>
 
@@ -37,10 +34,11 @@
         <th scope="col">Precio</th>
         <th scope="col">Estado</th>
         <th scope="col">Receta</th>
+        <th scope="col">Acción</th>
       </tr>
     </thead>
     <tbody *ngIf="!filtroActivado">
-      <tr *ngFor="let producto of productosArray" (click)="editarProducto(producto.id)">
+      <tr *ngFor="let producto of productosArray" [routerLink]="['/editar',producto.id]">
         <th scope="row">{{producto.id}} </th>
         <td>{{producto.nombre}} </td>
         <td>{{producto.descripcion}} </td>
@@ -51,12 +49,18 @@
           <button type="button" class="btn btn-danger btn-block" *ngIf="producto.estado == 'AGOTADO'">AGOTADO</button>
         </td>
         <td>
-          <a type="button" class="btn btn-info btn-block text-white" [routerLink]="['/administrador/productos',producto.id,'receta']" *ngIf="producto.categoria.nombre != 'BEBIDAS'">RECETA</a>
+          <a type="button" class="btn btn-info btn-block text-white" [routerLink]="['/administrador/productos',producto.id,'receta']" *ngIf="producto.categoria.nombre != 'BEBIDAS' && producto.receta !== null">Ver</a>
+          <a type="button" class="btn btn-success btn-block text-white" [routerLink]="['/administrador/productos',producto.id,'receta']" *ngIf="producto.categoria.nombre != 'BEBIDAS' && producto.receta === null">Crear</a>
+        </td>
+        <td>
+          <div class="btn btn-danger btn-block" (click)="eliminarProducto($event, producto.id)">
+            Eliminar
+          </div>
         </td>
       </tr>
     </tbody>
     <tbody *ngIf="filtroActivado">
-      <tr *ngFor="let producto of productosPorCategoriaSeleccionado" (click)="editarProducto(producto.id)">
+      <tr *ngFor="let producto of productosPorCategoriaSeleccionado" [routerLink]="['/editar',producto.id]">
         <th scope="row">{{producto.id}} </th>
         <td>{{producto.nombre}} </td>
         <td>{{producto.descripcion}} </td>
@@ -67,7 +71,11 @@
           <button type="button" class="btn btn-danger btn-block" *ngIf="producto.estado == 'AGOTADO'">AGOTADO</button>
         </td>
         <td>
-          <button type="button" class="btn btn-info btn-block text-white" [routerLink]="['administrador/productos',producto.id,'receta']" *ngIf="producto.categoria.nombre != 'BEBIDAS'">RECETA</button>
+          <a type="button" class="btn btn-info btn-block text-white" [routerLink]="['/administrador/productos',producto.id,'receta']" *ngIf="producto.categoria.nombre != 'BEBIDAS' && producto.receta !== null">Ver</a>
+          <a type="button" class="btn btn-success btn-block text-white" [routerLink]="['/administrador/productos',producto.id,'receta']" *ngIf="producto.categoria.nombre != 'BEBIDAS' && producto.receta === null">Crear</a>
+        </td>
+        <td>
+            <a type="button" class="btn btn-danger btn-block" (click)="eliminarProducto(producto.id)"><i class="fa-solid fa-trash"></i></a>
         </td>
       </tr>
     </tbody>

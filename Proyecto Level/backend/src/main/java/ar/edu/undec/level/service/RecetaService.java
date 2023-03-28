@@ -32,6 +32,21 @@ public class RecetaService {
         return mapper.mapOutRecetaDto(recetaEncontrada.get());
     }
 
+    public RecetaDtoOut actualizarReceta(Integer productoId, RecetaDtoIn recetaDtoIn) {
+        Optional<Receta> recetaEncontrada = recetaRepository.obtenerRecetaPorProductId(productoId);
+        if(!recetaEncontrada.isPresent()) throw new RuntimeException("No existe una receta para el producto con el ID " + productoId);
+        Receta receta = mapper.mapInReceta(recetaDtoIn);
+        receta.setRecetaId(recetaEncontrada.get().getRecetaId());
+
+        return mapper.mapOutRecetaDto(recetaRepository.save(receta));
+    }
+
+    public void eliminarReceta(Integer productoId) {
+        Optional<Receta> recetaEncontrada = recetaRepository.obtenerRecetaPorProductId(productoId);
+        if(!recetaEncontrada.isPresent()) throw new RuntimeException("No existe una receta para el producto con el ID " + productoId);
+        this.recetaRepository.deleteById(recetaEncontrada.get().getRecetaId());
+    }
+
     public void descontarStockMateriaPrima(Integer productoId, Integer cantidadItemPedido) {
         Optional<Receta> recetaEncontrada = recetaRepository.obtenerRecetaPorProductId(productoId);
 

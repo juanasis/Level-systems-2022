@@ -89,9 +89,9 @@ public class ProductoController {
     }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Response> delete(@PathVariable(value = "id") Integer productoId) {
-        Response response = productosService.delete(productoId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable(value = "id") Integer productoId) {
+        productosService.delete(productoId);
     }
     @GetMapping("/nombre/{nombre}")
     public ResponseEntity<Response> list(@PathVariable String nombre) {

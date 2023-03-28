@@ -28,6 +28,7 @@ import { HistorialRolComponent } from './pages/administrador/roles/historial-rol
 import { RecetaComponent } from './pages/productos/receta/receta.component';
 import { DashboardComponent } from './pages/administrador/dashboard/dashboard.component';
 import { MesasComponent } from './pages/administrador/mesas/mesas.component';
+import { EditarRecetaComponent } from "./pages/productos/receta/editar/editar-receta.component";
  
 const routes: Routes = [  
 {
@@ -86,7 +87,7 @@ const routes: Routes = [
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {
-  path: 'administrador/dashboard',
+  path: 'dashboard',
   component: DashboardComponent,
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
@@ -123,6 +124,11 @@ const routes: Routes = [
 {
   path: 'administrador/productos/:idProducto/receta',
   component: RecetaComponent,
+  canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
+},
+{
+  path: 'administrador/productos/:idProducto/receta/editar',
+  component: EditarRecetaComponent,
   canActivate: [guard], data: {expectedPermisos: ['ADMINISTRACION']}
 },
 {

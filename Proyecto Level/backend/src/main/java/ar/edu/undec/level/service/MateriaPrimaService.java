@@ -3,6 +3,7 @@ package ar.edu.undec.level.service;
 import ar.edu.undec.level.storage.entity.MateriaPrima;
 import ar.edu.undec.level.storage.repository.MateriaPrimaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,11 @@ public class MateriaPrimaService {
     private MateriaPrimaRepository materiaPrimaRepository;
 
     public void crearMaterialPrima(MateriaPrima materiaPrima) {
+
+        Optional<MateriaPrima> materiaEncontrada = materiaPrimaRepository.findByNombreIgnoreCase(materiaPrima.getNombre());
+
+        if(materiaEncontrada.isPresent()) throw new RuntimeException("Ya existe materia prima con el nombre "+materiaPrima.getNombre());
+
         materiaPrimaRepository.save(materiaPrima);
     }
 
@@ -30,6 +36,12 @@ public class MateriaPrimaService {
     }
 
     public MateriaPrima actualizarMateriaPrima(MateriaPrima materiaPrimaFront, MateriaPrima materiaPrimaEncontrada) {
+
+        if(!materiaPrimaEncontrada.getNombre().trim().equals(materiaPrimaFront.getNombre().trim())) {
+            Optional<MateriaPrima> materiaEncontrada = materiaPrimaRepository.findByNombreIgnoreCase(materiaPrimaFront.getNombre());
+            if(materiaEncontrada.isPresent())throw new RuntimeException("Ya existe materia prima con el nombre "+materiaPrimaFront.getNombre());
+        }
+
         materiaPrimaEncontrada.setNombre(materiaPrimaFront.getNombre());
         materiaPrimaEncontrada.setStock(materiaPrimaFront.getStock());
         materiaPrimaEncontrada.setCantidadMinima(materiaPrimaFront.getCantidadMinima());
@@ -45,7 +57,12 @@ public class MateriaPrimaService {
             throw new RuntimeException("No se encontró materia prima con el ID: "+id);
         }
 
-        materiaPrimaRepository.deleteById(materiaPrimaEncontrada.get().getId());
+        try{
+            materiaPrimaRepository.deleteById(materiaPrimaEncontrada.get().getId());
+        }catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("La materia prima no se puede eliminar");
+        }
+
     }
 
     public List<MateriaPrima> obtenerListaMateriaPrima() {

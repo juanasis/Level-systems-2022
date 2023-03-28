@@ -26,4 +26,14 @@ public class RecetaController {
     public ResponseEntity<?> buscarRecetaPorProductoId(@PathVariable Integer productoId ){
         return new ResponseEntity<>(recetaService.obtenerRecetaPorProductId(productoId) ,HttpStatus.OK);
     }
+    @PutMapping("/{productoId}")
+    public ResponseEntity<?> actualizarReceta(@PathVariable Integer productoId, @RequestBody RecetaDtoIn recetaDtoIn){
+        return new ResponseEntity<>(recetaService.actualizarReceta(productoId, recetaDtoIn) ,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{productoId}")
+    public ResponseEntity<?> eliminarReceta(@PathVariable Integer productoId){
+        recetaService.eliminarReceta(productoId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

@@ -35,10 +35,10 @@ export class PieChartComponent implements OnInit {
   constructor(private pedidoService: PedidoService) { }
 
   ngOnInit(): void {
-    console.log(this.categoria)
-    let fechaHoyFormateada = new Date().toISOString().slice(0,10);
-
-    this.obtenerDatosPorRangoDeFecha(fechaHoyFormateada,fechaHoyFormateada, this.categoria);
+    let fechaHoyFormateada = new Date();
+    let fechaDesde = new Date(fechaHoyFormateada.getDate() - 7).toISOString().slice(0,10);
+    let fechaHasta = fechaHoyFormateada.toISOString().slice(0,10);
+    this.obtenerDatosPorRangoDeFecha(fechaDesde,fechaHasta, this.categoria);
 
     Object.assign(this, { single: this.single });
   }

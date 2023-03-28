@@ -43,15 +43,15 @@ public class MateriaPrimaController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    @GetMapping("/eliminar/{idMateriaPrima}")
-//    public ResponseEntity<?> eliminarPorIdMateriaPrima(@PathVariable Long idMateriaPrima) {
-//        materiaPrimaService.eliminarPorIdMateriaPrima(idMateriaPrima);
-//        return new ResponseEntity<>(new Mensaje("Se eliminó correctamente la materia prima"), HttpStatus.OK);
-//    }
-
     @PostMapping("/crear")
     public ResponseEntity<?> crearMateriaPrima(@RequestBody MateriaPrima materiaPrima) {
         materiaPrimaService.crearMaterialPrima(materiaPrima);
         return new ResponseEntity<>(new Mensaje("Se creó correctamente la materia prima"), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{materia-prima-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminarMateriaPrima(@PathVariable(name = "materia-prima-id") Long materiaPrimaId) {
+        materiaPrimaService.eliminarPorIdMateriaPrima(materiaPrimaId);
     }
 }

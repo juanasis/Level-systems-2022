@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MateriaPrima } from 'src/app/models/materia-prima';
+import { Producto } from 'src/app/models/producto';
 import { MateriaPrimaService } from 'src/app/services/materia-prima.service';
+import { ProductoService } from 'src/app/services/producto.service';
 import { RecetaService } from 'src/app/services/receta.service';
 import Swal from 'sweetalert2';
 
@@ -23,10 +25,13 @@ export class RecetaComponent implements OnInit {
 
   receta: any = {}
 
+  product: Producto;
+
   constructor(private activatedRoute: ActivatedRoute, 
     private recetaService: RecetaService, 
     private materiaPrimaService: MateriaPrimaService,
-    private router: Router) { }
+    private router: Router,
+    private productoService: ProductoService) { }
 
   ngOnInit(): void {
     this.activatedRoute.params
@@ -34,6 +39,7 @@ export class RecetaComponent implements OnInit {
           const producto_id = params['idProducto'];
 
           if(producto_id) {
+            this.productoService.detail(producto_id).subscribe((response: any) => this.product = response.data);
             this.receta.productoId = producto_id; 
             this.recetaService.buscarRecetaPorProductoId(producto_id)
                 .subscribe({
@@ -102,6 +108,35 @@ export class RecetaComponent implements OnInit {
 
   regresarToProductos() {
     this.router.navigate(['/administrador/productos/page/0'])
+  }
+
+  actualizar() {
+    this.router.navigate([`/administrador/productos/${this.receta.productoId}/receta/editar`]);
+  }
+
+  eliminarReceta(): void {
+
+    Swal.fire({
+      title: '¿Está seguro de eliminar la receta?',
+      text: "Confirmar acción",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.recetaService.eliminarReceta(this.product.id)
+        .subscribe(()=> {
+          Swal.fire('Eliminado','La receta ha sido eliminada con éxito', 'success')
+          this.router.navigate(['/administrador/productos/page/0'])
+        })
+      }
+    })
+
+
+
+    
   }
 
 

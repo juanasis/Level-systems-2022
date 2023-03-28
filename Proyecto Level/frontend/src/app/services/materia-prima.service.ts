@@ -28,4 +28,8 @@ export class MateriaPrimaService {
     return this.http.put<any>(`${this.urlBackend}/actualizar/${materia_prima_id}`, materiaPrima);
   }
 
+  public eliminarMateriaPrima(materia_prima_id: number): Observable<void> {
+    return this.http.delete<void>(`${this.urlBackend}/${materia_prima_id}`);
+  }
+
 }

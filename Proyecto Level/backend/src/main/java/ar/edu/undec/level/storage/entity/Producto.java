@@ -17,12 +17,17 @@ public class Producto implements Serializable {
    private  String imgpath;
    private Double precio;
    private EstadoProducto estado;
+   private Receta receta;
 
-//    @OneToMany(mappedBy = "producto")
-//    @JsonIgnoreProperties({"producto","hibernateLazyInitializer", "handler"})
-//   private Collection<ItemPedido> pedidosList;
+    @OneToOne(mappedBy = "producto", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"producto","hibernateLazyInitializer", "handler"})
+    public Receta getReceta() {
+        return receta;
+    }
 
-
+    public void setReceta(Receta receta) {
+        this.receta = receta;
+    }
 
     @Id
     @Column(name = "id")
@@ -92,11 +97,4 @@ public class Producto implements Serializable {
         this.estado = estado;
     }
 
-
-//    public Collection<ItemPedido> getPedidosList() {
-//        return pedidosList;
-//    }
-//    public void setPedidosList(Collection<ItemPedido> pedidosList) {
-//        this.pedidosList = pedidosList;
-//    }
 }

@@ -17,4 +17,12 @@ export class RecetaService {
   crearReceta(receta: any): Observable<any> {
     return this.httpClient.post<any>(`${this.backendURL}/crear`, receta)
   }
+
+  actualizarReceta(producto_id: number, receta: any): Observable<any> {
+    return this.httpClient.put<any>(`${this.backendURL}/${producto_id}`, receta);
+  }
+
+  eliminarReceta(producto_id: number): Observable<any> {
+    return this.httpClient.delete<any>(`${this.backendURL}/${producto_id}`);
+  }
 }

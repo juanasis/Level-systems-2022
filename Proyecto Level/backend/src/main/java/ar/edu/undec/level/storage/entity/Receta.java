@@ -10,7 +10,7 @@ public class Receta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recetaId;
 
-    @OneToMany(orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(orphanRemoval = true, cascade = {CascadeType.ALL})
     @JoinColumn(name = "receta_id")
     private List<ItemReceta> listaItemsReceta;
 

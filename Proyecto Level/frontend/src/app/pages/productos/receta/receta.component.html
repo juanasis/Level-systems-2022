@@ -1,7 +1,11 @@
 <div class="container pb-5">
     <div class="card mx-auto mt-4" style="width: 800px;">
         <div *ngIf="recetaDto">
-            <div class="card-header bg-white">Receta del producto {{recetaDto.nombreRecetaProducto}} <a type="button" (click)="regresarToProductos()" class="btn btn-sm btn-light float-end"><i class="fa-solid fa-arrow-left"></i></a></div>
+            <div class="card-header bg-white">Receta del producto {{recetaDto.nombreRecetaProducto}} 
+              <a type="button" (click)="eliminarReceta()" routerLinkActive="router-link-active"  class="btn btn-sm btn-danger float-end"><i class="fa-solid fa-trash"></i></a>
+              <a type="button" (click)="actualizar()" routerLinkActive="router-link-active"  class="btn btn-sm btn-info float-end mx-2"><i class="fa-solid fa-pen-to-square"></i></a>
+              <a type="button" (click)="regresarToProductos()" class="btn btn-sm btn-light float-end"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>
             <div class="card-body">
                 <h6>Ingredientes</h6>
                 <ul class="list-group">
@@ -13,7 +17,7 @@
             </div>
         </div>
         <div *ngIf="!recetaDto">
-            <div class="card-header bg-white">Crear receta <a type="button" (click)="regresarToProductos()" class="btn btn-sm btn-light float-end"><i class="fa-solid fa-arrow-left"></i></a></div>
+            <div class="card-header bg-white">Crear receta {{product.nombre}}<a type="button" (click)="regresarToProductos()" class="btn btn-sm btn-light float-end"><i class="fa-solid fa-arrow-left"></i></a></div>
             <div class="card-body">
                 
                 <div class="d-flex justify-content-between">

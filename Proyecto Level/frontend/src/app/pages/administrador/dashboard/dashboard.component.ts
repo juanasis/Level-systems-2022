@@ -24,8 +24,11 @@ export class DashboardComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.currentDate = new Date();
     this.usuarios$ = this.authService.getUsuarios();
+  }
+
+  print() {
+    window.print();
   }
 
 

@@ -54,6 +54,12 @@ export class MenuComponent implements OnInit {
       name: 'Pedidos del mozo',
       permiso: 'LISTAR_PEDIDOS_MOZO',
       activo: false
+    },
+    {
+      path: '/dashboard',
+      name: 'Reportes',
+      permiso: 'ADMINISTRACION',
+      activo: false
     }
   ];
   
@@ -147,6 +153,9 @@ export class MenuComponent implements OnInit {
     if(rol == 'LISTAR_PEDIDOS_MOZO'){
       this.rutas[4].activo = true;
     }
+    if(rol == 'ADMINISTRACION'){
+      this.rutas[5].activo = true;
+    }
   }
 
   desactivarRoles(rol: string) {
@@ -165,6 +174,9 @@ export class MenuComponent implements OnInit {
     }
     if(rol == 'LISTAR_PEDIDOS_MOZO'){
       this.rutas[4].activo = false;
+    }
+    if(rol == 'ADMINISTRACION'){
+      this.rutas[5].activo = true;
     }
   }
   

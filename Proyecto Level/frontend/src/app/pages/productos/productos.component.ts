@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Categoria } from 'src/app/models/categoria';
 import { Producto } from 'src/app/models/producto';
 import { ProductoService } from 'src/app/services/producto.service';
+import Swal from 'sweetalert2';
 
 
 
@@ -26,22 +27,8 @@ export class ProductosComponent implements OnInit {
 
   constructor(private http: HttpClient, private router: Router, private productoService: ProductoService, private activatedRoute: ActivatedRoute) { }
 
-  listarBebidas(){
-    // this.productosArray.forEach(element => {
-    //   if (element.categoria = 'bebidas') {
-    //     this.bebidasArray.push(element)        
-    //   }
-    //   console.log("click");
-    // });
-    
-  }
+  
   ngOnInit(): void {
-    // this.http.get("http://localhost:8080/productos",{responseType: 'json'}).subscribe(
-    //   (resp:any) =>{
-    //   this.productosArray = resp.data;
-    //  })
-
-
 
     this.activatedRoute.paramMap
     .subscribe(params => {
@@ -85,5 +72,32 @@ export class ProductosComponent implements OnInit {
 
   editarProducto(id){
     this.router.navigate(['editar',id]);
+  }
+
+  eliminarProducto(event: Event, productoId: number) {
+    event.stopPropagation();
+    Swal.fire({
+      title: '¿Está seguro de eliminar el producto?',
+      text: "Confirmar acción",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productoService.delete(productoId)
+        .subscribe(()=> {
+          Swal.fire('Eliminado','El producto ha sido eliminado con éxito', 'success')
+          this.router.navigate(['/administrador/productos/page/0'])
+          this.productoService.listaProductodPageable(0).subscribe(response => {
+            this.productosArray = response.data.content as Producto[];
+            this.paginador = response.data;
+          });
+        }, error => {
+          Swal.fire('Alerta',error.error.message, 'warning')
+        });
+      }
+    })
   }
 }
