@@ -201,7 +201,7 @@ cerrarCaja() {
         Swal.fire('Caja cerrada', 'Se cerró la caja con éxito','success')
         this.router.navigate(['/caja']);
       }, err => {
-        Swal.fire('Caja cerrada', err.error.message,'info')
+        Swal.fire('ERROR', err.error.message,'warning')
       })
     }
   })
