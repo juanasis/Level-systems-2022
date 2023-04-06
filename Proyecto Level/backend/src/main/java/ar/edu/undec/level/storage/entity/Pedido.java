@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -60,6 +61,9 @@ public class Pedido implements Serializable {
 
     private PedidoEstadoBebida pedidoEstadoBebida;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "pedido_id")
+    private List<ComentarioPedido> comentarios;
 
     private static final long serialVersionUID = 1L;
 
@@ -163,5 +167,13 @@ public class Pedido implements Serializable {
             total += item.getImporte();
         }
         return total;
+    }
+
+    public List<ComentarioPedido> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<ComentarioPedido> comentarios) {
+        this.comentarios = comentarios;
     }
 }

@@ -1,6 +1,5 @@
 <div class="container bg-white rounded">
 
-
     <div class="mt-5 rounded-3 pb-5" style="width: 80%; margin: auto; min-height: 500px;">
         <div class="d-flex">
             <h3 class="mt-1">CAJA</h3>
@@ -53,6 +52,7 @@
                 <th scope="col">Total</th>
                 <th scope="col">Detalle</th>
                 <th scope="col">Boleta</th>
+                <th scope="col">Comentarios</th>
             </thead>
             <tbody class="text-center">
               <tr *ngFor="let pedido of cajaDtoOut.pedidos">
@@ -71,6 +71,10 @@
                 <td>{{pedido.total | currency:'$'}}</td>
                 <td><button type="button" class="btn btn-outline-primary btn-block btn-sm" (click)="mostrarDetallePedido(pedido)"  data-toggle="modal" data-target="#staticBackdrop">Ver Detalle</button></td>
                 <td><button type="button" class="btn btn-info btn-sm" (click)="generarBoletaDeCompra(pedido.id)" [disabled]="pedido.estado !== 'PAGADO'"><i class="fa-solid fa-receipt"></i></button></td>
+                <td><button type="button" class="btn btn-info btn-sm" 
+                  data-bs-toggle="modal" data-bs-target="#modalComentarios"
+                  (click)="mostrarComentarios(pedido)"
+                  [disabled]="pedido.comentarios.length === 0"><i class="fa-solid fa-eye"></i></button></td>
               </tr>
 
             </tbody>
@@ -82,7 +86,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" *ngIf="pedidoSeleccionado">
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true" *ngIf="pedidoSeleccionado">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -156,6 +160,39 @@
         </div>
 
       </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="modalComentarios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Comentarios</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-bordered">
+            <thead >
+              <tr>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Motivo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let comentario of comentarios">
+                <td>x{{comentario.cantidad}}</td>
+                <td>{{comentario.producto}}</td>
+                <td>{{comentario.descripcion}}</td>
+              </tr>
+  
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
       </div>
     </div>
   </div>

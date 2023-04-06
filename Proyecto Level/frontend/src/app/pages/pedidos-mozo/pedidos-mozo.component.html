@@ -7,7 +7,7 @@
                 <table class="table table-bordered" *ngIf="pedidosMozo.length > 0">
                     <thead>
                         <tr>
-                            <th class="text-center"># de Pedido</th>
+                            <th class="text-center"># Pedido</th>
                             <th class="text-center"># de Mesa</th>
                             <th class="text-center">En cola</th>
                             <th class="text-center">En preparación</th>
@@ -19,7 +19,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let pedido of pedidosMozo; let i = index">
-                            <td class="text-center"><span class="badge bg-primary">Id {{pedido.id}}</span></td>
+                            <td class="text-center"><span class="badge bg-primary">Pedido {{pedido.id}}</span></td>
                             <td class="text-center"><span class="badge bg-primary">Mesa {{pedido.mesa.id}}</span></td>
                             <td class="text-center"><img *ngIf="pedido.estado == 'EN_COLA'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>
                             <td class="text-center"><img *ngIf="pedido.estado == 'EN_PREPARACION'" src="https://cdn-icons-png.flaticon.com/512/716/716225.png" width="30px"></td>

@@ -26,6 +26,8 @@ export class ClientesComponent implements OnInit {
 
   medioDePago: boolean = false;
 
+  URL_BACKEND: string = "http://localhost:8080/api/imagenes/";
+
   categorias: Categoria[] = [];
   productosPorCategoriaSeleccionado: Producto[] = [];
   
@@ -153,11 +155,10 @@ export class ClientesComponent implements OnInit {
   }
 
   verDetalleProducto(producto: Producto) {
-    console.log(producto)
     Swal.fire({
       title: producto.nombre,
       text: `${producto.descripcion}`,
-      imageUrl: `${producto.imgpath}`,
+      imageUrl: `${this.URL_BACKEND}${producto.imgpath}`,
       imageWidth: 250,
       imageHeight: 250,
       width: '400px',

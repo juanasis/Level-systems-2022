@@ -5,22 +5,20 @@
         Nuevo Producto
 
       </div>
+      <form #formulario="ngForm">
       <div class="form-group mt-4">
-        <input type="text" [(ngModel)]="selectedProducto.nombre" placeholder="Inserta el nombre del Producto" class="form-control">
+        <input type="text" [(ngModel)]="selectedProducto.nombre" name="nombre" placeholder="Inserta el nombre del Producto" class="form-control" required>
       </div>
       <div class="form-group mt-4">
-        <input type="text" [(ngModel)]="selectedProducto.descripcion" placeholder="Inserta descripcion del Producto" class="form-control">
+        <input type="text" [(ngModel)]="selectedProducto.descripcion" name="descripcion" placeholder="Inserta descripcion del Producto" class="form-control" required>
       </div>
       <div class="form-group mt-4">
-        <input type="text" [(ngModel)]="selectedProducto.precio" placeholder="Inserta el precio" class="form-control">
+        <input type="text" [(ngModel)]="selectedProducto.precio" name="precio" placeholder="Inserta el precio" class="form-control" required>
       </div>
-       <!-- <div class="form-group mt-4">
-        <input type="text" [(ngModel)]="selectedProducto.categoria" placeholder="Inserta categoria" class="form-control">
-      </div>  -->
      <div class="form-group mt-4" >
       Categoria
       <p></p>
-      <select  type="text" [(ngModel)]="selectedProducto.categoria" class="form-control">
+      <select  type="text" [(ngModel)]="selectedProducto.categoria" class="form-control" name="categoria" required>
         <option [ngValue]="undefined">--Seleccione una categoria--</option>
         <option [ngValue]="categoria" *ngFor="let categoria of categorias">{{categoria.nombre}}</option>
 
@@ -30,20 +28,17 @@
   
       <div class="form-group mt-4">
         <p>Seleccione una imagen</p>
-      <!--  <label for="exampleFormControlFile1">Insertar imagen</label>-->
-       <!--  <input type="file" [(ngModel)]="selectedProducto.imgpath" placeholder="Seleccionar una imagen" class="form-control-file"  id="exampleFormControlFile1" >
-      -->  
-      <upload-files></upload-files>
-        
-               
-      
+      <div class="input-group">
+        <input type="file" class="form-control" id="inputGroupFile04" (change)="cargarImagen($event)">
       </div>
-      <button (click)="crearProducto()" class="btn btn-primary mt-4">
+      </div>
+      <button (click)="crearProducto()" class="btn btn-primary mt-4" [disabled]="!formulario.form.valid || !archivo">
         Guardar
       </button>
       <button [routerLink]="['/administrador/productos/page/0']" class="btn btn-danger mt-4">
         Salir
       </button>
+    </form>
     </div>
   </div>
  

@@ -30,12 +30,31 @@ export class CocinerosComponent implements OnInit {
 
     timer(0, 1000).subscribe(() => {
       this.fechaActual = new Date();
-    })       
+    })
+    
+    timer(0, 5000).subscribe(() => {
+      this.pedidoService.obtenerPedidosActivosCocina()
+      .subscribe(response => {
+        this.pedidos = response.data;
+        this.pedidos.reverse();
+        this.pedidosAuxiliar = this.pedidos;
+      })
+    })        
     }
 
     pedidosPorEstado(estado: string) {
       this.pedidosFiltradoActivo = true;
       this.pedidosFiltrados = this.pedidos.filter(p => p.estado == estado);
+    }
+
+    refrescarCocina(){
+      this.pedidoService.obtenerPedidosActivosCocina()
+      .subscribe(response => {
+        this.pedidos = response.data;
+        this.pedidos.reverse();
+        this.pedidosAuxiliar = this.pedidos;
+        Swal.fire('Pedidos actualizados','','success');
+      })
     }
 
     activarTodosLosPedidos() {

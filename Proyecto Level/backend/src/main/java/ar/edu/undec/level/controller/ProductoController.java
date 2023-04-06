@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -90,7 +91,7 @@ public class ProductoController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable(value = "id") Integer productoId) {
+    public void delete(@PathVariable(value = "id") Integer productoId) throws IOException {
         productosService.delete(productoId);
     }
     @GetMapping("/nombre/{nombre}")

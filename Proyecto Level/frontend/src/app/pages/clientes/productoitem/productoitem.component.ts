@@ -8,10 +8,9 @@ import { Producto } from 'src/app/models/producto';
   styleUrls: ['./productoitem.component.css']
 })
 export class ProductoitemComponent implements OnInit {
-   
-  constructor( ) { }
   @Input() producto: Producto; 
-  
+  URL_BACKEND: string = "http://localhost:8080/api/imagenes/";
+  constructor( ) { }
   
   ngOnInit(): void {
      

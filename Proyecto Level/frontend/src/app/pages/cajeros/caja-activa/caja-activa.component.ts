@@ -8,6 +8,7 @@ import { PedidoService } from 'src/app/services/pedido.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../login/service/auth.service';
 import { TokenService } from '../../login/service/token.service';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-caja-activa',
@@ -28,6 +29,8 @@ export class CajaActivaComponent implements OnInit {
   botonActivado: boolean = false;
 
   sendEmalActivo: boolean = false;
+  comentarios: any[];
+  idCaja: number;
 
 
   constructor(private cajaService: CajaService, 
@@ -40,9 +43,9 @@ export class CajaActivaComponent implements OnInit {
   ngOnInit(): void {
 
     this.activatedRoute.params.subscribe(params => {
-      let idCaja = +params['idCaja'];
+      this.idCaja = params['idCaja'];
 
-      if(!idCaja) {
+      if(!this.idCaja) {
         this.authService.buscarPorNonbreUsuario(this.tokenService.getUserName())
         .subscribe(response => {
           this.cajaService.obtenerCajaActiva(response.data.id)
@@ -56,13 +59,17 @@ export class CajaActivaComponent implements OnInit {
           })
         })
       } else {
-        this.cajaService.obtenerCajaPorId(idCaja)
+        this.cajaService.obtenerCajaPorId(this.idCaja)
             .subscribe(response => {
               this.cajaDtoOut = response.data
               this.obtenerPedidosPorMesa();
             });
       }
     })
+
+    timer(0, 5000).subscribe(() => {
+      this.refrescarCaja();
+    })    
   }
 
   obtenerPedidosPorMesa() {
@@ -153,34 +160,64 @@ actualizarPedido() {
       })
 }
 
-quitarItemPedido(item: ItemPedido){
-  Swal.fire({
+async quitarItemPedido(item: ItemPedido){
+  const { value: text } = await Swal.fire({
     title: '¿Está seguro de eliminar el item?',
-    text: "Se eliminará el item del pedido",
-    icon: 'warning',
+    input: 'text',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
-    cancelButtonText: 'Cancelar',
-    confirmButtonText: 'Sí, eliminar!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.pedidoSeleccionado.itemsList = this.pedidoSeleccionado.itemsList.filter(i => i.id != item.id);
-
-      this.cajaDtoOut.pedidos.forEach(p => {
-        p['total'] = 0;
-        p.itemsList.forEach(i => {
-          p['total'] += (i.cantidad * i.precio);
-        })
-      })
-      let pedidoActualizar = new Pedido();
-      pedidoActualizar.id = this.pedidoSeleccionado.id;
-      pedidoActualizar.itemsList = this.pedidoSeleccionado.itemsList;
-      this.pedidoService.actualizarItemsPedido(pedidoActualizar)
-          .subscribe()
+    confirmButtonText: 'Confirmar',
+    inputPlaceholder: 'Ingrese el motivo',
+    inputValidator: (value) => {
+      if (!value) {
+        return 'Debes ingresar un motivo para quitar el item'
+      }
     }
   })
+
+  if(text) {
+    this.pedidoSeleccionado.itemsList = this.pedidoSeleccionado.itemsList.filter(i => i.id != item.id);
+
+    this.cajaDtoOut.pedidos.forEach(p => {
+      p['total'] = 0;
+      p.itemsList.forEach(i => {
+        p['total'] += (i.cantidad * i.precio);
+      })
+    })
+    let pedidoActualizar = new Pedido();
+    pedidoActualizar.id = this.pedidoSeleccionado.id;
+    pedidoActualizar.itemsList = this.pedidoSeleccionado.itemsList;
+    pedidoActualizar.comentarios = this.pedidoSeleccionado.comentarios;
+    pedidoActualizar.comentarios.push(this.agregarComentario(text, item.producto.nombre, item.cantidad))
+    this.pedidoSeleccionado.comentarios = pedidoActualizar.comentarios;
+    this.pedidoService.actualizarItemsPedido(pedidoActualizar)
+        .subscribe()
+  }
   
+}
+
+agregarComentario(descripcion: string, nombreProducto: String, cantidad: number): any {
+  return {descripcion: descripcion, producto: nombreProducto, cantidad: cantidad};
+}
+
+mostrarComentarios(pedido: Pedido) {
+  this.comentarios = pedido.comentarios;
+}
+
+refrescarCaja() {
+  this.authService.buscarPorNonbreUsuario(this.tokenService.getUserName())
+  .subscribe(response => {
+    this.cajaService.obtenerCajaActiva(response.data.id)
+    .subscribe(response => {
+      this.cajaDtoOut = response.data;
+      this.obtenerPedidosPorMesa();
+      this.cajaDtoOut.pedidos.reverse();
+    }, err => {
+      Swal.fire('Sin permisos', err.error.message, 'info');
+      this.router.navigate(['/caja']);
+    })
+  })
 }
 
 cerrarCaja() {
@@ -201,7 +238,7 @@ cerrarCaja() {
         Swal.fire('Caja cerrada', 'Se cerró la caja con éxito','success')
         this.router.navigate(['/caja']);
       }, err => {
-        Swal.fire('ERROR', err.error.message,'warning')
+        Swal.fire('Caja cerrada', err.error.message,'info')
       })
     }
   })

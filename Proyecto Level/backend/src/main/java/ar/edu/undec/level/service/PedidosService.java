@@ -117,6 +117,7 @@ public class PedidosService {
 
     public void actualizarItemPedido(Pedido pedido) {
         Pedido pedidoEncontrado = pedidosRepo.findById(pedido.getId()).get();
+        pedidoEncontrado.setComentarios(pedido.getComentarios());
         pedidoEncontrado.setItemsList(pedido.getItemsList());
         pedidosRepo.save(pedidoEncontrado);
     }

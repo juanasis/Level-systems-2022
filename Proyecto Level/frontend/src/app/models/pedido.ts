@@ -15,6 +15,7 @@ export class Pedido {
     tipoPago: string;
     emailUsuario: string;
     pedidoEstadoBebida: string;
+    comentarios: any[] = [];
 
     constructor(){
         this.itemsList = [];

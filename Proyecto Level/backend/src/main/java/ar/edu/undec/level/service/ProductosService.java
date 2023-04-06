@@ -13,12 +13,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
 public class ProductosService {
     @Autowired
     private ProductosRepository productosRepo;
+
+    @Autowired
+    private SubirImagenService subirImagenService;
     static final Logger LOGGER = LoggerFactory.getLogger(ProductosService.class);
 
     public List<Categoria> listarCategorias(){
@@ -122,12 +126,15 @@ public class ProductosService {
         return new Date();
     }
 
-    public void delete(Integer id) {
+    public void delete(Integer id) throws IOException {
+        Producto productoEncontrado = productosRepo.findById(id).get();
         try{
             productosRepo.deleteById(id);
         }catch (DataIntegrityViolationException e) {
             throw new RuntimeException("El producto no se puede eliminar");
         }
+        subirImagenService.eliminarImagen(productoEncontrado.getImgpath());
+
     }
     public Response findByName(String nombre) {
         Response response = new Response();
