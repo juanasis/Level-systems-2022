@@ -5,6 +5,7 @@ import ar.edu.undec.level.storage.repository.ProductosRepository;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.*;
+import com.google.firebase.cloud.StorageClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -27,9 +28,9 @@ public class SubirImagenService {
     private ProductosRepository productosRepository;
 
     private void uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of("cargar-imagenes-e6ee6.appspot.com", fileName);
+        BlobId blobId = BlobId.of("uploadimages-76c51.appspot.com", fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        Resource resource = new ClassPathResource("cargar-imagenes-e6ee6-firebase-adminsdk-zc9l2-259866f2d0.json");
+        Resource resource = new ClassPathResource("upload-images-9da08-firebase-adminsdk-jmshj-7e289f0a05.json");
         Credentials credentials = GoogleCredentials.fromStream(Files.newInputStream(Paths.get(resource.getFile().getAbsolutePath())));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
@@ -73,20 +74,20 @@ public class SubirImagenService {
 
     public byte[] download(String fileName) throws IOException {
 
-        Resource resource = new ClassPathResource("cargar-imagenes-e6ee6-firebase-adminsdk-zc9l2-259866f2d0.json");
+        Resource resource = new ClassPathResource("upload-images-9da08-firebase-adminsdk-jmshj-7e289f0a05.json");
         Credentials credentials = GoogleCredentials
                 .fromStream(Files.newInputStream(Paths.get(resource.getFile().getAbsolutePath())));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        Blob blob = storage.get(BlobId.of("cargar-imagenes-e6ee6.appspot.com", fileName));
+        Blob blob = storage.get(BlobId.of("uploadimages-76c51.appspot.com", fileName));
         return blob.getContent();
     }
 
     public void eliminarImagen(String archivo) throws IOException {
-        Resource resource = new ClassPathResource("cargar-imagenes-e6ee6-firebase-adminsdk-zc9l2-259866f2d0.json");
+        Resource resource = new ClassPathResource("upload-images-9da08-firebase-adminsdk-jmshj-7e289f0a05.json");
         Credentials credentials = GoogleCredentials
                 .fromStream(Files.newInputStream(Paths.get(resource.getFile().getAbsolutePath())));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        Blob blob = storage.get(BlobId.of("cargar-imagenes-e6ee6.appspot.com", archivo));
+        Blob blob = storage.get(BlobId.of("uploadimages-76c51.appspot.com", archivo));
         blob.delete();
     }
 }

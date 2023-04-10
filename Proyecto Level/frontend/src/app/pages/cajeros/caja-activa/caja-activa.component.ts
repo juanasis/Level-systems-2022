@@ -8,7 +8,7 @@ import { PedidoService } from 'src/app/services/pedido.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../login/service/auth.service';
 import { TokenService } from '../../login/service/token.service';
-import { timer } from 'rxjs';
+import { timer, of, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-caja-activa',
@@ -32,6 +32,7 @@ export class CajaActivaComponent implements OnInit {
   comentarios: any[];
   idCaja: number;
 
+  $refrescarPedidosActivo: Observable<boolean> = of(false);
 
   constructor(private cajaService: CajaService, 
     private router: Router, 
@@ -53,6 +54,7 @@ export class CajaActivaComponent implements OnInit {
             this.cajaDtoOut = response.data;
             this.obtenerPedidosPorMesa();
             this.cajaDtoOut.pedidos.reverse();
+            this.$refrescarPedidosActivo = of(true);
           }, err => {
             Swal.fire('Sin permisos', err.error.message, 'info');
             this.router.navigate(['/caja']);
@@ -63,13 +65,23 @@ export class CajaActivaComponent implements OnInit {
             .subscribe(response => {
               this.cajaDtoOut = response.data
               this.obtenerPedidosPorMesa();
+              this.$refrescarPedidosActivo = of(false);
             });
       }
     })
 
     timer(0, 5000).subscribe(() => {
-      this.refrescarCaja();
-    })    
+      this.$refrescarPedidosActivo.subscribe(response => {
+        if(response){
+          this.refrescarCaja();
+        }
+      })
+      
+    })  
+
+
+
+
   }
 
   obtenerPedidosPorMesa() {
@@ -78,7 +90,6 @@ export class CajaActivaComponent implements OnInit {
       return
     }
 
-    console.log(this.cajaDtoOut)
 
     this.cajaDtoOut.pedidos.forEach(p => {
       p['total'] = 0;
@@ -93,7 +104,6 @@ mostrarDetallePedido(pedido: Pedido){
   this.pedidoSeleccionado = undefined;
   this.pedidoSeleccionado = pedido;
   this.pedidoEstadoAux = this.pedidoSeleccionado.estado
-  console.log(this.pedidoSeleccionado)
 }
 
 actualizarPedidoEstadoBebida(estadoBebida: string) {
@@ -206,18 +216,21 @@ mostrarComentarios(pedido: Pedido) {
 }
 
 refrescarCaja() {
-  this.authService.buscarPorNonbreUsuario(this.tokenService.getUserName())
-  .subscribe(response => {
-    this.cajaService.obtenerCajaActiva(response.data.id)
+    this.authService.buscarPorNonbreUsuario(this.tokenService.getUserName())
     .subscribe(response => {
-      this.cajaDtoOut = response.data;
-      this.obtenerPedidosPorMesa();
-      this.cajaDtoOut.pedidos.reverse();
-    }, err => {
-      Swal.fire('Sin permisos', err.error.message, 'info');
-      this.router.navigate(['/caja']);
+      this.cajaService.obtenerCajaActiva(response.data.id)
+      .subscribe(response => {
+        this.cajaDtoOut = response.data;
+        this.obtenerPedidosPorMesa();
+        this.cajaDtoOut.pedidos.reverse();
+      }, err => {
+        Swal.fire('Sin permisos', err.error.message, 'info');
+        this.router.navigate(['/caja']);
+      })
     })
-  })
+  
+
+
 }
 
 cerrarCaja() {
@@ -248,6 +261,11 @@ generarBoletaDeCompra(pedidoId: number) {
   let link = document.createElement("a");
     link.href= `http://localhost:8080/pedidos/boleta/${pedidoId}`;
     link.click();
+}
+
+ngOnDestroy(): void {
+  this.$refrescarPedidosActivo = of(false);
+  console.log("se cerro todo")
 }
 
 }

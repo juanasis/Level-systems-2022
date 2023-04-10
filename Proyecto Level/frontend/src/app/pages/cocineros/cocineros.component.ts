@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Pedido } from 'src/app/models/pedido';
-import { timer } from 'rxjs';
+import { Observable, of, timer } from 'rxjs';
 import { AuthService } from '../login/service/auth.service';
 import Swal from 'sweetalert2';
 @Component({
@@ -17,6 +17,8 @@ export class CocinerosComponent implements OnInit {
   pedidosAuxiliar: Pedido[] = [];
 
   pedidosFiltradoActivo: boolean = false;
+
+  $refrescarPedidosActivo: Observable<boolean> = of(false);
    
     constructor(private pedidoService: PedidoService, public authService: AuthService) { }
     ngOnInit(): void {
@@ -25,21 +27,27 @@ export class CocinerosComponent implements OnInit {
             this.pedidos = response.data;
             this.pedidos.reverse();
             this.pedidosAuxiliar = this.pedidos;
+            this.$refrescarPedidosActivo = of(true);
           })
 
 
     timer(0, 1000).subscribe(() => {
       this.fechaActual = new Date();
     })
-    
     timer(0, 5000).subscribe(() => {
-      this.pedidoService.obtenerPedidosActivosCocina()
-      .subscribe(response => {
-        this.pedidos = response.data;
-        this.pedidos.reverse();
-        this.pedidosAuxiliar = this.pedidos;
+      this.$refrescarPedidosActivo.subscribe(response => {
+        if(response){
+          this.pedidoService.obtenerPedidosActivosCocina()
+          .subscribe(response => {
+            this.pedidos = response.data;
+            this.pedidos.reverse();
+            this.pedidosAuxiliar = this.pedidos;
+          })
+        }
       })
-    })        
+      
+    }) 
+
     }
 
     pedidosPorEstado(estado: string) {
@@ -117,6 +125,10 @@ export class CocinerosComponent implements OnInit {
       })
 
 
+    }
+
+    ngOnDestroy(): void {
+      this.$refrescarPedidosActivo = of(false);
     }
 
 }
