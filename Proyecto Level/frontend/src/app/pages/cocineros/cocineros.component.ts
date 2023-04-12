@@ -19,7 +19,7 @@ export class CocinerosComponent implements OnInit {
   pedidosFiltradoActivo: boolean = false;
 
   $refrescarPedidosActivo: Observable<boolean> = of(false);
-   
+  trackByItems = (index: number, item: any) => item.id;
     constructor(private pedidoService: PedidoService, public authService: AuthService) { }
     ngOnInit(): void {
       this.pedidoService.obtenerPedidosActivosCocina()
