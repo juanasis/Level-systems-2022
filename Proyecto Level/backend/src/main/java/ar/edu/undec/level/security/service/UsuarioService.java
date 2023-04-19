@@ -42,7 +42,13 @@ public class UsuarioService {
         return usuarioRepository.existsByEmail(email);
     }
 
-    public void eleminarUsuario(Integer idUsuario) {
+    public void eleminarUsuario(Integer idUsuario, String nombreUsuario) {
+
+        List<HistoriaUsuario> historias = historiaUsuarioRepository.findByUsuario_NombreUsuario(nombreUsuario);
+
+        if(!historias.isEmpty()) {
+            historiaUsuarioRepository.deleteAll(historias);
+        }
         usuarioRepository.deleteById(idUsuario);
     }
 

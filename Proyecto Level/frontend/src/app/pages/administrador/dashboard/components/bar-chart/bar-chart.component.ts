@@ -36,8 +36,9 @@ export class BarChartComponent implements OnInit {
 
   ngOnInit(): void {
     let fechaHoyFormateada = new Date();
-    let fechaDesde = new Date(fechaHoyFormateada.getDate() - 7).toISOString().slice(0,10);
     let fechaHasta = fechaHoyFormateada.toISOString().slice(0,10);
+    fechaHoyFormateada.setDate(fechaHoyFormateada.getDate() - 7);
+    const fechaDesde = fechaHoyFormateada.toISOString().substr(0, 10);
     this.obtenerPedidosPorRangoFecha(fechaDesde, fechaHasta);
   }
 
@@ -45,7 +46,9 @@ export class BarChartComponent implements OnInit {
     this.pedidoService.obtenerPedidosPorRangoDeFecha(fechaInicio,fechaFin)
         .subscribe(response => {
           this.single = []
-          let nroPagoPorTarjeta = 0;
+          let nroPagoPorTarjetaDebito = 0;
+          let nroPagoPorTarjetaCredito = 0;
+          let nroPagoMercadoPago = 0;
           let nroPagoPorEfectivo = 0;
 
           response.data.forEach(data => {
@@ -59,8 +62,16 @@ export class BarChartComponent implements OnInit {
               nroPagoPorEfectivo++;
             }
 
-            if(pedido.tipoPago != null && pedido.tipoPago == 'TARJETA') {
-              nroPagoPorTarjeta++;
+            if(pedido.tipoPago != null && pedido.tipoPago == 'TARJETA_DEBITO') {
+              nroPagoPorTarjetaDebito++;
+            }
+
+            if(pedido.tipoPago != null && pedido.tipoPago == 'TARJETA_CREDITO') {
+              nroPagoPorTarjetaCredito++;
+            }
+
+            if(pedido.tipoPago != null && pedido.tipoPago == 'MERCADO_PAGO') {
+              nroPagoMercadoPago++;
             }
 
 
@@ -72,8 +83,16 @@ export class BarChartComponent implements OnInit {
                 "value": nroPagoPorEfectivo
               },
               {
-                "name": 'Tarjeta',
-                "value": nroPagoPorTarjeta
+                "name": 'T. Debito',
+                "value": nroPagoPorTarjetaDebito
+              },
+              {
+                "name": 'T. crédito',
+                "value": nroPagoPorTarjetaCredito
+              },
+              {
+                "name": 'Mercado Pago',
+                "value": nroPagoMercadoPago
               }
             )
         })

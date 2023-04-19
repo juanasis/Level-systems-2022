@@ -23,7 +23,7 @@ export class CajaActivaComponent implements OnInit {
   pedidoEstadoAux: string;
 
   estados = ['PAGADO', 'CANCELADO'];
-  tiposPagos = ['EFECTIVO', 'TARJETA'];
+  tiposPagos = ['EFECTIVO', 'TARJETA_DEBITO', 'TARJETA_CREDITO','MERCADO_PAGO'];
   estadoSeleccionado: string;
   tipoPagoSeleccionado: string;
   botonActivado: boolean = false;

@@ -241,7 +241,8 @@ public class AuthController {
             pedidosService.save(p);
         });
 
-        usuarioService.eleminarUsuario(usuarioEncontrado.get().getId());
+
+        usuarioService.eleminarUsuario(usuarioEncontrado.get().getId(), nombreUsuario);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

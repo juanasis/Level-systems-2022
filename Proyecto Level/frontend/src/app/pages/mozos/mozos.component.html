@@ -1,6 +1,6 @@
               <!-- Modal -->
               <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop1Label" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title" id="staticBackdrop1">¿Cómo desea pagar?</h5>
@@ -8,7 +8,7 @@
                     <div class="modal-body">
                       <div class="d-flex  justify-content-around">
                         <div >
-                          <img src="https://cdn-icons-png.flaticon.com/512/631/631200.png" style="width: 200px; height: 200px;" alt="">
+                          <img src="https://cdn-icons-png.flaticon.com/512/631/631200.png" style="width: 150px; height: 150px;" alt="">
                           <div class="form-check ms-5">
                             <input class="form-check-input" [(ngModel)]="tipoPago" value="EFECTIVO" type="radio" name="flexRadioDefault31" id="flexRadioDefault31">
                             <label class="form-check-label" for="flexRadioDefault31">
@@ -17,11 +17,29 @@
                           </div>
                         </div>
                         <div>
-                          <img src="https://cdn-icons-png.flaticon.com/512/3344/3344835.png" style="width: 200px; height: 200px;" alt="">
+                          <img src="https://cdn-icons-png.flaticon.com/512/3344/3344835.png" style="width: 150px; height: 150px;" alt="">
                           <div class="form-check ms-5">
-                            <input class="form-check-input" [(ngModel)]="tipoPago" value="TARJETA" type="radio" name="flexRadioDefault13" id="flexRadioDefault13">
+                            <input class="form-check-input" [(ngModel)]="tipoPago" value="TARJETA_DEBITO" type="radio" name="flexRadioDefault13" id="flexRadioDefault13">
                             <label class="form-check-label" for="flexRadioDefault13">
-                              Tarjeta
+                              Tarjeta Débito
+                            </label>
+                          </div>
+                        </div>
+                        <div>
+                          <img src="https://cdn-icons-png.flaticon.com/512/3344/3344835.png" style="width: 150px; height: 150px;" alt="">
+                          <div class="form-check ms-5">
+                            <input class="form-check-input" [(ngModel)]="tipoPago" value="TARJETA_CREDITO" type="radio" name="flexRadioDefault13" id="flexRadioDefault13">
+                            <label class="form-check-label" for="flexRadioDefault13">
+                              Tarjeta Crédito
+                            </label>
+                          </div>
+                        </div>
+                        <div>
+                          <img src="https://cdn-icons-png.flaticon.com/512/7817/7817222.png" style="width: 150px; height: 150px;" alt="">
+                          <div class="form-check ms-5">
+                            <input class="form-check-input" [(ngModel)]="tipoPago" value="MERCADO_PAGO" type="radio" name="flexRadioDefault13" id="flexRadioDefault13">
+                            <label class="form-check-label" for="flexRadioDefault13">
+                              Mercado Pago
                             </label>
                           </div>
                         </div>

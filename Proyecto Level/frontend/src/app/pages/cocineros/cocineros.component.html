@@ -34,8 +34,7 @@
         </div>
         </div>
         <tbody *ngIf="!pedidosFiltradoActivo && pedidos.length > 0">
-          <!--<tr *ngFor="let pedido of pedidos; let i = index"> -->
-            <tr *ngFor="let pedido of pedidos; let i = index; trackBy: trackByItems">
+          <tr *ngFor="let pedido of pedidos; let i = index; trackBy: trackByItems">
           <div class="card p-2">
               <div class="row ">
                 <div class="col">

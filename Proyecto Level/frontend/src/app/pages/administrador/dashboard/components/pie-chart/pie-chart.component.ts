@@ -36,8 +36,9 @@ export class PieChartComponent implements OnInit {
 
   ngOnInit(): void {
     let fechaHoyFormateada = new Date();
-    let fechaDesde = new Date(fechaHoyFormateada.getDate() - 7).toISOString().slice(0,10);
     let fechaHasta = fechaHoyFormateada.toISOString().slice(0,10);
+    fechaHoyFormateada.setDate(fechaHoyFormateada.getDate() - 7);
+    const fechaDesde = fechaHoyFormateada.toISOString().substr(0, 10);
     this.obtenerDatosPorRangoDeFecha(fechaDesde,fechaHasta, this.categoria);
 
     Object.assign(this, { single: this.single });

@@ -19,7 +19,9 @@ export class CocinerosComponent implements OnInit {
   pedidosFiltradoActivo: boolean = false;
 
   $refrescarPedidosActivo: Observable<boolean> = of(false);
+
   trackByItems = (index: number, item: any) => item.id;
+   
     constructor(private pedidoService: PedidoService, public authService: AuthService) { }
     ngOnInit(): void {
       this.pedidoService.obtenerPedidosActivosCocina()
@@ -39,7 +41,13 @@ export class CocinerosComponent implements OnInit {
         if(response){
           this.pedidoService.obtenerPedidosActivosCocina()
           .subscribe(response => {
-            this.pedidos = response.data;
+
+            // response.data.forEach(pedido => {
+            //   console.log(this.pedidos.find(p => p.id === pedido.id))
+            //   if(this.pedidos.find(p => p.id !== pedido.id)) {
+            //   }
+            // });
+            this.pedidos = [...response.data];
             this.pedidos.reverse();
             this.pedidosAuxiliar = this.pedidos;
           })
@@ -68,6 +76,8 @@ export class CocinerosComponent implements OnInit {
     activarTodosLosPedidos() {
       this.pedidosFiltradoActivo = false;
     }
+
+    
 
     actualizarEstadoPedido(pedido: Pedido) {
       if(pedido.estado === 'ENTREGADO') {

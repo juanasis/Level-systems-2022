@@ -13,11 +13,11 @@ import { TokenService } from './pages/login/service/token.service';
 })
 export class AppComponent {
 
-  porcentajeMesas = 35;
+  porcentajeMesas = 0;
 
-  cantidadPedidos = 124;
+  cantidadPedidos = 0;
 
-  ingresosHoy = 123220;
+  ingresosHoy = 0;
 
   rutaPrincipalActiva = true;
   
@@ -47,7 +47,7 @@ export class AppComponent {
                   cantidadMesaTotalActivo++;
                 }
               })
-              this.porcentajeMesas = (cantidadMesaOcupada / cantidadMesaTotalActivo)*100;
+              this.porcentajeMesas = Math.floor((cantidadMesaOcupada / cantidadMesaTotalActivo) * 100);
               return mesas;
             })
           )
