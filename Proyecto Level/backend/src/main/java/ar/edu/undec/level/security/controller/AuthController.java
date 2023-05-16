@@ -172,13 +172,17 @@ public class AuthController {
 
     @PutMapping("/actualizar-usuario")
     public ResponseEntity<?> actualizarUsuario(@RequestBody NuevoUsuario usuarioFront){
-//        Optional<Usuario> usuarioEncontrado = usuarioService.getByNombreUsuario(usuarioFront.getNombreUsuario());
         Optional<Usuario> usuarioEncontrado = usuarioService.buscarUsuarioPorId(usuarioFront.getId());
-
-
 
         if(!usuarioEncontrado.isPresent()){
             return new ResponseEntity<>(new Mensaje("No existe usuario con ese ID"), HttpStatus.NOT_FOUND);
+        }
+
+        if(!usuarioFront.getEmail().equals(usuarioEncontrado.get().getEmail())) {
+            Optional<Usuario> usuarioEncontradoPorEmail = usuarioService.findByEmail(usuarioFront.getEmail());
+            if(usuarioEncontradoPorEmail.isPresent()){
+                return new ResponseEntity(new Mensaje("ese email ya existe"), HttpStatus.BAD_REQUEST);
+            }
         }
 
         Usuario usuarioOk = usuarioEncontrado.get();
@@ -199,6 +203,7 @@ public class AuthController {
         agregarHistorialAtributosUsuario(usuarioEncontrado.get(), usuarioFront);
 
         usuarioOk.setNombre(usuarioFront.getNombre());
+        usuarioOk.setEmail(usuarioFront.getEmail());
         usuarioOk.setApellido(usuarioFront.getApellido());
         usuarioOk.setNombreUsuario(usuarioFront.getNombreUsuario());
 
