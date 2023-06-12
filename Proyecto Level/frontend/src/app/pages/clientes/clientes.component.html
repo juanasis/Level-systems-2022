@@ -19,7 +19,7 @@
                 <div class="p-0">
                   <button class="btn btn-success btn-sm" (click)="agregarProductoEnElCarrito(item.producto)">+</button>
                   ${{item.precio * item.cantidad}}
-                  <button class="btn btn-danger btn-sm" (click)="quitarProducto(item.producto)">-</button>
+                  <button class="btn btn-danger btn-sm" (click)="quitarProducto(item.producto)">x</button>
                 </div>
               </li>
             </ul>
@@ -48,7 +48,7 @@
       <i class="fa fa-cutlery fa-2xl" aria-hidden="true"></i>
     </div>
     <div>
-      <h3 class="text-center py-0">¡MENÚ! <span class="badge bg-primary py-1">Mesa {{mesaId}}</span></h3>
+      <h3 class="text-center  py-0">¡MENÚ! <span class="badge bg-primary py-1">Mesa {{mesaId}}</span></h3>
     </div>
     <div class="d-flex align-items-center">
       <h5 class="mb-0 me-3">Total: ${{total}}</h5>
@@ -71,7 +71,7 @@
       <div class="col" *ngFor="let producto of productosPorCategoriaSeleccionado">
         <div class="card p-0 m-0 " [ngClass]="producto.estado == 'DISPONIBLE'? '': 'disabled'" data-agotado="AGOTADO">  
           <!-- <p class="text-center mb-0 py-2 fw-bold" >{{producto.nombre}}</p> -->
-          <img src="{{URL_BACKEND}}{{producto.imgpath}}" class="card-img-top " style="height: 220px; " alt="...">
+          <img [src]="producto.imgpath" class="card-img-top " style="height: 220px; " alt="...">
           <hr class="m-0">
           <p class="text-center mb-0 py-2 fw-bold" >{{producto.nombre}}</p>
           <p class="text-center m-0 fw-bold">${{producto.precio}}</p>

@@ -1,31 +1,33 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" *ngIf="isLogged" [routerLink]="['/']">Inicio</a>
-      </li>
-      <li class="nav-item active" *ngFor="let ruta of rutas">
-        <a class="nav-link" *ngIf="ruta.activo  && opcionesActivas && isLogged" [routerLinkActive]="['border','border-secondary','rounded']" [routerLink]="[ruta.path]">{{ruta.name}}</a>
-      </li>
-      <li class="nav-item" *ngIf="!isLogged">
-        <a class="nav-link"  routerLink="/login"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>  
-      </li>
-
-        <li class="nav-item" *ngIf="!opcionesActivas && isLogged && formularioSeguridadActivo">
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="password" placeholder="Ingresar código" [(ngModel)]="codigo" name="codigo" aria-label="Search">
-            <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit" (click)="redireccionar()">Mostrar opciones</button>
-          </form>
+    <a class="navbar-brand" href="#">Inicio</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active" *ngFor="let ruta of rutas">
+          <a class="nav-link" *ngIf="ruta.activo  && opcionesActivas && isLogged" [routerLinkActive]="['border','border-secondary','rounded']" [routerLink]="[ruta.path]">{{ruta.name}}</a>
+        </li>
+        <li class="nav-item" *ngIf="!isLogged">
+          <a class="nav-link"  routerLink="/login"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>  
         </li>
 
+          <li class="nav-item" *ngIf="!opcionesActivas && isLogged && formularioSeguridadActivo">
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="password" placeholder="Ingresar código" [(ngModel)]="codigo" name="codigo" aria-label="Search">
+              <button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit" (click)="redireccionar()">Mostrar opciones</button>
+            </form>
+          </li>
 
 
-    </ul>
-    <div *ngIf="isLogged" >
-      <a class="nav-link" style=" color: #000;"><i class="fas fa-user mr-1" ></i>{{tokenService.getUserName()}}</a>
-  </div>
-    <div *ngIf="isLogged" (click)="onLogOut()">
-        <a class="nav-link" style="cursor: pointer; color: #000;"><i class="fas fa-door-open" ></i> Cerrar Sesión</a>
+
+      </ul>
+      <div *ngIf="isLogged && usuarioLogeado" >
+        <a class="nav-link" style=" color: #000;"><i class="fas fa-user mr-1" ></i>{{tokenService.getUserName()}}</a>
     </div>
-  </div>
-</nav>
+      <div *ngIf="isLogged" (click)="onLogOut()">
+          <a class="nav-link" style="cursor: pointer; color: #000;"><i class="fas fa-door-open" ></i> Cerrar Sesión</a>
+      </div>
+    </div>
+  </nav>
+  
